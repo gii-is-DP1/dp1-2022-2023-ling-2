@@ -33,12 +33,18 @@
     </properties>
     <developers>
         <developer>
-            <id>juagallop1</id>
+            <id>kiinami</id>
             <name>Juan Pedro</name>
             <email>juagallop1@alum.us.es</email>
+            <url>https://github.com/kiinami</url>
             <roles>
                 <role>leader</role>
             </roles>
+            <properties>
+                <picUrl>
+                    https://avatars.githubusercontent.com/u/73229276?v=4
+                </picUrl>
+            </properties>
         </developer>
     </developers>
     <dependencies>
