@@ -32,6 +32,20 @@
 
     </properties>
 
+    <developers>
+        <developer>
+        <id>Alin</id>
+        <name>Alin Bonciu</name>
+        <email>bonciu_alin@yahoo.com</email>
+        <url>https://github.com/Bonch2001</url>
+        <roles>
+        <role>worker</role>
+        </roles>
+        <properties>
+        </properties>
+        </developer>
+    </developers>
+
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
