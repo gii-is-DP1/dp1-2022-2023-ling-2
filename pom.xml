@@ -31,6 +31,7 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
+
     <developers>
         <developer>
             <id>kiinami</id>
@@ -46,7 +47,19 @@
                 </picUrl>
             </properties>
         </developer>
+        <developer>
+            <id>Alin</id>
+            <name>Alin Bonciu</name>
+            <email>bonciu_alin@yahoo.com</email>
+            <url>https://github.com/Bonch2001</url>
+            <roles>
+              <role>worker</role>
+            </roles>
+            <properties>
+          </properties>
+        </developer>
     </developers>
+
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
