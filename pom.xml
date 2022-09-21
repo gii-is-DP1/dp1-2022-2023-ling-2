@@ -77,6 +77,20 @@
         </developer>
     </developers>
 
+    <developers>
+        <developer>
+            <id>antrodrui2</id>
+            <name>Antonio Rodríguez RUiz</name>
+            <email>antoniorodriguezruiz2002@gmail.com</email>
+            <organization>US</organization>
+            <organizationUrl>http://www.us.es</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/madrid</timezone>
+        </developer>
+    </developers>
+
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
