@@ -41,6 +41,21 @@
             </roles>
         </developer>
     </developers>
+
+    <developers>
+        <developer>
+        <id>Alin</id>
+        <name>Alin Bonciu</name>
+        <email>bonciu_alin@yahoo.com</email>
+        <url>https://github.com/Bonch2001</url>
+        <roles>
+        <role>worker</role>
+        </roles>
+        <properties>
+        </properties>
+        </developer>
+    </developers>
+
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
@@ -235,8 +250,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory
-                    </wroManagerFactory>
+                    <wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
                     <cssDestinationFolder>${project.build.directory}/classes/static/resources/css</cssDestinationFolder>
                     <wroFile>${basedir}/src/main/wro/wro.xml</wroFile>
                     <extraConfigFile>${basedir}/src/main/wro/wro.properties</extraConfigFile>
@@ -265,6 +279,7 @@
             <url>https://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
+
 
 
 </project>
