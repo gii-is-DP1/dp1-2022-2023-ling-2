@@ -46,10 +46,6 @@
                 </picUrl>
             </properties>
         </developer>
-
-    </developers>
-
-    <developers>
         <developer>
             <id>kiinami</id>
             <name>Juan Pedro</name>
@@ -75,9 +71,6 @@
             <properties>
           </properties>
         </developer>
-    </developers>
-
-    <developers>
         <developer>
             <id>antrodrui2</id>
             <name>Antonio Rodríguez RUiz</name>
