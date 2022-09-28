@@ -33,6 +33,14 @@
     </properties>
     <developers>
         <developer>
+            <id>Maren</id>
+            <name>Maren</name>
+            <email>marmut@alum.us.es</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
             <id>vicmorcon</id>
             <name>Victoria Eugenia Moreno Contreras</name>
             <email>vicmorcon@alum.us.es</email>
