@@ -29,7 +29,7 @@ In its default configuration, end-of-line uses an in-memory database (H2) which 
 ## Working with Petclinic in your IDE
 ### Prerequisites
 The following items should be installed in your system:
-* Java 18.0.0 or newer.
+* Java 17 or newer.
 * git command line tool (https://help.github.com/articles/set-up-git)
 * Your preferred IDE
     * Eclipse with the m2e plugin. Note: when m2e is available, there is a m2 icon in `Help -> About` dialog. If m2e is
