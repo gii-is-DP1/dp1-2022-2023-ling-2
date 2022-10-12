@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 /**
- * Simple JavaBean domain object representing an card.
+ * Simple JavaBean domain object representing a card.
  *
  * @author Juan Pedro Gálvez
  */
@@ -25,19 +25,19 @@ public class Card extends BaseEntity {
     @NotEmpty
     private Integer initiative;
 
-    @Column(name = "up")
+    @Column(name = "top_side")
     @NotEmpty
     private Side up;
 
-    @Column(name = "down")
+    @Column(name = "bottom_side")
     @NotEmpty
     private Side down;
 
-    @Column(name = "left")
+    @Column(name = "left_side")
     @NotEmpty
     private Side left;
 
-    @Column(name = "right")
+    @Column(name = "right_side")
     @NotEmpty
     private Side right;
 
