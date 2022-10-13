@@ -3,21 +3,21 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.springframework.samples</groupId>
-    <artifactId>spring-petclinic</artifactId>
-    <version>2.2.0.BUILD-SNAPSHOT</version>
+    <groupId>org.harmony</groupId>
+    <artifactId>end-of-line</artifactId>
+    <version>0.0.1.BUILD-SNAPSHOT</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.4.RELEASE</version>
+        <version>2.7.3</version>
     </parent>
-    <name>petclinic</name>
+
+    <name>end-of-line</name>
 
     <properties>
-
         <!-- Generic properties -->
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -27,26 +27,32 @@
         <webjars-jquery.version>2.2.4</webjars-jquery.version>
         <wro4j.version>1.8.0</wro4j.version>
 
-        <jacoco.version>0.8.5</jacoco.version>
+        <jacoco.version>0.8.8</jacoco.version>
         <spring-format.version>0.0.19</spring-format.version>
-
     </properties>
+
     <developers>
         <developer>
-            <id>Maren</id>
+            <id>marmut</id>
             <name>Maren</name>
             <email>marmut@alum.us.es</email>
+            <url>https://github.com/marenmutter</url>
             <roles>
                 <role>developer</role>
             </roles>
+            <properties>
+                <picUrl>
+                    https://avatars.githubusercontent.com/u/80595099?v=4
+                </picUrl>
+            </properties>
         </developer>
         <developer>
             <id>vicmorcon</id>
-            <name>Victoria Eugenia Moreno Contreras</name>
+            <name>Victoria</name>
             <email>vicmorcon@alum.us.es</email>
-            <url>http://www.tmnt.com/leo</url>
+            <url>https://github.com/victoriaemc02</url>
             <roles>
-                <role>Developer</role>
+                <role>developer</role>
             </roles>
             <properties>
                 <picUrl>
@@ -55,12 +61,12 @@
             </properties>
         </developer>
         <developer>
-            <id>kiinami</id>
+            <id>juagallop1</id>
             <name>Juan Pedro</name>
             <email>juagallop1@alum.us.es</email>
             <url>https://github.com/kiinami</url>
             <roles>
-                <role>leader</role>
+                <role>developer</role>
             </roles>
             <properties>
                 <picUrl>
@@ -69,31 +75,52 @@
             </properties>
         </developer>
         <developer>
-            <id>Alin</id>
-            <name>Alin Bonciu</name>
-            <email>bonciu_alin@yahoo.com</email>
+            <id>alibon</id>
+            <name>Alin</name>
+            <email>alibon@alum.us.es</email>
             <url>https://github.com/Bonch2001</url>
             <roles>
-              <role>worker</role>
+              <role>developer</role>
             </roles>
             <properties>
           </properties>
         </developer>
         <developer>
             <id>antrodrui2</id>
-            <name>Antonio Rodríguez RUiz</name>
-            <email>antoniorodriguezruiz2002@gmail.com</email>
-            <organization>US</organization>
-            <organizationUrl>http://www.us.es</organizationUrl>
+            <name>Antonio</name>
+            <email>antrodrui2@alum.us.es</email>
+            <url>https://github.com/AntonioRodriguezRuiz</url>
             <roles>
                 <role>developer</role>
             </roles>
-            <timezone>Europe/madrid</timezone>
+            <properties>
+                <picUrl>
+                    https://avatars.githubusercontent.com/u/73228905?v=4
+                </picUrl>
+            </properties>
+        </developer>
+        <developer>
+            <id>niki</id>
+            <name>Nikolaus</name>
+            <email></email>
+            <url>https://github.com/nikolausamstler</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <properties>
+                <picUrl>
+                    https://avatars.githubusercontent.com/u/94220564?v=4
+                </picUrl>
+            </properties>
         </developer>
     </developers>
 
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
@@ -144,6 +171,11 @@
             <artifactId>ehcache</artifactId>
         </dependency>
         <!-- Java Servlets, JSP and JSTL -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
@@ -199,7 +231,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.20</version>
+            <version>1.18.24</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -315,7 +347,4 @@
             <url>https://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
-
-
-
 </project>
