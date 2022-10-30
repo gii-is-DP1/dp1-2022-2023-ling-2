@@ -19,23 +19,20 @@ Or you can run it from Maven directly using the Spring Boot Maven plugin. If you
 ./mvnw spring-boot:run
 ```
 
-
-
 ## Database configuration
 In its default configuration, end-of-line uses an in-memory database (H2) which gets populated at startup with data.
 
+## Working with EndOfLine in your IDE
 
-
-## Working with Petclinic in your IDE
 ### Prerequisites
 The following items should be installed in your system:
 * Java 17 or newer.
 * git command line tool (https://help.github.com/articles/set-up-git)
 * Your preferred IDE
+    * IntelliJ IDEA (recommended)
     * Eclipse with the m2e plugin. Note: when m2e is available, there is a m2 icon in `Help -> About` dialog. If m2e is
       not there, just follow the install process here: https://www.eclipse.org/m2e/
     * [Spring Tools Suite](https://spring.io/tools) (STS)
-    * IntelliJ IDEA
     * [VS Code](https://code.visualstudio.com)
 
 ### Steps:
