@@ -26,6 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
             .antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
             .antMatchers(HttpMethod.GET, "/","/oups").permitAll()
+            .antMatchers("/users/new").permitAll()
             // TODO: Here we should put the security for the rest of the pages
             .anyRequest().denyAll()
             .and()
@@ -48,8 +49,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     + "from users "
                     + "where username = ?")
             .authoritiesByUsernameQuery(
-                "select username, authority "
-                    + "from authorities "
+                "select username, is_admin "
+                    + "from users "
                     + "where username = ?")
             .passwordEncoder(passwordEncoder());
     }

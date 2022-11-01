@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -15,12 +16,14 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User getUser(String username) {
-        return userRepository.findById(username).orElse(null);
+    public Optional<User> getUser(String username) {
+        return userRepository.findById(username);
     }
 
     @Transactional
     public User createUser(User user) {
+        user.setEnabled(true);
+        user.setIsAdmin(false);
         return userRepository.save(user);
     }
 
