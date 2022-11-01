@@ -1,8 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="endofline" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="sec"
-           uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
 <%@ attribute name="name" required="true" rtexprvalue="true"
               description="Name of the active menu: home, owners, vets or error"%>
@@ -28,11 +27,11 @@
                     <li><a href="<c:url value="/users/new" />">Register</a></li>
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
-                <li><a href="<c:url value="/logout" />">Logout</a></li>
-                <li><a href="<c:url value="/logout" />">
-                    <span class="glyphicon glyphicon-user"></span>
-                    <strong><sec:authentication property="name" /></strong>
-                </a></li>
+                    <li><a href="<c:url value="/logout" />">Logout</a></li>
+                    <li><a href="/users/<sec:authentication property="name" />">
+                        <span class="glyphicon glyphicon-user"></span>
+                        <strong><sec:authentication property="name" /></strong>
+                    </a></li>
                 </sec:authorize>
             </ul>
         </div>
