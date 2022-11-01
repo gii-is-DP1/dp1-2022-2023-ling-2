@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 
 @Getter
@@ -21,5 +22,11 @@ public class Game extends BaseEntity {
     private LocalDateTime dateEnded;
 
     private String result;
+
+    public Game(LocalDateTime dateStarted){
+        this.dateStarted = dateStarted;
+        this.dateEnded = null;
+        this.result = null;
+    }
 
 }
