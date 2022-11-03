@@ -1,4 +1,4 @@
-package org.harmony.endofline.usersGames;
+package org.harmony.endofline.userGame;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,14 +9,15 @@ import org.harmony.endofline.user.User;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @Entity
-public class UsersGames extends BaseEntity {
+@Table(name = "usergames")
+public class UserGame extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -32,7 +33,7 @@ public class UsersGames extends BaseEntity {
 
     private String role; // player or spectator
 
-    public UsersGames(User user, Multiplayer game, Integer player, String role) {
+    public UserGame(User user, Multiplayer game, Integer player, String role) {
         this.user = user;
         this.game = game;
         this.player = player;

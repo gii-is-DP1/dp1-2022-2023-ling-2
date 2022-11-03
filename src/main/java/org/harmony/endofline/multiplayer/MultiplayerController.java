@@ -2,8 +2,8 @@ package org.harmony.endofline.multiplayer;
 
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
-import org.harmony.endofline.usersGames.UsersGames;
-import org.harmony.endofline.usersGames.UsersGamesService;
+import org.harmony.endofline.userGame.UserGame;
+import org.harmony.endofline.userGame.UserGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,13 +21,13 @@ public class MultiplayerController {
 
     private final MultiplayerService multiplayerService;
     private final UserService userService;
-    private final UsersGamesService usersGamesService;
+    private final UserGameService userGameService;
 
     @Autowired
-    public MultiplayerController(MultiplayerService multiplayerService, UserService userService, UsersGamesService usersGamesService) {
+    public MultiplayerController(MultiplayerService multiplayerService, UserService userService, UserGameService userGameService) {
         this.multiplayerService = multiplayerService;
         this.userService = userService;
-        this.usersGamesService = usersGamesService;
+        this.userGameService = userGameService;
     }
 
     @PostMapping("/create")
@@ -38,8 +38,8 @@ public class MultiplayerController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
-        UsersGames userGame = new UsersGames(user, game, 1, "player");
-        usersGamesService.save(userGame);
+        UserGame userGame = new UserGame(user, game, 1, "player");
+        userGameService.save(userGame);
 
         multiplayerService.addUserGame(game, userGame);
         userService.addUserGame(user, userGame);

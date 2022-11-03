@@ -1,12 +1,9 @@
 package org.harmony.endofline.multiplayer;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.harmony.endofline.card.Card;
 import org.harmony.endofline.model.Game;
-import org.harmony.endofline.user.User;
-import org.harmony.endofline.usersGames.UsersGames;
+import org.harmony.endofline.userGame.UserGame;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -35,17 +32,17 @@ public class Multiplayer extends Game {
 
     @OneToMany(mappedBy = "game")
     @NotNull
-    private Set<UsersGames> users;
+    private Set<UserGame> users;
 
     public Multiplayer() {
         super(LocalDateTime.now());
         this.priorityList = new ArrayList<Integer>();
         this.p1EnergyLeft = 3;
         this.p2EnergyLeft = 3;
-        this.users = new HashSet<UsersGames>();
+        this.users = new HashSet<UserGame>();
     }
 
-    public void addUser(UsersGames userGame) {
+    public void addUser(UserGame userGame) {
         this.users.add(userGame);
     }
 

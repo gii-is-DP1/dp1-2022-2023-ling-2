@@ -1,7 +1,7 @@
 package org.harmony.endofline.multiplayer;
 
-import org.harmony.endofline.usersGames.UsersGames;
-import org.harmony.endofline.usersGames.UsersGamesRepository;
+import org.harmony.endofline.userGame.UserGame;
+import org.harmony.endofline.userGame.UserGameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class MultiplayerService {
     private MultiplayerRepository multiplayerRepository;
 
     @Autowired
-    private UsersGamesRepository usersGamesRepository;
+    private UserGameRepository usersGamesRepository;
 
     @Transactional
     public void save(Multiplayer game) {
@@ -22,7 +22,7 @@ public class MultiplayerService {
     }
 
     @Transactional
-    public void addUserGame(Multiplayer game, UsersGames userGame) {
+    public void addUserGame(Multiplayer game, UserGame userGame) {
         game.addUser(userGame);
     }
 }
