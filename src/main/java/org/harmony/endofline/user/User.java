@@ -3,11 +3,10 @@ package org.harmony.endofline.user;
 import lombok.Getter;
 import lombok.Setter;
 import org.harmony.endofline.model.BaseEntity;
-import org.harmony.endofline.model.Game;
-import org.harmony.endofline.usersGames.UsersGames;
+import org.harmony.endofline.singleplayer.Singleplayer;
+import org.harmony.endofline.userGame.UserGame;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -27,15 +26,24 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user")
     @NotNull
-    private Set<UsersGames> games;
+    private Set<UserGame> multiplayerGames;
+
+    @OneToMany(mappedBy = "user")
+    @NotNull
+    private Set<Singleplayer> singleplayerGames;
 
     public User(){
         this.isAdmin = Boolean.FALSE;
         this.enabled = Boolean.TRUE;
-        this.games = new HashSet<UsersGames>();
+        this.multiplayerGames = new HashSet<UserGame>();
+        this.singleplayerGames = new HashSet<Singleplayer>();
     }
 
-    public void addMultiplayerGame(UsersGames userGame) {
-        this.games.add(userGame);
+    public void addMultiplayerGame(UserGame userGame) {
+        this.multiplayerGames.add(userGame);
+    }
+
+    public void addSingleplayerGame(Singleplayer game) {
+        this.singleplayerGames.add(game);
     }
 }

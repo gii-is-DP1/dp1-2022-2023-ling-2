@@ -1,6 +1,7 @@
 package org.harmony.endofline.user;
 
-import org.harmony.endofline.usersGames.UsersGames;
+import org.harmony.endofline.singleplayer.Singleplayer;
+import org.harmony.endofline.userGame.UserGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +42,11 @@ public class UserService {
     }
 
     @Transactional
-    public void addUserGame(User user, UsersGames userGame) {
+    public void addUserGame(User user, UserGame userGame) {
         user.addMultiplayerGame(userGame);
+    }
+
+    public void addSingleplayerGame(User user, Singleplayer game) {
+        user.addSingleplayerGame(game);
     }
 }
