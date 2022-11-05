@@ -1,6 +1,7 @@
 package org.harmony.endofline.model;
 
 
+import org.harmony.endofline.configuration.SecurityConfiguration;
 import org.harmony.endofline.multiplayer.MultiplayerController;
 import org.harmony.endofline.multiplayer.MultiplayerRepository;
 import org.harmony.endofline.multiplayer.MultiplayerService;
@@ -15,13 +16,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(value = MultiplayerController.class)
+@WebMvcTest(value = MultiplayerController.class, excludeAutoConfiguration= SecurityConfiguration.class)
 public class MultiplayerTest {
     @Autowired
     MockMvc mockMvc;
