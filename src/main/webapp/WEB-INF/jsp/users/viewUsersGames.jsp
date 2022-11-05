@@ -9,7 +9,7 @@
 <endofline:layout pageName="users">
     <jsp:body>
         <div>
-            <table class="table table-striped" style="float: left; width: 50%">
+            <table class="table table-striped" style="float: left; width: 49%">
                 <caption>Multiplayer Games</caption>
                 <thead>
                 <tr>
@@ -50,7 +50,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <table class="table table-striped" style="float: left; width: 50%">
+            <table class="table table-striped" style="float: right; width: 49%">
                 <caption>Singleplayer Games</caption>
                 <thead>
                 <tr>
