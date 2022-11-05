@@ -4,7 +4,7 @@ import org.harmony.endofline.singleplayer.SingleplayerController;
 import org.harmony.endofline.singleplayer.SingleplayerRepository;
 import org.harmony.endofline.singleplayer.SingleplayerService;
 import org.harmony.endofline.user.UserService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,12 +15,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(SingleplayerController.class)
-@AutoConfigureMockMvc
-
 public class SingleplayerTest {
     @MockBean
     SingleplayerService singleService;
@@ -42,7 +41,7 @@ public class SingleplayerTest {
     @WithMockUser
     private void singleplayerLoggedIn() throws Exception {
         // TODO everything fine
-        mockMvc.perform(get("/singleplayer/create")).andExpect(status().isOk())
+        mockMvc.perform(post("/singleplayer/create")).andExpect(status().isOk())
             .andExpect(model().attributeExists("game"));
     }
 
