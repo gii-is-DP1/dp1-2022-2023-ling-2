@@ -1,11 +1,13 @@
 package org.harmony.endofline.user;
 
+import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.singleplayer.Singleplayer;
 import org.harmony.endofline.userGame.UserGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,5 +50,13 @@ public class UserService {
 
     public void addSingleplayerGame(User user, Singleplayer game) {
         user.addSingleplayerGame(game);
+    }
+
+    public List<Multiplayer> getMultiplayerGames(String username) {
+        return userRepository.findUserMultiplayerGames(username);
+    }
+
+    public List<Singleplayer> getSingleplayerGames(String username) {
+        return userRepository.findUserSingleplayerGames(username);
     }
 }
