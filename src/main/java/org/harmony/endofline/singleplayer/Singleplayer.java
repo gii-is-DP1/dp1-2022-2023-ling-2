@@ -28,6 +28,10 @@ public class Singleplayer extends Game {
         this.user = user;
     }
 
+    public Singleplayer() {
+        super(LocalDateTime.now());
+    }
+
     // TODO many to many relation with line cards (Association class)
     // TODO one to many relation with Users (User foreign key here)
 
