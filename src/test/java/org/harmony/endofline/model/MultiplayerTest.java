@@ -3,7 +3,6 @@ package org.harmony.endofline.model;
 
 import org.harmony.endofline.configuration.SecurityConfiguration;
 import org.harmony.endofline.multiplayer.MultiplayerController;
-import org.harmony.endofline.multiplayer.MultiplayerRepository;
 import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.user.UserService;
 import org.harmony.endofline.userGame.UserGameService;
@@ -22,10 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(value = MultiplayerController.class,
@@ -42,25 +39,22 @@ public class MultiplayerTest {
     @MockBean
     UserGameService userGameService;
 
-
     @WithMockUser(value = "spring")
     @Test
-    public void multiplayerTest() throws Exception {
-        multiplayerLoggedIn();
-        multiplayerNotLoggedIn();
-        userGameRelation();
-    }
-
-    private void multiplayerLoggedIn() throws Exception {
+    public void multiplayerLoggedIn() throws Exception {
         mockMvc.perform(post("/multiplayer/create").with(csrf())).andExpect(status().isOk())
             .andExpect(model().attributeExists("game"));
     }
 
-    private void multiplayerNotLoggedIn() {
-        // TODO must take you to game page and associate game with players
+    @Test
+    public void multiplayerNotLoggedIn() throws Exception {
+        mockMvc.perform(post("/multiplayer/create").with(csrf()))
+            .andExpect(status().isUnauthorized());
     }
 
-    private void userGameRelation() {
+    @WithMockUser(value = "spring")
+    @Test
+    public void userGameRelation() {
         // TODO check the game is related to the user spring
     }
 }
