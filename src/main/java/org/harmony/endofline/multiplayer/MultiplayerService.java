@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class MultiplayerService {
@@ -24,5 +25,9 @@ public class MultiplayerService {
     @Transactional
     public void addUserGame(Multiplayer game, UserGame userGame) {
         game.addUser(userGame);
+    }
+
+    public List<Multiplayer> getAllGamesWithUser() {
+        return (List<Multiplayer>) multiplayerRepository.findAll();
     }
 }

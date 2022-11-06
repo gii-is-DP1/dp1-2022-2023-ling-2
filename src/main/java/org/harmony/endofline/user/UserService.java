@@ -59,4 +59,8 @@ public class UserService {
     public List<Singleplayer> getSingleplayerGames(String username) {
         return userRepository.findUserSingleplayerGames(username);
     }
+
+    public List<User> getAllUsers() {
+        return (List<User>) userRepository.findAll();
+    }
 }

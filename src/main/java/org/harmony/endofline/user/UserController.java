@@ -1,7 +1,9 @@
 package org.harmony.endofline.user;
 
 import org.harmony.endofline.multiplayer.Multiplayer;
+import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.singleplayer.Singleplayer;
+import org.harmony.endofline.singleplayer.SingleplayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -22,12 +24,17 @@ public class UserController {
 
     private static final String VIEWS_USER_CREATE_UPDATE_FORM = "users/createOrUpdateUserForm";
     private static final String VIEWS_USER_GAMES_FORM = "users/viewUsersGames";
+    private static final String VIEWS_DASHBOARD = "admin/dashboard";
 
     private final UserService userService;
+    private final MultiplayerService multiplayerService;
+    private final SingleplayerService singleplayerService;
 
     @Autowired
-    public UserController(UserService us) {
+    public UserController(UserService us, MultiplayerService multiplayerService, SingleplayerService singleplayerService) {
         this.userService = us;
+        this.multiplayerService = multiplayerService;
+        this.singleplayerService = singleplayerService;
     }
 
     @InitBinder
@@ -86,5 +93,27 @@ public class UserController {
         model.put("singleplayerGames", singleplayerGames);
 
         return VIEWS_USER_GAMES_FORM;
+    }
+
+    @GetMapping("/dashboard")
+    public String getAdminDashboard(Map<String, Object> model) throws ResponseStatusException{        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+        if (authenticatedUser==null || !authenticatedUser.getIsAdmin()){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
+        List<Multiplayer> multiplayerGames = multiplayerService.getAllGamesWithUser();
+        List<Singleplayer> singleplayerGames = singleplayerService.getAllGamesWithUser();
+
+        List<User> users = userService.getAllUsers();
+
+        // TODO List<Achievements>
+
+        model.put("multi", multiplayerGames);
+        model.put("single", singleplayerGames);
+        model.put("users", users);
+        // TODO model.put("achievements", achievements");
+
+        return VIEWS_DASHBOARD;
     }
 }
