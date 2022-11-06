@@ -28,10 +28,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET, "/","/oups").permitAll()
             .antMatchers("/users/new").permitAll()
             // TODO: Here we should put the security for the rest of the pages
-            .anyRequest().denyAll()
+            .anyRequest().authenticated()
             .and()
             .formLogin()
-            /*.loginPage("/login")*/
             .failureUrl("/login-error")
             .and()
             .logout()
