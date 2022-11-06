@@ -16,7 +16,7 @@
             <div class="form-group has-feedback">
                 <endofline:inputField label="Username" name="username"/>
                 <endofline:inputField label="Mail" name="email"/>
-                <endofline:inputField label="Password" name="password"/>
+                <endofline:passwordInputField label="Password" name="password"/>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
