@@ -57,8 +57,12 @@ public class UserController {
 
     @GetMapping("/users/{username}")
     public ModelAndView showUser(@PathVariable("username") String username) {
+        var user = this.userService.findByUsername(username);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
         ModelAndView mav = new ModelAndView("users/userDetails");
-        mav.addObject(this.userService.getUser(username));
+        mav.addObject(user);
         return mav;
     }
 
