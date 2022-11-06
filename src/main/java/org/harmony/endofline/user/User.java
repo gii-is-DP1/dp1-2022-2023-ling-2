@@ -9,7 +9,10 @@ import org.harmony.endofline.userGame.UserGame;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,8 +21,14 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
+    @NotEmpty
+    @Size(min = 3, max = 15)
     String username;
+    @NotEmpty
+    @Size(min = 3, max = 128)
     String password;
+    @NotEmpty
+    @Email
     String email;
     Boolean isAdmin;
     Boolean enabled;

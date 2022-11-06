@@ -43,8 +43,9 @@ public class UserController {
     }
 
     @PostMapping(value = "/users/new")
-    public String processCreationForm(@Valid User user, BindingResult result) {
+    public String processCreationForm(@Valid User user, BindingResult result, Map<String, Object> model) {
         if (result.hasErrors()) {
+            model.put("user", user);
             return VIEWS_USER_CREATE_UPDATE_FORM;
         }
         else {
