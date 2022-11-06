@@ -51,7 +51,7 @@ public class UserController {
         else {
             //creating owner, user, and authority
             this.userService.createUser(user);
-            return "/";
+            return "welcome";
         }
     }
 
