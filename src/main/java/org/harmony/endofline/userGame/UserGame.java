@@ -39,4 +39,7 @@ public class UserGame extends BaseEntity {
         this.player = player;
         this.role = role;
     }
+
+    public UserGame() {
+    }
 }
