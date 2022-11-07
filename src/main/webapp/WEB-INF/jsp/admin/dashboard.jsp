@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="endofline" tagdir="/WEB-INF/tags" %>
 
-<endofline:layout pageName="users">
+<endofline:layout pageName="dashboard">
 <jsp:body>
     <div>
         <div style="height:500px; overflow:auto; float: left; width: 49%">
