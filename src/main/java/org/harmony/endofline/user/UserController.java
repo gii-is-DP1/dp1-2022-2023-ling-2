@@ -80,6 +80,20 @@ public class UserController {
         }
         ModelAndView mav = new ModelAndView("users/userDetails");
         mav.addObject(user);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+        mav.addObject(
+            "private_info",
+            user.getUsername().equals(authenticatedUser.getUsername()) || authenticatedUser.getIsAdmin()
+        );
+
+        List<Multiplayer> multiplayerGames = userService.getMultiplayerGames(username);
+        mav.addObject("multiplayerGames", multiplayerGames);
+
+        List<Singleplayer> singleplayerGames = userService.getSingleplayerGames(username);
+        mav.addObject("singleplayerGames", singleplayerGames);
+
         return mav;
     }
 
