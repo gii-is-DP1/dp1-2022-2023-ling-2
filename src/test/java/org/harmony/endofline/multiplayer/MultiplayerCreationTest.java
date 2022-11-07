@@ -1,9 +1,7 @@
-package org.harmony.endofline.model;
+package org.harmony.endofline.multiplayer;
 
 
 import org.harmony.endofline.configuration.SecurityConfiguration;
-import org.harmony.endofline.multiplayer.MultiplayerController;
-import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.user.UserService;
 import org.harmony.endofline.userGame.UserGameService;
 import org.junit.jupiter.api.Test;
@@ -28,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = MultiplayerController.class,
     excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
     excludeAutoConfiguration= SecurityConfiguration.class)
-public class MultiplayerTest {
+public class MultiplayerCreationTest {
     @Autowired
     MockMvc mockMvc;
 
@@ -42,6 +40,10 @@ public class MultiplayerTest {
     @WithMockUser(value = "spring")
     @Test
     public void multiplayerLoggedIn() throws Exception {
+        createGame();
+    }
+
+    void createGame() throws Exception {
         mockMvc.perform(post("/multiplayer/create").with(csrf())).andExpect(status().isOk())
             .andExpect(model().attributeExists("game"));
     }
@@ -50,11 +52,5 @@ public class MultiplayerTest {
     public void multiplayerNotLoggedIn() throws Exception {
         mockMvc.perform(post("/multiplayer/create").with(csrf()))
             .andExpect(status().isUnauthorized());
-    }
-
-    @WithMockUser(value = "spring")
-    @Test
-    public void userGameRelation() {
-        // TODO check the game is related to the user spring
     }
 }
