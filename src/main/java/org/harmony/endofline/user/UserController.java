@@ -97,28 +97,6 @@ public class UserController {
         return mav;
     }
 
-
-    @GetMapping("/u/{username}/games")
-    public String getUserGames(@PathVariable("username") String username, Map<String, Object> model) throws ResponseStatusException{
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User authenticatedUser = userService.findByUsername(auth.getName());
-        if (authenticatedUser==null || !authenticatedUser.getUsername().equals(username)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-
-        if (userService.findByUsername(username)==null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-
-        List<Multiplayer> multiplayerGames = userService.getMultiplayerGames(username);
-        model.put("multiplayerGames", multiplayerGames);
-
-        List<Singleplayer> singleplayerGames = userService.getSingleplayerGames(username);
-        model.put("singleplayerGames", singleplayerGames);
-
-        return VIEWS_USER_GAMES_FORM;
-    }
-
     @GetMapping("/dashboard")
     public String getAdminDashboard(Map<String, Object> model) throws ResponseStatusException{        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User authenticatedUser = userService.findByUsername(auth.getName());
