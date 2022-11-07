@@ -48,6 +48,16 @@ public class UserController {
             model.put("user", user);
             return VIEWS_USER_CREATE_UPDATE_FORM;
         }
+        else if (userService.isUsernameTaken(user.getUsername())) {
+            result.rejectValue("username", "taken", "This username is already taken");
+            model.put("user", user);
+            return VIEWS_USER_CREATE_UPDATE_FORM;
+        }
+        else if (userService.isEmailTaken(user.getEmail())) {
+            result.rejectValue("email", "taken", "This email is already in use");
+            model.put("user", user);
+            return VIEWS_USER_CREATE_UPDATE_FORM;
+        }
         else {
             //creating owner, user, and authority
             this.userService.createUser(user);

@@ -17,4 +17,7 @@ public interface UserRepository extends CrudRepository<User, String> {
 
     @Query("SELECT DISTINCT singl FROM Singleplayer singl JOIN singl.user u WHERE u.username=:username ORDER BY singl.dateStarted DESC")
     List<Singleplayer> findUserSingleplayerGames(String username);
+
+    @Query("SELECT user FROM User user WHERE user.email=:email")
+    User findByEmail(@Param("email") String email);
 }

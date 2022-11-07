@@ -43,6 +43,14 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public boolean isUsernameTaken(String username) {
+        return userRepository.findByUsername(username) != null;
+    }
+
+    public boolean isEmailTaken(String email) {
+        return userRepository.findByEmail(email) != null;
+    }
+
     @Transactional
     public void addUserGame(User user, UserGame userGame) {
         user.addMultiplayerGame(userGame);
