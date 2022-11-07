@@ -21,11 +21,11 @@
             <ul class="nav navbar-nav navbar-right">
                 <sec:authorize access="!isAuthenticated()">
                     <li><a href="<c:url value="/login" />">Login</a></li>
-                    <li><a href="<c:url value="/users/new" />">Register</a></li>
+                    <li><a href="<c:url value="/u/new" />">Register</a></li>
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
                     <li><a href="<c:url value="/logout" />">Logout</a></li>
-                    <li><a href="/users/<sec:authentication property="name" />">
+                    <li><a href="/u/<sec:authentication property="name" />">
                         <span class="glyphicon glyphicon-user"></span>
                         <strong><sec:authentication property="name" /></strong>
                     </a></li>

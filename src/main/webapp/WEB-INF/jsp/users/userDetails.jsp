@@ -11,7 +11,7 @@
         <h2 class="title">${user.username}</h2>
         <p>${user.email}</p>
         <c:if test="${private_info}">
-            <form:form action="/users/${user.username}/edit" method="GET">
+            <form:form action="/u/${user.username}/edit" method="GET">
                 <input type="submit" class="btn" value="Edit"/>
             </form:form>
         </c:if>

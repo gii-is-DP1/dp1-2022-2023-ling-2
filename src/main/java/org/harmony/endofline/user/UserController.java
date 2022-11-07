@@ -42,14 +42,14 @@ public class UserController {
         dataBinder.setDisallowedFields("id");
     }
 
-    @GetMapping(value = "/users/new")
+    @GetMapping(value = "/u/new")
     public String initCreationForm(Map<String, Object> model) {
         User user = new User();
         model.put("user", user);
         return VIEWS_USER_CREATE_UPDATE_FORM;
     }
 
-    @PostMapping(value = "/users/new")
+    @PostMapping(value = "/u/new")
     public String processCreationForm(@Valid User user, BindingResult result, Map<String, Object> model) {
         if (result.hasErrors()) {
             model.put("user", user);
@@ -72,7 +72,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/users/{username}")
+    @GetMapping("/u/{username}")
     public ModelAndView showUser(@PathVariable("username") String username) {
         var user = this.userService.findByUsername(username);
         if (user == null) {
@@ -98,7 +98,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/users/{username}/games")
+    @GetMapping("/u/{username}/games")
     public String getUserGames(@PathVariable("username") String username, Map<String, Object> model) throws ResponseStatusException{
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User authenticatedUser = userService.findByUsername(auth.getName());
