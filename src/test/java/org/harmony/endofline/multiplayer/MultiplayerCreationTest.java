@@ -40,10 +40,6 @@ public class MultiplayerCreationTest {
     @WithMockUser(value = "spring")
     @Test
     public void multiplayerLoggedIn() throws Exception {
-        createGame();
-    }
-
-    void createGame() throws Exception {
         mockMvc.perform(post("/multiplayer/create").with(csrf())).andExpect(status().isOk())
             .andExpect(model().attributeExists("game"));
     }
