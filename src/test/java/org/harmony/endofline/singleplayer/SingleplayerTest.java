@@ -1,4 +1,4 @@
-package org.harmony.endofline.model;
+package org.harmony.endofline.singleplayer;
 
 import org.harmony.endofline.configuration.SecurityConfiguration;
 import org.harmony.endofline.singleplayer.SingleplayerController;
@@ -39,7 +39,6 @@ public class SingleplayerTest {
     @WithMockUser(value = "spring")
     @Test
     public void singleplayerLoggedIn() throws Exception {
-        // TODO everything fine
         mockMvc.perform(post("/singleplayer/create").with(csrf())).andExpect(status().isOk())
             .andExpect(model().attributeExists("game"));
     }
@@ -49,12 +48,5 @@ public class SingleplayerTest {
         mockMvc.perform(post("/singleplayer/create").with(csrf()))
             .andExpect(status().isUnauthorized());
     }
-
-    @WithMockUser(value = "spring")
-    @Test
-    public void userGameRelation() {
-        // TODO check the game is related to the user spring
-    }
-
 
 }
