@@ -6,6 +6,7 @@ import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.singleplayer.Singleplayer;
 import org.harmony.endofline.userGame.UserGame;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -30,6 +31,7 @@ public class User extends BaseEntity {
     @NotEmpty
     @Email
     String email;
+    @Column(name = "is_admin")
     Boolean isAdmin;
     Boolean enabled;
 

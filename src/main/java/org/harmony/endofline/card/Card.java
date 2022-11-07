@@ -21,7 +21,7 @@ import javax.validation.constraints.NotEmpty;
 @Table(name = "cards")
 public class Card extends BaseEntity {
 
-    @Column(name = "inititative")
+    @Column(name = "initiative")
     @NotEmpty
     private Integer initiative;
 

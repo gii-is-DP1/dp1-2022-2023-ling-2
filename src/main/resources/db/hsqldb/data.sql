@@ -9,4 +9,4 @@ INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (
 INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (4,2,0,1,1); -- Card 4
 INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (5,1,0,1,1); -- Card 5
 
-
+INSERT INTO users(username,password,email,is_admin,enabled) VALUES ('admin','admin','admin@localhost.com',true,true);
