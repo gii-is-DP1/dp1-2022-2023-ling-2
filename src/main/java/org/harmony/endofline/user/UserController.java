@@ -98,12 +98,7 @@ public class UserController {
     }
 
     @GetMapping("/dashboard")
-    public String getAdminDashboard(Map<String, Object> model) throws ResponseStatusException{        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User authenticatedUser = userService.findByUsername(auth.getName());
-        if (authenticatedUser==null || !authenticatedUser.getIsAdmin()){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-
+    public String getAdminDashboard(Map<String, Object> model) {
         List<Multiplayer> multiplayerGames = multiplayerService.getAllGamesWithUser();
         List<Singleplayer> singleplayerGames = singleplayerService.getAllGamesWithUser();
 
