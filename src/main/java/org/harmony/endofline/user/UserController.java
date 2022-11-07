@@ -42,14 +42,14 @@ public class UserController {
         dataBinder.setDisallowedFields("id");
     }
 
-    @GetMapping(value = "/users/new")
+    @GetMapping(value = "/u/new")
     public String initCreationForm(Map<String, Object> model) {
         User user = new User();
         model.put("user", user);
         return VIEWS_USER_CREATE_UPDATE_FORM;
     }
 
-    @PostMapping(value = "/users/new")
+    @PostMapping(value = "/u/new")
     public String processCreationForm(@Valid User user, BindingResult result, Map<String, Object> model) {
         if (result.hasErrors()) {
             model.put("user", user);
@@ -72,7 +72,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/users/{username}")
+    @GetMapping("/u/{username}")
     public ModelAndView showUser(@PathVariable("username") String username) {
         var user = this.userService.findByUsername(username);
         if (user == null) {
@@ -80,29 +80,21 @@ public class UserController {
         }
         ModelAndView mav = new ModelAndView("users/userDetails");
         mav.addObject(user);
-        return mav;
-    }
 
-
-    @GetMapping("/users/{username}/games")
-    public String getUserGames(@PathVariable("username") String username, Map<String, Object> model) throws ResponseStatusException{
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User authenticatedUser = userService.findByUsername(auth.getName());
-        if (authenticatedUser==null || !authenticatedUser.getUsername().equals(username)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-
-        if (userService.findByUsername(username)==null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        mav.addObject(
+            "private_info",
+            user.getUsername().equals(authenticatedUser.getUsername()) || authenticatedUser.getIsAdmin()
+        );
 
         List<Multiplayer> multiplayerGames = userService.getMultiplayerGames(username);
-        model.put("multiplayerGames", multiplayerGames);
+        mav.addObject("multiplayerGames", multiplayerGames);
 
         List<Singleplayer> singleplayerGames = userService.getSingleplayerGames(username);
-        model.put("singleplayerGames", singleplayerGames);
+        mav.addObject("singleplayerGames", singleplayerGames);
 
-        return VIEWS_USER_GAMES_FORM;
+        return mav;
     }
 
     @GetMapping("/dashboard")
