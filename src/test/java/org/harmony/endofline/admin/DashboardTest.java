@@ -37,20 +37,24 @@ public class DashboardTest {
     @MockBean
     SingleplayerService singleService;
 
-    @WithMockUser(value = "spring", authorities = {"admin"})
+    @WithMockUser
     @Test
     public void dashboardIsAdmin() throws Exception {
-        mockMvc.perform(post("/dashboard").with(csrf())).andExpect(status().isOk())
+        mockMvc.perform(get("/dashboard").with(csrf())).andExpect(status().isOk())
             .andExpect(model().attributeExists("multi"))
             .andExpect(model().attributeExists("single"))
             .andExpect(model().attributeExists("users"));
     }
 
-    @WithMockUser(value = "spring")
+
     @Test
     public void dashboardNotAdmin() throws Exception {
-        mockMvc.perform(post("/dashboard").with(csrf())).andExpect(status().isUnauthorized());
+        mockMvc.perform(get("/dashboard")).andExpect(status().isForbidden());
     }
 
+    @Test
+    public void dashboardNotLoggedIn() throws Exception {
+        mockMvc.perform(get("/dashboard")).andExpect(status().isUnauthorized());
+    }
 
 }
