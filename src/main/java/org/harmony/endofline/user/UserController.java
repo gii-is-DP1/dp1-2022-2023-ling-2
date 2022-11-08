@@ -109,7 +109,7 @@ public class UserController {
         model.put("multi", multiplayerGames);
         model.put("single", singleplayerGames);
         model.put("users", users);
-        // TODO model.put("achievements", achievements");
+        // TODO model.put("achievements", achievements);
 
         return VIEWS_DASHBOARD;
     }
