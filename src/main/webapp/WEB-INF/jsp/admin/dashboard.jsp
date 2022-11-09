@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="endofline" tagdir="/WEB-INF/tags" %>
 
-<endofline:layout pageName="users">
+<endofline:layout pageName="dashboard">
 <jsp:body>
     <div>
         <div style="height:500px; overflow:auto; float: left; width: 49%">
@@ -49,11 +49,9 @@
                             </c:choose>
                         </td>
                         <td>
-                            <c:set var = "players" value = ""/>
                             <c:forEach items="${multi.users}" var="userGame">
-                                <c:set var = "players" value = "${players} ${userGame.user.username}"/>
+                                <a href="/u/${userGame.user.username}">${userGame.user.username}</>
                             </c:forEach>
-                            <c:out value="${players}"/>
                         </td>
                     </tr>
                 </c:forEach>
@@ -97,7 +95,7 @@
 
                         </td>
                         <td>
-                            <c:out value="${single.user.username}"/>
+                            <a href="/u/${single.user.username}">${single.user.username}</>
                         </td>
                     </tr>
                 </c:forEach>
@@ -121,7 +119,8 @@
                     <c:forEach items="${users}" var="user">
                         <tr>
                             <td>
-                                <c:out value="${user.username}"/>
+
+                                <a href="/u/${user.username}">${user.username}</>
                             </td>
                             <td>
                                 <c:out value="${user.email}"/>

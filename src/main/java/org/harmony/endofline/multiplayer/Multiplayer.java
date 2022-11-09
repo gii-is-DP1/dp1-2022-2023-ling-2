@@ -32,14 +32,14 @@ public class Multiplayer extends Game {
 
     @OneToMany(mappedBy = "game")
     @NotNull
-    private Set<UserGame> users;
+    private List<UserGame> users;
 
     public Multiplayer() {
         super(LocalDateTime.now());
         this.priorityList = new ArrayList<Integer>();
         this.p1EnergyLeft = 3;
         this.p2EnergyLeft = 3;
-        this.users = new HashSet<UserGame>();
+        this.users = new ArrayList<UserGame>();
     }
 
     public void addUser(UserGame userGame) {

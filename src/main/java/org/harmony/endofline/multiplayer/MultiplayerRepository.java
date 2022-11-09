@@ -8,7 +8,7 @@ import java.util.List;
 public interface MultiplayerRepository extends CrudRepository<Multiplayer, Integer> {
 
     @Override
-    @Query("SELECT m FROM Multiplayer m jOIN FETCH m.users ug JOIN FETCH ug.user")
+    @Query("SELECT DISTINCT m FROM Multiplayer m jOIN FETCH m.users ug JOIN FETCH ug.user")
     List<Multiplayer> findAll();
 
 }

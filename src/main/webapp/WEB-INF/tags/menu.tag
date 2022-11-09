@@ -14,6 +14,13 @@
                 <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
                 <span>Home</span>
             </endofline:menuitem>
+            <sec:authorize access="hasAuthority('TRUE')">
+                <endofline:menuitem active="${name eq 'dashboard'}" url="/dashboard"
+                                    title="dashboard">
+                    <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
+                    <span>Dashboard</span>
+                </endofline:menuitem>
+            </sec:authorize>
         </div>
         <div class="navbar-collapse collapse" id="main-navbar">
             <ul class="nav navbar-nav">
