@@ -97,8 +97,50 @@ public class UserController {
         return mav;
     }
 
+    @GetMapping("/u/{username}/edit")
+    public String initUpdateUserForm(@PathVariable("username") String username, Map<String, Object> model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+        if (authenticatedUser==null || (!authenticatedUser.getUsername().equals(username) && !authenticatedUser.getIsAdmin())){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        User user = this.userService.findByUsername(username);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        model.put("user", user);
+        return VIEWS_USER_CREATE_UPDATE_FORM;
+    }
+
+    @PostMapping("/u/{username}/edit")
+    public String processUpdateUserForm(@Valid User user, BindingResult result, @PathVariable("username") String username, Map<String, Object> model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+        if (authenticatedUser==null || (!authenticatedUser.getUsername().equals(username) && !authenticatedUser.getIsAdmin())){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        if (result.hasErrors()) {
+            user.setId(userService.findByUsername(username).getId());
+            model.put("user", user);
+            return VIEWS_USER_CREATE_UPDATE_FORM;
+        }
+        else if (userService.isEmailTaken(user.getEmail()) && !user.getEmail().equals(authenticatedUser.getEmail())) {
+            result.rejectValue("email", "taken", "This email is already in use");
+            user.setId(userService.findByUsername(username).getId());
+            model.put("user", user);
+            return VIEWS_USER_CREATE_UPDATE_FORM;
+        }
+        else {
+            User oldUser = userService.findByUsername(username);
+            user.setId(oldUser.getId());
+            userService.updateUser(user);
+            return "welcome";
+        }
+    }
+
     @GetMapping("/dashboard")
-    public String getAdminDashboard(Map<String, Object> model) throws ResponseStatusException{        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    public String getAdminDashboard(Map<String, Object> model) throws ResponseStatusException{
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User authenticatedUser = userService.findByUsername(auth.getName());
         if (authenticatedUser==null || !authenticatedUser.getIsAdmin()){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
