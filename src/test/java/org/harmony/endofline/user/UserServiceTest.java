@@ -1,6 +1,7 @@
 package org.harmony.endofline.user;
 
 import org.harmony.endofline.multiplayer.Multiplayer;
+import org.harmony.endofline.singleplayer.Singleplayer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -18,18 +19,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UserServiceTest {
 
     @Autowired
-    protected UserRepository users;
+    protected UserService users;
 
     @Test
     void shouldGetMultiplayerGamesOfUser1(){
-        List<Multiplayer> games = users.findUserMultiplayerGames("admin");
+        List<Multiplayer> games = users.getMultiplayerGames("admin");
         assertThat(games).hasSize(1);
         assertThat(games.get(0).getUsers()).hasSize(2);
     }
 
     @Test
     void shouldGetSingleplayerGamesOfUser1(){
-        List<Multiplayer> games = users.findUserMultiplayerGames("admin");
+        List<Singleplayer> games = users.getSingleplayerGames("admin");
         assertThat(games).hasSize(1);
     }
 }
