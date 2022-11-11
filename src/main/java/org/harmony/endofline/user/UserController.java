@@ -23,6 +23,7 @@ import java.util.Map;
 public class UserController {
 
     private static final String VIEWS_USER_CREATE_UPDATE_FORM = "users/createOrUpdateUserForm";
+    private static final String VIEWS_USER_DELETE_FORM = "users/deleteUserForm";
     private static final String VIEWS_USER_GAMES_FORM = "users/viewUsersGames";
     private static final String VIEWS_DASHBOARD = "admin/dashboard";
 
@@ -87,6 +88,10 @@ public class UserController {
             "private_info",
             user.getUsername().equals(authenticatedUser.getUsername()) || authenticatedUser.getIsAdmin()
         );
+        mav.addObject(
+            "admin",
+            user.getIsAdmin()
+        );
 
         List<Multiplayer> multiplayerGames = userService.getMultiplayerGames(username);
         mav.addObject("multiplayerGames", multiplayerGames);
@@ -136,6 +141,36 @@ public class UserController {
             userService.updateUser(user);
             return "welcome";
         }
+    }
+
+    @GetMapping("u/{username}/delete")
+    public String initDeleteUserForm(@PathVariable("username") String username, Map<String, Object> model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+        User user = this.userService.findByUsername(username);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        if (authenticatedUser == null || user.getIsAdmin() || (!authenticatedUser.getUsername().equals(username) && !authenticatedUser.getIsAdmin())){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        model.put("user", user);
+        return VIEWS_USER_DELETE_FORM;
+    }
+
+    @PostMapping("u/{username}/delete")
+    public String processDeleteUserForm(@PathVariable("username") String username) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+        User user = this.userService.findByUsername(username);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        if (authenticatedUser == null || user.getIsAdmin() || (!authenticatedUser.getUsername().equals(username) && !authenticatedUser.getIsAdmin())){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        this.userService.deleteUser(user);
+        return "redirect:/logout";
     }
 
     @GetMapping("/dashboard")

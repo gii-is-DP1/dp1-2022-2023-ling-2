@@ -11,9 +11,16 @@
         <h2 class="title">${user.username}</h2>
         <p>${user.email}</p>
         <c:if test="${private_info}">
-            <form:form action="/u/${user.username}/edit" method="GET">
-                <input type="submit" class="btn" value="Edit"/>
-            </form:form>
+            <div class="center-horizontal">
+                <form:form action="/u/${user.username}/edit" method="GET">
+                    <input type="submit" class="btn margins-small" value="Edit"/>
+                </form:form>
+                <c:if test="${!admin}">
+                    <form:form action="/u/${user.username}/delete" method="GET">
+                        <input type="submit" class="btn btn-danger margins-small" value="Delete"/>
+                    </form:form>
+                </c:if>
+            </div>
         </c:if>
     </div>
     <br>

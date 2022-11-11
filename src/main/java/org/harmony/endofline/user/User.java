@@ -6,10 +6,7 @@ import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.singleplayer.Singleplayer;
 import org.harmony.endofline.userGame.UserGame;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -35,11 +32,11 @@ public class User extends BaseEntity {
     Boolean isAdmin;
     Boolean enabled;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
     private Set<UserGame> multiplayerGames;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
     private Set<Singleplayer> singleplayerGames;
 

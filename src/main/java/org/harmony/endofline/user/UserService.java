@@ -21,7 +21,7 @@ public class UserService {
     }
 
     public Optional<User> getUser(String username) {
-        return userRepository.findById(username);
+        return Optional.ofNullable(userRepository.findByUsername(username));
     }
 
     @Transactional
@@ -35,8 +35,8 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(String username) {
-        userRepository.deleteById(username);
+    public void deleteUser(User user) {
+        userRepository.deleteByUsername(user.getUsername());
     }
 
     public User findByUsername(String username) {
