@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="endofline" tagdir="/WEB-INF/tags" %>
 
-<endofline:layout pageName="users">
+<endofline:layout pageName="createOrUpdateUser">
     <jsp:body>
         <h2>
             <c:choose>
