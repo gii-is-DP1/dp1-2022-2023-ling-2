@@ -17,7 +17,9 @@
         <endofline:inputField label="Name" name="name"/>
         <endofline:inputField label="Description" name="description"/>
         <endofline:inputField label="Amount" name="conditionAmounts"/>
-        <form:select path="conditions" lable="Conditions" items="${condition}"></form:select>
+        <div class="control-group">
+            <endofline:selectField name="conditions" label="Conditions" names="${condition}" size="5"/>
+        </div>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
