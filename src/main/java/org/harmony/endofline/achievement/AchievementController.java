@@ -21,6 +21,7 @@ import java.util.Map;
 public class AchievementController {
 
     private final AchievementService achievementService;
+    private final String VIEWS_ACHIEVEMENTS_CREATE_UPDATE_FORM = "achievements/createOrUpdateAchievement";
 
     @Autowired
     public AchievementController(AchievementService achievementService) {
@@ -28,14 +29,12 @@ public class AchievementController {
     }
 
     @GetMapping(value = "/{achievementName}")
-    public ModelAndView showAchievement(@PathVariable("achievementName") String achievementName) {
+    public String showAchievement(@PathVariable("achievementName") String achievementName, Map<String, Object> model) {
         Achievement achievement = this.achievementService.findByName(achievementName);
 
-        ModelAndView result = new ModelAndView("achievementInfo");
-        result.addObject("achievement", achievement);
-
-        result.addObject("condition", Arrays.stream(Achievement.condits.values()).toList());
-        return result;
+        model.put("achievement", achievement);
+        model.put("condition", Arrays.stream(Achievement.condits.values()).toList());
+        return VIEWS_ACHIEVEMENTS_CREATE_UPDATE_FORM;
     }
     @PostMapping(value = "/{achievementName}")
     public String processCreationForm(@Valid Achievement achievement, BindingResult result, Map<String, Object> model) {
