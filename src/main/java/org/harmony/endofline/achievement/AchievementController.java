@@ -43,7 +43,7 @@ public class AchievementController {
         }else {
             this.achievementService.addAchievement(achievement);
         }
-        return "admin/dashboard";
+        return "redirect:/dashboard";
         /*if (result.hasErrors()) {
             model.put("achievement", achievement);
             return VIEWS_USER_CREATE_UPDATE_FORM;
