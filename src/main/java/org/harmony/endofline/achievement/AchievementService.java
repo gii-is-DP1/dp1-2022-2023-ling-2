@@ -15,11 +15,11 @@ public class AchievementService {
     private AchievementRepository achievementRepository;
 
     @Transactional
-    public Achievement addAchievement(Achievement achievement) throws InvalidAchievementNameExeption {
+    public void addAchievement(Achievement achievement) throws InvalidAchievementNameExeption {
         if (!checkNameIsValid(achievement.getName())){
             throw new InvalidAchievementNameExeption();
         }
-        return achievementRepository.save(achievement);
+        achievementRepository.save(achievement);
     }
 
     public boolean exists(Achievement achievement){
@@ -36,7 +36,7 @@ public class AchievementService {
     }
 
     private boolean checkNameIsValid(String name) {
-        if (!achievementRepository.getByName(name).equals(null)) {
+        if (!(achievementRepository.getByName(name)==null)) {
             return false;
         }
         return true;

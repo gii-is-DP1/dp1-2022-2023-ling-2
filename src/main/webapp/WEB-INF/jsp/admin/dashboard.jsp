@@ -143,6 +143,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Description</th>
+                    <th><a href="/achievement/new"><span class="glyphicon glyphicon-plus success" aria-hidden="true"/> New</a></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -155,9 +156,8 @@
                             <c:out value="${achievement.description}"/>
                         </td>
                         <td>
-                            <form:form action="/achievement/${achievement.name}" method="GET">
-                                <input type="submit" class="btn" value="Edit Achievement"/>
-                            </form:form>
+                            <a href="/achievement/${achievement.name}"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"/></a>
+                            <a href="/achievement/delete/${achievement.name}"><span class="glyphicon glyphicon-trash warning" aria-hidden="true"/></a>
                         </td>
                     </tr>
                 </c:forEach>
