@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.Map;
 
 
-@RequestMapping("/dashboard/achievement")
+@RequestMapping("/achievement")
 @Controller
 public class AchievementController {
 
@@ -33,7 +34,7 @@ public class AchievementController {
         ModelAndView result = new ModelAndView("achievementInfo");
         result.addObject("achievement", achievement);
 
-        result.addObject("condition",Achievement.condits.values());
+        result.addObject("condition", Arrays.stream(Achievement.condits.values()).toList());
         return result;
     }
     @PostMapping(value = "/{achievementName}")

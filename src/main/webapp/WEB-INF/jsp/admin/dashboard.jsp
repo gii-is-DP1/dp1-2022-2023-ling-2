@@ -155,7 +155,7 @@
                             <c:out value="${achievement.description}"/>
                         </td>
                         <td>
-                            <form:form action="/dashboard/achievement/${achievement.name}" method="GET">
+                            <form:form action="/achievement/${achievement.name}" method="GET">
                                 <input type="submit" class="btn" value="Edit Achievement"/>
                             </form:form>
                         </td>
