@@ -17,9 +17,9 @@ INSERT INTO usergames(user_id, game_id, player, role) VALUES (1, 1, 1, 'player')
 INSERT INTO usergames(user_id, game_id, player, role) VALUES (2, 1, 2, 'player');
 INSERT INTO singleplayer_game(date_ended, date_started, user_id) VALUES (null, '2022-11-09 11:08:21.139157', 1);
 
-INSERT INTO achievements(id,name,description,condition,condition_amount) VALUES (1,'Winner','Win one Game', 1, 1);
-INSERT INTO achievements(id,name,description,condition,condition_amount) VALUES (2,'TEST admin 2','Win one Game', 3, 50);
-INSERT INTO achievements(id,name,description,condition,condition_amount) VALUES (3,'TEST user 3','Win one Game', 1, 10);
+INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('Winner','Win one Game', 1, 1);
+INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('TEST admin 2','Win one Game', 3, 50);
+INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('TEST user 3','Win one Game', 1, 10);
 
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,2);
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (2,2);
