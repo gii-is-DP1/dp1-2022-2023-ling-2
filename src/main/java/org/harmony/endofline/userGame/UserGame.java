@@ -6,10 +6,7 @@ import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.user.User;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 

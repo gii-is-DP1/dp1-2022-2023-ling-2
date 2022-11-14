@@ -6,15 +6,18 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="endofline" tagdir="/WEB-INF/tags" %>
 
-<endofline:layout pageName="users">
+<endofline:layout pageName="createOrUpdateUser">
     <jsp:body>
         <h2>
-            <c:if test="${user['new']}">New </c:if> user
+            <c:choose>
+                <c:when test="${user['new']}">New user</c:when>
+                <c:otherwise>Edit user <strong>${user.username}</strong></c:otherwise>
+            </c:choose>
         </h2>
         <form:form modelAttribute="user" class="form-horizontal" id="add-user-form">
             <input type="hidden" name="id" value="${user.id}"/>
             <div class="form-group has-feedback">
-                <endofline:inputField label="Username" name="username"/>
+                <c:if test="${user['new']}"><endofline:inputField label="Username" name="username"/></c:if>
                 <endofline:inputField label="Mail" name="email"/>
                 <endofline:passwordInputField label="Password" name="password"/>
             </div>
@@ -31,7 +34,5 @@
                 </div>
             </div>
         </form:form>
-        <c:if test="${!user['new']}">
-        </c:if>
     </jsp:body>
 </endofline:layout>

@@ -35,11 +35,11 @@ public class User extends BaseEntity {
     Boolean isAdmin;
     Boolean enabled;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
     private Set<UserGame> multiplayerGames;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
     private Set<Singleplayer> singleplayerGames;
 

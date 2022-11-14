@@ -25,6 +25,7 @@ import java.util.Map;
 public class UserController {
 
     private static final String VIEWS_USER_CREATE_UPDATE_FORM = "users/createOrUpdateUserForm";
+    private static final String VIEWS_USER_DELETE_FORM = "users/deleteUserForm";
     private static final String VIEWS_USER_GAMES_FORM = "users/viewUsersGames";
     private static final String VIEWS_DASHBOARD = "admin/dashboard";
 
@@ -91,6 +92,10 @@ public class UserController {
             "private_info",
             user.getUsername().equals(authenticatedUser.getUsername()) || authenticatedUser.getIsAdmin()
         );
+        mav.addObject(
+            "admin",
+            user.getIsAdmin()
+        );
 
         List<Multiplayer> multiplayerGames = userService.getMultiplayerGames(username);
         mav.addObject("multiplayerGames", multiplayerGames);
@@ -102,6 +107,77 @@ public class UserController {
         mav.addObject("achievements", achievements);
 
         return mav;
+    }
+
+    @GetMapping("/u/{username}/edit")
+    public String initUpdateUserForm(@PathVariable("username") String username, Map<String, Object> model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+        if (authenticatedUser==null || (!authenticatedUser.getUsername().equals(username) && !authenticatedUser.getIsAdmin())){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        User user = this.userService.findByUsername(username);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        model.put("user", user);
+        return VIEWS_USER_CREATE_UPDATE_FORM;
+    }
+
+    @PostMapping("/u/{username}/edit")
+    public String processUpdateUserForm(@Valid User user, BindingResult result, @PathVariable("username") String username, Map<String, Object> model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+        if (authenticatedUser==null || (!authenticatedUser.getUsername().equals(username) && !authenticatedUser.getIsAdmin())){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        if (result.hasErrors()) {
+            user.setId(userService.findByUsername(username).getId());
+            model.put("user", user);
+            return VIEWS_USER_CREATE_UPDATE_FORM;
+        }
+        else if (userService.isEmailTaken(user.getEmail()) && !user.getEmail().equals(authenticatedUser.getEmail())) {
+            result.rejectValue("email", "taken", "This email is already in use");
+            user.setId(userService.findByUsername(username).getId());
+            model.put("user", user);
+            return VIEWS_USER_CREATE_UPDATE_FORM;
+        }
+        else {
+            User oldUser = userService.findByUsername(username);
+            user.setId(oldUser.getId());
+            userService.updateUser(user);
+            return "welcome";
+        }
+    }
+
+    @GetMapping("u/{username}/delete")
+    public String initDeleteUserForm(@PathVariable("username") String username, Map<String, Object> model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+        User user = this.userService.findByUsername(username);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        if (authenticatedUser == null || user.getIsAdmin() || (!authenticatedUser.getUsername().equals(username) && !authenticatedUser.getIsAdmin())){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        model.put("user", user);
+        return VIEWS_USER_DELETE_FORM;
+    }
+
+    @PostMapping("u/{username}/delete")
+    public String processDeleteUserForm(@PathVariable("username") String username) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+        User user = this.userService.findByUsername(username);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        if (authenticatedUser == null || user.getIsAdmin() || (!authenticatedUser.getUsername().equals(username) && !authenticatedUser.getIsAdmin())){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        this.userService.deleteUser(user);
+        return "redirect:/logout";
     }
 
     @GetMapping("/dashboard")
