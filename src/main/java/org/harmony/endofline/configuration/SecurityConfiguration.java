@@ -25,7 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
             .antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
-            .antMatchers("/dashboard").hasAuthority("TRUE")
+            .antMatchers("/dashboard", "/achievement", "/achievement/**").hasAuthority("TRUE")
             .antMatchers(HttpMethod.GET, "/","/oups").permitAll()
             .antMatchers("/u/new").permitAll()
             // TODO: Here we should put the security for the rest of the pages
