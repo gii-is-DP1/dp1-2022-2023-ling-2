@@ -19,7 +19,7 @@ INSERT INTO singleplayer_game(date_ended, date_started, user_id) VALUES (null, '
 
 INSERT INTO achievements(id,name,description,condition,condition_amount) VALUES (1,'Winner','Win one Game', 1, 1);
 INSERT INTO achievements(id,name,description,condition,condition_amount) VALUES (2,'TEST admin 2','Win one Game', 3, 50);
-INSERT INTO achievements(id,name,description,condition,condition_amount) VALUES (3,'TEST user 3','Win one Game', 1, 1);
+INSERT INTO achievements(id,name,description,condition,condition_amount) VALUES (3,'TEST user 3','Win one Game', 1, 10);
 
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,2);
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (2,2);
