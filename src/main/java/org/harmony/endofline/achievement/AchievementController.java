@@ -44,10 +44,15 @@ public class AchievementController {
             return VIEWS_ACHIEVEMENTS_CREATE_UPDATE_FORM;
         }
         else{
-            if(achievementService.exists(achievement)){
-                achievementService.updateAchievement(achievement, achievement.getId());
-            }else {
-                this.achievementService.addAchievement(achievement);
+            try{
+                if(achievementService.exists(achievement)){
+                    achievementService.updateAchievement(achievement, achievement.getId());
+                }else {
+                    this.achievementService.addAchievement(achievement);
+                }
+            }catch (InvalidAchievementNameExeption e){
+                result.rejectValue("name", "invalid", "This name is already in use");
+                return VIEWS_ACHIEVEMENTS_CREATE_UPDATE_FORM;
             }
             return "redirect:/dashboard";
         }

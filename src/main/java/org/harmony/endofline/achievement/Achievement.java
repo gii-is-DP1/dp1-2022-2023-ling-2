@@ -2,15 +2,13 @@ package org.harmony.endofline.achievement;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.model.NamedEntity;
 import org.harmony.endofline.user.User;
 
 import javax.persistence.Entity;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
 
@@ -19,9 +17,12 @@ import java.util.Set;
 @Setter
 @Table(name = "achievements")
 @Entity
-public class Achievement extends NamedEntity {
+public class Achievement extends BaseEntity {
 
-
+    @NotNull
+    @Size(min = 3, max = 50)
+    @Column(name = "name", unique = true)
+    private String name;
 
     @NotNull
     @NotBlank

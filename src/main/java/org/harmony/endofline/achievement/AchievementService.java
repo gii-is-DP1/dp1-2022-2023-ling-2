@@ -15,7 +15,10 @@ public class AchievementService {
     private AchievementRepository achievementRepository;
 
     @Transactional
-    public Achievement addAchievement(Achievement achievement){
+    public Achievement addAchievement(Achievement achievement) throws InvalidAchievementNameExeption {
+        if (!checkNameIsValid(achievement.getName())){
+            throw new InvalidAchievementNameExeption();
+        }
         return achievementRepository.save(achievement);
     }
 
@@ -24,14 +27,25 @@ public class AchievementService {
     }
 
     @Transactional
-    public void updateAchievement(Achievement achievement,Integer id){
+    public void updateAchievement(Achievement achievement, Integer id) throws InvalidAchievementNameExeption {
+        String currentAchievementName = achievementRepository.findById(id).get().getName();
+        if (!checkNameIsValid(achievement.getName()) && !achievement.getName().equals(currentAchievementName)){
+            throw new InvalidAchievementNameExeption();
+        }
         achievementRepository.update(achievement.getName(),achievement.getDescription(),achievement.getConditions(),achievement.getConditionAmounts(),id);
+    }
+
+    private boolean checkNameIsValid(String name) {
+        if (!achievementRepository.getByName(name).equals(null)) {
+            return false;
+        }
+        return true;
     }
     public List<Achievement> getAllAchievements(){
         return (List<Achievement>) achievementRepository.findAll();
     }
 
-    public boolean checkAchievementValid(User user, Achievement achievement){
+    public boolean checkUserAchievementValid(User user, Achievement achievement){
         boolean result = true;
             switch (achievement.getConditions()){
                 case MULTIPLAYER_AMOUNT:
