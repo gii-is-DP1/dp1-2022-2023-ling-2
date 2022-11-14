@@ -142,7 +142,7 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Conditions</th>
+                    <th>Description</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -152,7 +152,12 @@
                             <c:out value="${achievement.name}"/>
                         </td>
                         <td>
-                            <c:out value="${achievement.conditions}"/>
+                            <c:out value="${achievement.description}"/>
+                        </td>
+                        <td>
+                            <form:form action="/dashboard/achievement/${achievement.name}" method="GET">
+                                <input type="submit" class="btn" value="Edit Achievement"/>
+                            </form:form>
                         </td>
                     </tr>
                 </c:forEach>

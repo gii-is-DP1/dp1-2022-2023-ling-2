@@ -2,19 +2,19 @@ package org.harmony.endofline.user;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.singleplayer.Singleplayer;
 import org.harmony.endofline.userGame.UserGame;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -43,11 +43,15 @@ public class User extends BaseEntity {
     @NotNull
     private Set<Singleplayer> singleplayerGames;
 
+    @ManyToMany(mappedBy = "users")
+    private List<Achievement> achievements;
+
     public User(){
         this.isAdmin = Boolean.FALSE;
         this.enabled = Boolean.TRUE;
         this.multiplayerGames = new HashSet<UserGame>();
         this.singleplayerGames = new HashSet<Singleplayer>();
+        this.achievements = new ArrayList<Achievement>();
     }
 
     public void addMultiplayerGame(UserGame userGame) {
@@ -57,4 +61,9 @@ public class User extends BaseEntity {
     public void addSingleplayerGame(Singleplayer game) {
         this.singleplayerGames.add(game);
     }
+
+    public void addAchievement(Achievement achievement){
+        this.achievements.add(achievement);
+    }
+
 }

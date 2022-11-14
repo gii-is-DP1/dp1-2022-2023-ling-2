@@ -1,5 +1,7 @@
 package org.harmony.endofline.user;
 
+import org.harmony.endofline.achievement.Achievement;
+import org.harmony.endofline.achievement.AchievementRepository;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.singleplayer.Singleplayer;
 import org.harmony.endofline.userGame.UserGame;
@@ -15,9 +17,11 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final AchievementRepository achievementRepository;
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,AchievementRepository achievementRepository) {
         this.userRepository = userRepository;
+        this.achievementRepository = achievementRepository;
     }
 
     public Optional<User> getUser(String username) {
@@ -70,5 +74,9 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
+    }
+
+    public List<Achievement> getAllAchievementsOfUser(String username){
+        return achievementRepository.findByUsers(userRepository.findByUsername(username));
     }
 }

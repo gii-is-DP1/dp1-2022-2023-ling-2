@@ -99,6 +99,28 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <table class="table table-striped" style="float: right; width: 49%">
+                <caption> Achievements </caption>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${achievements}" var="achievement">
+                    <tr>
+                        <td>
+                            <c:out value="${achievement.name}"/>
+                        </td>
+                        <td>
+                            <c:out value="${achievement.description}"/>
+                        </td>
+
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
     </c:if>
 </endofline:layout>

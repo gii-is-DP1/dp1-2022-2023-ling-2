@@ -1,5 +1,6 @@
 package org.harmony.endofline.user;
 
+import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.singleplayer.Singleplayer;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,8 @@ public interface UserRepository extends CrudRepository<User, String> {
 
     @Query("SELECT user FROM User user WHERE user.email=:email")
     User findByEmail(@Param("email") String email);
+
+    //@Query("SELECT DISTINCT achievement FROM User user JOIN user.achievements achievement WHERE user.username =:username")
+    //List<Achievement> findByUser(String username);
+    //List<Achievement> findByUsers(User user);
 }

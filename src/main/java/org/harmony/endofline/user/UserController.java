@@ -1,5 +1,7 @@
 package org.harmony.endofline.user;
 
+import org.harmony.endofline.achievement.Achievement;
+import org.harmony.endofline.achievement.AchievementService;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.singleplayer.Singleplayer;
@@ -29,12 +31,14 @@ public class UserController {
     private final UserService userService;
     private final MultiplayerService multiplayerService;
     private final SingleplayerService singleplayerService;
+    private final AchievementService achievementService;
 
     @Autowired
-    public UserController(UserService us, MultiplayerService multiplayerService, SingleplayerService singleplayerService) {
+    public UserController(UserService us, MultiplayerService multiplayerService, SingleplayerService singleplayerService, AchievementService achievementService) {
         this.userService = us;
         this.multiplayerService = multiplayerService;
         this.singleplayerService = singleplayerService;
+        this.achievementService = achievementService;
     }
 
     @InitBinder
@@ -94,6 +98,9 @@ public class UserController {
         List<Singleplayer> singleplayerGames = userService.getSingleplayerGames(username);
         mav.addObject("singleplayerGames", singleplayerGames);
 
+        List<Achievement> achievements = userService.getAllAchievementsOfUser(username);
+        mav.addObject("achievements", achievements);
+
         return mav;
     }
 
@@ -104,12 +111,12 @@ public class UserController {
 
         List<User> users = userService.getAllUsers();
 
-        // TODO List<Achievements>
+        List<Achievement> achievements = achievementService.getAllAchievements();
 
         model.put("multi", multiplayerGames);
         model.put("single", singleplayerGames);
         model.put("users", users);
-        // TODO model.put("achievements", achievements);
+        model.put("achievements", achievements);
 
         return VIEWS_DASHBOARD;
     }
