@@ -6,6 +6,8 @@ import org.harmony.endofline.model.NamedEntity;
 import org.harmony.endofline.user.User;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,7 +21,10 @@ import java.util.Set;
 @Entity
 public class Achievement extends NamedEntity {
 
+
+
     @NotNull
+    @NotBlank
     @Column(name = "description")
     private String description;
 
@@ -30,6 +35,7 @@ public class Achievement extends NamedEntity {
 
     @NotNull
     @Column(name = "condition_amount")
+    @Min(value=1)
     private Integer conditionAmounts;
 
     @JoinTable(name = "achievement_user",

@@ -38,12 +38,19 @@ public class AchievementController {
     }
     @PostMapping(value = "/{achievementName}")
     public String processCreationForm(@Valid Achievement achievement, BindingResult result, Map<String, Object> model) {
-        if(achievementService.exists(achievement)){
-            achievementService.updateAchievement(achievement, achievement.getId());
-        }else {
-            this.achievementService.addAchievement(achievement);
+        if (result.hasErrors()) {
+            model.put("achievement", achievement);
+            model.put("condition", Arrays.stream(Achievement.condits.values()).toList());
+            return VIEWS_ACHIEVEMENTS_CREATE_UPDATE_FORM;
         }
-        return "redirect:/dashboard";
+        else{
+            if(achievementService.exists(achievement)){
+                achievementService.updateAchievement(achievement, achievement.getId());
+            }else {
+                this.achievementService.addAchievement(achievement);
+            }
+            return "redirect:/dashboard";
+        }
         /*if (result.hasErrors()) {
             model.put("achievement", achievement);
             return VIEWS_USER_CREATE_UPDATE_FORM;
