@@ -56,25 +56,5 @@ public class AchievementController {
             }
             return "redirect:/dashboard";
         }
-        /*if (result.hasErrors()) {
-            model.put("achievement", achievement);
-            return VIEWS_USER_CREATE_UPDATE_FORM;
-        }
-        else if (achievementService.isUsernameTaken(achievement.getName())) {
-            result.rejectValue("username", "taken", "This username is already taken");
-            model.put("achievement", achievement);
-            return VIEWS_USER_CREATE_UPDATE_FORM;
-        }
-        else if (userService.isEmailTaken(user.getEmail())) {
-            result.rejectValue("email", "taken", "This email is already in use");
-            model.put("achievement", achievement);
-            return VIEWS_USER_CREATE_UPDATE_FORM;
-        }
-        else {
-
-         */
-            //creating owner, user, and authority
-
-        //}
     }
 }
