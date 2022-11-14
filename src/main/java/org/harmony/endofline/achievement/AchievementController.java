@@ -77,4 +77,10 @@ public class AchievementController {
             return "redirect:/dashboard";
         }
     }
+
+    @GetMapping("/{achievementName}/delete")
+    public String deleteAchievement(@PathVariable("achievementName") String achievementName){
+        achievementService.deleteAchievement(achievementName);
+        return  "redirect:/dashboard";
+    }
 }

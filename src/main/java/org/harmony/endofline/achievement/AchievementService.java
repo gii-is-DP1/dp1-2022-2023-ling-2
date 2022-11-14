@@ -45,6 +45,11 @@ public class AchievementService {
         return (List<Achievement>) achievementRepository.findAll();
     }
 
+    public void deleteAchievement(String achievementName) {
+        int id = achievementRepository.getByName(achievementName).getId();
+        achievementRepository.deleteById(id);
+    }
+
     public boolean checkUserAchievementValid(User user, Achievement achievement){
         boolean result = true;
             switch (achievement.getConditions()){
@@ -93,4 +98,5 @@ public class AchievementService {
     public Achievement findByName(String achievementName) {
         return achievementRepository.findByName(achievementName);
     }
+
 }

@@ -157,7 +157,7 @@
                         </td>
                         <td>
                             <a href="/achievement/${achievement.name}"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"/></a>
-                            <a href="/achievement/delete/${achievement.name}"><span class="glyphicon glyphicon-trash warning" aria-hidden="true"/></a>
+                            <a href="/achievement/${achievement.name}/delete"><span class="glyphicon glyphicon-trash warning" aria-hidden="true"/></a>
                         </td>
                     </tr>
                 </c:forEach>
