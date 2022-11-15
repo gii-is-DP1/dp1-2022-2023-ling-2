@@ -19,9 +19,6 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    @Autowired
-    private StatisticService statisticService;
-
     private final AchievementRepository achievementRepository;
     @Autowired
     public UserService(UserRepository userRepository,AchievementRepository achievementRepository) {
@@ -35,9 +32,6 @@ public class UserService {
 
     @Transactional
     public User createUser(User user) {
-        Statistic statistic = new Statistic();
-        statistic.setUser(user);
-        statisticService.createStatistic(statistic);
         return userRepository.save(user);
     }
 

@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.singleplayer.Singleplayer;
+import org.harmony.endofline.statistic.Statistic;
 import org.harmony.endofline.userGame.UserGame;
 
 import javax.persistence.*;
@@ -49,12 +50,18 @@ public class User extends BaseEntity {
         inverseJoinColumns = @JoinColumn(name = "achievement_id"))
     private List<Achievement> achievements;
 
+    @NotNull
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "statistics_id", referencedColumnName = "id")
+    private Statistic statistic;
+
     public User(){
         this.isAdmin = Boolean.FALSE;
         this.enabled = Boolean.TRUE;
         this.multiplayerGames = new HashSet<UserGame>();
         this.singleplayerGames = new HashSet<Singleplayer>();
         this.achievements = new ArrayList<Achievement>();
+        this.statistic = new Statistic();
     }
 
     public void addMultiplayerGame(UserGame userGame) {

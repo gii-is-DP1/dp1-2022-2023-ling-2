@@ -9,8 +9,11 @@ INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (
 INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (4,2,0,1,1); -- Card 4
 INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (5,1,0,1,1); -- Card 5
 
-INSERT INTO users(username,password,email,is_admin,enabled) VALUES ('admin','admin','admin@localhost.com',true,true);
-INSERT INTO users(username,password,email,is_admin,enabled) VALUES ('user','user','user@localhost.com',false,true);
+INSERT INTO statistics(number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (34, 10, 4, 7, 13);
+INSERT INTO statistics(number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (42, 20, 9, 11, 2);
+
+INSERT INTO users(statistics_id, username,password,email,is_admin,enabled) VALUES (1, 'admin','admin','admin@localhost.com',true,true);
+INSERT INTO users(statistics_id, username,password,email,is_admin,enabled) VALUES (2, 'user','user','user@localhost.com',false,true);
 
 INSERT INTO multiplayer_games(date_ended, date_started, p1energy_left, p2energy_left) VALUES (null, '2022-11-09 11:08:21.139157', 3, 3);
 INSERT INTO usergames(user_id, game_id, player, role) VALUES (1, 1, 1, 'player');
@@ -26,6 +29,4 @@ INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,1);
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,2);
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,3);
 
-INSERT INTO statistics(user_id, number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (1, 34, 10, 4, 7, 13);
-INSERT INTO statistics(user_id, number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (2, 42, 20, 9, 11, 2)
 

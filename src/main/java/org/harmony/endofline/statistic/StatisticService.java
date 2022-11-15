@@ -15,11 +15,6 @@ public class StatisticService {
     private StatisticRepository statisticRepository;
 
     @Transactional
-    public Statistic createStatistic(Statistic statistic) {
-        return statisticRepository.save(statistic);
-    }
-
-    @Transactional
     public Statistic updateStatistic(Statistic statistic) {
         return statisticRepository.save(statistic);
     }

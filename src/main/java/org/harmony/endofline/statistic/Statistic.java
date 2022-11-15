@@ -14,8 +14,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "statistics")
 public class Statistic extends BaseEntity {
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(mappedBy = "statistic")
     private User user;
 
     @Column(name = "number_games")
