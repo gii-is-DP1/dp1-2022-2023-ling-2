@@ -25,7 +25,7 @@ public class AchievementController {
     }
 
     @ModelAttribute("condition")
-    public List<Achievement.condits> populatePets() {
+    public List<Achievement.condits> getConditions() {
         return Arrays.stream(Achievement.condits.values()).toList();
     }
 

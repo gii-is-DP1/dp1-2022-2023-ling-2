@@ -4,6 +4,8 @@ import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.achievement.AchievementRepository;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.singleplayer.Singleplayer;
+import org.harmony.endofline.statistic.Statistic;
+import org.harmony.endofline.statistic.StatisticService;
 import org.harmony.endofline.userGame.UserGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,10 +59,13 @@ public class UserService {
 
     @Transactional
     public void addUserGame(User user, UserGame userGame) {
+        user.getStatistic().increaseNumberOfGames();
         user.addMultiplayerGame(userGame);
     }
 
+    @Transactional
     public void addSingleplayerGame(User user, Singleplayer game) {
+        user.getStatistic().increaseNumberOfGames();
         user.addSingleplayerGame(game);
     }
 
@@ -77,6 +82,6 @@ public class UserService {
     }
 
     public List<Achievement> getAllAchievementsOfUser(String username){
-        return achievementRepository.findByUsers(userRepository.findByUsername(username));
+        return userRepository.findAchievementsByUsername(username);
     }
 }

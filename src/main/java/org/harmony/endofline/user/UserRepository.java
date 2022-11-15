@@ -1,5 +1,6 @@
 package org.harmony.endofline.user;
 
+import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.singleplayer.Singleplayer;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,4 +25,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     @Modifying
     void deleteByUsername(String username);
+
+    @Query("SELECT DISTINCT a FROM Achievement a JOIN a.users u WHERE u.username=:username")
+    List<Achievement> findAchievementsByUsername(@Param("username") String username);
 }
