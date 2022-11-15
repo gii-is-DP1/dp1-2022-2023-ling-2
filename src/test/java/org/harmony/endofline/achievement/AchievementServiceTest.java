@@ -1,21 +1,15 @@
 package org.harmony.endofline.achievement;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class AchievementServiceTest {
@@ -90,6 +84,7 @@ public class AchievementServiceTest {
     public void shouldValidateUserAchievement(){
        // TODO
        // user meets achievement criteria
+
     }
 
     @Test
@@ -99,16 +94,43 @@ public class AchievementServiceTest {
     }
 
     @Test
-    public void updateAchievementNameTooLong(){
+    public void updateAchievementNameTooLong() throws InvalidAchievementNameExeption {
         // TODO
+        Achievement a = new Achievement();
+        a.setName("Test Achievement");
+        a.setDescription("An achievement for tests");
+        a.setConditions(Achievement.condits.MULTIPLAYER_AMOUNT);
+        a.setConditionAmounts(20);
+        this.aService.addAchievement(a);
+
+        a.setName("Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+            "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+            "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
+            "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+        Integer id = a.getId();
+        assertThrows(InvalidAchievementNameExeption.class,
+            () -> {
+                this.aService.updateAchievement(a, id);
+            });
     }
+
 
     @Test
-    public void updateAchievementNameTooShort(){
+    public void updateAchievementNameTooShort() throws InvalidAchievementNameExeption {
         // TODO
+        Achievement a = new Achievement();
+        a.setName("Test Achievement");
+        a.setDescription("An achievement for tests");
+        a.setConditions(Achievement.condits.MULTIPLAYER_AMOUNT);
+        a.setConditionAmounts(20);
+        this.aService.addAchievement(a);
+
+        a.setName("hi");
+        Integer id = a.getId();
+        assertThrows(InvalidAchievementNameExeption.class,
+            () -> {
+                this.aService.updateAchievement(a, id);
+            });
     }
-
-
-
-
 }
