@@ -25,4 +25,21 @@ public class CardService {
     public Card findCardById(int id) {
         return cardRepository.findById(id);
     }
+
+    @Transactional
+    public void saveCard(Card card) throws DataAccessException {
+        cardRepository.save(card);
+    }
+
+    @Transactional
+    public void deleteCard(Card card) throws DataAccessException {
+        cardRepository.delete(card);
+    }
+
+    @Transactional
+    public void deleteCardById(int id) throws DataAccessException {
+        cardRepository.deleteById(id);
+    }
+
+
 }
