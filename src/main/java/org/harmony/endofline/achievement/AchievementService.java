@@ -1,5 +1,6 @@
 package org.harmony.endofline.achievement;
 
+import org.harmony.endofline.statistic.StatisticService;
 import org.harmony.endofline.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ public class AchievementService {
 
     @Autowired
     private AchievementRepository achievementRepository;
+    @Autowired
+    private StatisticService statService;
 
     @Transactional
     public void addAchievement(Achievement achievement) throws InvalidAchievementNameExeption {
@@ -56,7 +59,6 @@ public class AchievementService {
             case MULTIPLAYER_CREATED -> checkMultiplayerCreated(user, achievement.getConditionAmounts());
             case MULTIPLAYER_WINS -> checkMultiplayerWins(user, achievement.getConditionAmounts());
             case SINGLEPLAYER_AMOUNT -> checkSingleplayerAmount(user, achievement.getConditionAmounts());
-            case SINGLEPLAYER_CREATED -> checkSingleplayerCreated(user, achievement.getConditionAmounts());
             case SINGLEPLAYER_WINS -> checkSingleplayerWins(user, achievement.getConditionAmounts());
         };
     }
@@ -72,14 +74,12 @@ public class AchievementService {
     private boolean checkMultiplayerCreated(User user, int amount){
         return false;
     }
-    private boolean checkSingleplayerCreated(User user, int amount){
-        return false;
-    }
     private boolean checkMultiplayerWins(User user, int amount){
-        return false;
+
+        return statService.getStatisticByUserId(user.getId()).getNumberMultiPlayerWins() >= amount;
     }
     private boolean checkSingleplayerWins(User user, int amount){
-        return false;
+        return statService.getStatisticByUserId(user.getId()).getNumberSinglePlayerWins() >= amount;
     }
 
     public Achievement findByName(String achievementName) {
