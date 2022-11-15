@@ -25,13 +25,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
             .antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
+            .antMatchers("/dashboard", "/achievement", "/achievement/**").hasAuthority("TRUE")
             .antMatchers(HttpMethod.GET, "/","/oups").permitAll()
-            .antMatchers("/users/new").permitAll()
+            .antMatchers("/u/new").permitAll()
             // TODO: Here we should put the security for the rest of the pages
-            .anyRequest().denyAll()
+            .anyRequest().authenticated()
             .and()
             .formLogin()
-            /*.loginPage("/login")*/
             .failureUrl("/login-error")
             .and()
             .logout()
