@@ -51,7 +51,7 @@ public class Achievement extends BaseEntity {
         MULTIPLAYER_AMOUNT,
         SINGLEPLAYER_AMOUNT,
         MULTIPLAYER_CREATED,
-        SINGLEPLAYER_CREATED
+
     }
 }
 
