@@ -54,27 +54,13 @@ public class AchievementService {
         achievementRepository.deleteById(id);
     }
 
-
-
-    //Achievement checks for User
-    private boolean checkMultiplayerAmount(Statistic stat, int amount){
-        return false;
-    }
-    private boolean checkSingleplayerAmount(Statistic stat, int amount){
-        return false;
-    }
-    private boolean checkMultiplayerCreated(Statistic stat, int amount){
-        return false;
-    }
-    private boolean checkMultiplayerWins(Statistic stat, int amount){
-        return stat.getNumberMultiPlayerWins()>=amount;
-    }
-    private boolean checkSingleplayerWins(Statistic stat, int amount){
-        return false;
-    }
-
     public Achievement findByName(String achievementName) {
         return achievementRepository.findByName(achievementName);
+    }
+
+    // Achievement checks for User
+    private boolean checkMultiplayerCreated(Statistic stat, int amount){
+        return false;
     }
 
     @Transactional
