@@ -37,6 +37,7 @@ public class UserService {
     public User createUser(User user) {
         Statistic statistic = new Statistic();
         statistic.setUser(user);
+        statisticService.createStatistic(statistic);
         return userRepository.save(user);
     }
 
