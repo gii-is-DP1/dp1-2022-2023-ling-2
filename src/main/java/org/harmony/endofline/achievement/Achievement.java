@@ -46,7 +46,7 @@ public class Achievement extends BaseEntity {
     List<User> users;
 
     public enum condits{
-        MUlTIPLAYER_WINS,
+        MULTIPLAYER_WINS,
         SINGLEPLAYER_WINS,
         MULTIPLAYER_AMOUNT,
         SINGLEPLAYER_AMOUNT,
