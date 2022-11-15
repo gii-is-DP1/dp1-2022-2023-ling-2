@@ -77,10 +77,11 @@ public class AchievementService {
 
     //Achievement checks for User
     private boolean checkMultiplayerAmount(User user, int amount){
-        return false;
+
+        return user.getMultiplayerGames().size() >= amount;
     }
     private boolean checkSingleplayerAmount(User user, int amount){
-        return false;
+        return user.getSingleplayerGames().size() >= amount;
     }
     private boolean checkMultiplayerCreated(User user, int amount){
         return false;
