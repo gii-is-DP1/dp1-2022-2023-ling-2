@@ -67,7 +67,7 @@ public class AchievementService {
 
     @Transactional
     public User calculateAchievementsForUser(User user, Statistic stats, List<Achievement> allAchievements) {
-        for(Achievement achievement: allAchievements){
+        for(Achievement achievement: allAchievements) if (!user.getAchievements().contains(achievement)){
             switch (achievement.getConditions()){
                 case MULTIPLAYER_AMOUNT -> {
                     if (user.getMultiplayerGames().size() >= achievement.getConditionAmounts())
