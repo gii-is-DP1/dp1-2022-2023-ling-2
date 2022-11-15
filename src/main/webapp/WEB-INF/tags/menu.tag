@@ -21,6 +21,11 @@
                     <span>Dashboard</span>
                 </endofline:menuitem>
             </sec:authorize>
+            <endofline:menuitem active="${name eq 'Statistics'}" url="/statistics"
+                                title="statistics">
+                <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+                <span>Statistics</span>
+            </endofline:menuitem>
         </div>
         <div class="navbar-collapse collapse" id="main-navbar">
             <ul class="nav navbar-nav">
