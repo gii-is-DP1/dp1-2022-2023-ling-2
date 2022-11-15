@@ -127,19 +127,19 @@
                     <c:forEach items="${personal}" var="statistic">
                         <tr>
                             <td>
-                                <a href="/u/${statistic.numberGames}">${statistic.numberGames}</>
+                                <c:out value="${statistic.numberGames}"/>
                             </td>
                             <td>
-                                <a href="/u/${statistic.numberSinglePlayerWins}">${statistic.numberSinglePlayerWins}</>
+                                <c:out value="${statistic.numberSinglePlayerWins}"/>
                             </td>
                             <td>
-                                <a href="/u/${statistic.numberSinglePlayerLosses}">${statistic.numberSinglePlayerLosses}</>
+                                <c:out value="${statistic.numberSinglePlayerLosses}"/>
                             </td>
                             <td>
-                                <a href="/u/${statistic.numberMultiPlayerWins}">${statistic.numberMultiPlayerWins}</>
+                                <c:out value="${statistic.numberMultiPlayerWins}"/>
                             </td>
                             <td>
-                                <a href="/u/${statistic.numberMultiPlayerLosses}">${statistic.numberMultiPlayerLosses}</>
+                                <c:out value="${statistic.numberMultiPlayerLosses}"/>
                             </td>
                         </tr>
                     </c:forEach>
