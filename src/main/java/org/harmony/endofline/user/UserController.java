@@ -1,11 +1,14 @@
 package org.harmony.endofline.user;
 
+import org.ehcache.core.spi.service.StatisticsService;
 import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.achievement.AchievementService;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.singleplayer.Singleplayer;
 import org.harmony.endofline.singleplayer.SingleplayerService;
+import org.harmony.endofline.statistic.Statistic;
+import org.harmony.endofline.statistic.StatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -18,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,13 +37,15 @@ public class UserController {
     private final MultiplayerService multiplayerService;
     private final SingleplayerService singleplayerService;
     private final AchievementService achievementService;
+    private final StatisticService statisticService;
 
     @Autowired
-    public UserController(UserService us, MultiplayerService multiplayerService, SingleplayerService singleplayerService, AchievementService achievementService) {
+    public UserController(UserService us, MultiplayerService multiplayerService, SingleplayerService singleplayerService, AchievementService achievementService,StatisticService statisticService) {
         this.userService = us;
         this.multiplayerService = multiplayerService;
         this.singleplayerService = singleplayerService;
         this.achievementService = achievementService;
+        this.statisticService = statisticService;
     }
 
     @InitBinder
@@ -105,6 +111,10 @@ public class UserController {
 
         List<Achievement> achievements = userService.getAllAchievementsOfUser(username);
         mav.addObject("achievements", achievements);
+
+        List<Statistic> personal = new ArrayList<>();
+        personal.add(statisticService.getStatisticByUserId(user.getId()));
+        mav.addObject("personal", personal);
 
         return mav;
     }

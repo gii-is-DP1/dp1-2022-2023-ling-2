@@ -111,7 +111,41 @@
         </div>
         <div style="height:250px; overflow:auto">
             <div>
-            <table class="table table-striped" style="float: right; width: 49%">
+                <table class="table table-striped" style="float: left; width: 49%">
+                    <caption>Your Statistics</caption>
+
+                    <thead>
+                    <tr>
+                        <th>Total Games</th>
+                        <th>Singleplayer Wins</th>
+                        <th>Singleplayer Losses</th>
+                        <th>Multiplayer Wins</th>
+                        <th>Multiplayer Losses</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${personal}" var="statistic">
+                        <tr>
+                            <td>
+                                <a href="/u/${statistic.numberGames}">${statistic.numberGames}</>
+                            </td>
+                            <td>
+                                <a href="/u/${statistic.numberSinglePlayerWins}">${statistic.numberSinglePlayerWins}</>
+                            </td>
+                            <td>
+                                <a href="/u/${statistic.numberSinglePlayerLosses}">${statistic.numberSinglePlayerLosses}</>
+                            </td>
+                            <td>
+                                <a href="/u/${statistic.numberMultiPlayerWins}">${statistic.numberMultiPlayerWins}</>
+                            </td>
+                            <td>
+                                <a href="/u/${statistic.numberMultiPlayerLosses}">${statistic.numberMultiPlayerLosses}</>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <table class="table table-striped" style="float: right; width: 49%">
                 <caption> Achievements </caption>
                 <thead>
                 <tr>

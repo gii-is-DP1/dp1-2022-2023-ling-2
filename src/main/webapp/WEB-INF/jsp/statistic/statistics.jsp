@@ -9,42 +9,6 @@
 <endofline:layout pageName="statistics">
     <jsp:body>
         <div>
-            <h2 align="center">Your Statistics</h2>
-            <div style="margin: auto; width: 60%">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Total Games</th>
-                        <th>Singleplayer Wins</th>
-                        <th>Singleplayer Losses</th>
-                        <th>Multiplayer Wins</th>
-                        <th>Multiplayer Losses</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${personal}" var="statistic">
-                        <tr>
-                            <td>
-                                <a href="/u/${statistic.numberGames}">${statistic.numberGames}</>
-                            </td>
-                            <td>
-                                <a href="/u/${statistic.numberSinglePlayerWins}">${statistic.numberSinglePlayerWins}</>
-                            </td>
-                            <td>
-                                <a href="/u/${statistic.numberSinglePlayerLosses}">${statistic.numberSinglePlayerLosses}</>
-                            </td>
-                            <td>
-                                <a href="/u/${statistic.numberMultiPlayerWins}">${statistic.numberMultiPlayerWins}</>
-                            </td>
-                            <td>
-                                <a href="/u/${statistic.numberMultiPlayerLosses}">${statistic.numberMultiPlayerLosses}</>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
-
             <h2>Leaderboards</h2>
             <div style="height:500px; overflow:auto; float: left; width: 40%">
                 <table class="table table-striped">
