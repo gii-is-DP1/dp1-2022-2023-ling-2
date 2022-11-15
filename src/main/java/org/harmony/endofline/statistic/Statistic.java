@@ -32,4 +32,7 @@ public class Statistic extends BaseEntity {
     @Column(name = "number_multi_player_losses")
     private int numberMultiPlayerLosses;
 
+    public void increaseNumberOfGames() {
+        this.numberGames+=1;
+    }
 }

@@ -59,10 +59,13 @@ public class UserService {
 
     @Transactional
     public void addUserGame(User user, UserGame userGame) {
+        user.getStatistic().increaseNumberOfGames();
         user.addMultiplayerGame(userGame);
     }
 
+    @Transactional
     public void addSingleplayerGame(User user, Singleplayer game) {
+        user.getStatistic().increaseNumberOfGames();
         user.addSingleplayerGame(game);
     }
 
