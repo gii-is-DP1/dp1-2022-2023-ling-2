@@ -35,8 +35,17 @@ public class AchievementServiceTest {
     }
 
     @Test
-    public void addAchievementWorks(){
-        // TODO
+    public void addAchievementWorks() throws InvalidAchievementNameExeption {
+        Achievement a = new Achievement();
+        a.setName("Test Achievement");
+        a.setDescription("An achievement for tests");
+        a.setConditions(Achievement.condits.MULTIPLAYER_AMOUNT);
+        a.setConditionAmounts(20);
+        this.aService.addAchievement(a);
+        assertThat(a.getName()).isEqualTo("Test Achievement");
+        assertThat(a.getDescription()).isEqualTo("An achievement for tests");
+        assertThat(a.getConditions()).isEqualTo(Achievement.condits.MULTIPLAYER_AMOUNT);
+        assertThat(a.getConditionAmounts()).isEqualTo(20);
     }
 
     @Test
