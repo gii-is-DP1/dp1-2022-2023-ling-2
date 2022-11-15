@@ -109,10 +109,11 @@
                 </table>
             </div>
         </div>
+    </c:if>
         <div style="height:250px; overflow:auto">
             <div>
                 <table class="table table-striped" style="float: left; width: 49%">
-                    <caption>Your Statistics</caption>
+                    <caption>Statistics</caption>
 
                     <thead>
                     <tr>
@@ -169,5 +170,4 @@
             </table>
         </div>
         </div>
-    </c:if>
 </endofline:layout>
