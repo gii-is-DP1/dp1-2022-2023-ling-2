@@ -125,7 +125,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${personal}" var="statistic">
                         <tr>
                             <td>
                                 <c:out value="${statistic.numberGames}"/>
@@ -143,7 +142,6 @@
                                 <c:out value="${statistic.numberMultiPlayerLosses}"/>
                             </td>
                         </tr>
-                    </c:forEach>
                     </tbody>
                 </table>
                 <table class="table table-striped" style="float: right; width: 49%">

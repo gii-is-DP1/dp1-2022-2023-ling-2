@@ -66,8 +66,7 @@ public class AchievementService {
     }
 
     @Transactional
-    public User calculateAchievementsForUser(User user, List<Statistic> personal, List<Achievement> allAchievements) {
-        Statistic stats = personal.get(0);
+    public User calculateAchievementsForUser(User user, Statistic stats, List<Achievement> allAchievements) {
         for(Achievement achievement: allAchievements){
             switch (achievement.getConditions()){
                 case MULTIPLAYER_AMOUNT -> {
