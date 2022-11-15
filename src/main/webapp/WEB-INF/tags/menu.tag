@@ -24,7 +24,7 @@
             <endofline:menuitem active="${name eq 'statistics'}" url="/statistics"
                                 title="statistics">
                 <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-                <span>Statistics</span>
+                <span>Leaderboards</span>
             </endofline:menuitem>
         </div>
         <div class="navbar-collapse collapse" id="main-navbar">
