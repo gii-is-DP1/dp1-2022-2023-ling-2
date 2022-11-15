@@ -109,12 +109,12 @@ public class UserController {
         List<Singleplayer> singleplayerGames = userService.getSingleplayerGames(username);
         mav.addObject("singleplayerGames", singleplayerGames);
 
-        List<Achievement> achievements = userService.getAllAchievementsOfUser(username);
-        mav.addObject("achievements", achievements);
-
         List<Statistic> personal = new ArrayList<>();
         personal.add(statisticService.getStatisticByUserId(user.getId()));
         mav.addObject("personal", personal);
+
+        List<Achievement> achievements = userService.getAllAchievementsOfUser(username);
+        mav.addObject("achievements", achievements);
 
         return mav;
     }
