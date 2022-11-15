@@ -113,6 +113,9 @@ public class UserController {
         personal.add(statisticService.getStatisticByUserId(user.getId()));
         mav.addObject("personal", personal);
 
+        List<Achievement> allAchievements = achievementService.getAllAchievements();
+        achievementService.calculateAchievementsForUser(user, personal, allAchievements);
+
         List<Achievement> achievements = userService.getAllAchievementsOfUser(username);
         mav.addObject("achievements", achievements);
 

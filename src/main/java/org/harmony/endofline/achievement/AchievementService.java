@@ -67,7 +67,7 @@ public class AchievementService {
         return false;
     }
     private boolean checkMultiplayerWins(Statistic stat, int amount){
-        return false;
+        return stat.getNumberMultiPlayerWins()>=amount;
     }
     private boolean checkSingleplayerWins(Statistic stat, int amount){
         return false;
@@ -77,4 +77,33 @@ public class AchievementService {
         return achievementRepository.findByName(achievementName);
     }
 
+    public void calculateAchievementsForUser(User user, List<Statistic> personal, List<Achievement> allAchievements) {
+        Statistic stats = personal.get(0);
+        for(Achievement achievement: allAchievements){
+            switch (achievement.getConditions()){
+                case MULTIPLAYER_AMOUNT -> {
+                    if (checkMultiplayerAmount(stats, achievement.getConditionAmounts()))
+                        user.addAchievement(achievement);
+                }
+                case MULTIPLAYER_WINS -> {
+                    if (checkMultiplayerWins(stats, achievement.getConditionAmounts()))
+                        user.addAchievement(achievement);
+                }
+                case MULTIPLAYER_CREATED -> {
+                    if (checkMultiplayerCreated(stats, achievement.getConditionAmounts()))
+                        user.addAchievement(achievement);
+                }
+                case SINGLEPLAYER_AMOUNT -> {
+                    if (checkSingleplayerAmount(stats, achievement.getConditionAmounts()))
+                        user.addAchievement(achievement);
+                }
+                case SINGLEPLAYER_WINS -> {
+                    if (checkSingleplayerWins(stats, achievement.getConditionAmounts()))
+                        user.addAchievement(achievement);
+                }
+                default -> {
+                }
+            }
+        }
+    }
 }
