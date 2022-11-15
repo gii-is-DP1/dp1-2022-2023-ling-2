@@ -24,6 +24,11 @@ public class AchievementController {
         this.achievementService = achievementService;
     }
 
+    @ModelAttribute("condition")
+    public List<Achievement.condits> getConditions() {
+        return Arrays.stream(Achievement.condits.values()).toList();
+    }
+
     @GetMapping("/new")
     public String getAchievementForm(Map<String, Object> model) {
         Achievement achievement = new Achievement();
