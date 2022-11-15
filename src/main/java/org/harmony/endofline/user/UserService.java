@@ -85,6 +85,6 @@ public class UserService {
     }
 
     public List<Achievement> getAllAchievementsOfUser(String username){
-        return achievementRepository.findByUsers(userRepository.findByUsername(username));
+        return userRepository.findAchievementsByUsername(username);
     }
 }

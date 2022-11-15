@@ -10,8 +10,6 @@ import java.util.List;
 
 public interface AchievementRepository extends CrudRepository<Achievement, Integer> {
 
-    List<Achievement> findByUsers(User user);
-
     @Query("SELECT achievement FROM Achievement achievement WHERE achievement.name =:achievementName")
     Achievement findByName(@Param("achievementName") String achievementName);
 

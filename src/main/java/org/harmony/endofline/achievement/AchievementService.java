@@ -77,16 +77,17 @@ public class AchievementService {
         return achievementRepository.findByName(achievementName);
     }
 
-    public void calculateAchievementsForUser(User user, List<Statistic> personal, List<Achievement> allAchievements) {
+    @Transactional
+    public User calculateAchievementsForUser(User user, List<Statistic> personal, List<Achievement> allAchievements) {
         Statistic stats = personal.get(0);
         for(Achievement achievement: allAchievements){
             switch (achievement.getConditions()){
                 case MULTIPLAYER_AMOUNT -> {
-                    if (checkMultiplayerAmount(stats, achievement.getConditionAmounts()))
+                    if (user.getMultiplayerGames().size() >= achievement.getConditionAmounts())
                         user.addAchievement(achievement);
                 }
                 case MULTIPLAYER_WINS -> {
-                    if (checkMultiplayerWins(stats, achievement.getConditionAmounts()))
+                    if (stats.getNumberMultiPlayerWins() >= achievement.getConditionAmounts())
                         user.addAchievement(achievement);
                 }
                 case MULTIPLAYER_CREATED -> {
@@ -94,16 +95,17 @@ public class AchievementService {
                         user.addAchievement(achievement);
                 }
                 case SINGLEPLAYER_AMOUNT -> {
-                    if (checkSingleplayerAmount(stats, achievement.getConditionAmounts()))
+                    if (user.getSingleplayerGames().size() >= achievement.getConditionAmounts())
                         user.addAchievement(achievement);
                 }
                 case SINGLEPLAYER_WINS -> {
-                    if (checkSingleplayerWins(stats, achievement.getConditionAmounts()))
+                    if (stats.getNumberSinglePlayerWins() >= achievement.getConditionAmounts())
                         user.addAchievement(achievement);
                 }
                 default -> {
                 }
             }
         }
+        return user;
     }
 }
