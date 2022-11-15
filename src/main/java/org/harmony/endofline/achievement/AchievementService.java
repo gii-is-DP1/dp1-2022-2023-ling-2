@@ -1,5 +1,6 @@
 package org.harmony.endofline.achievement;
 
+import org.harmony.endofline.statistic.Statistic;
 import org.harmony.endofline.statistic.StatisticService;
 import org.harmony.endofline.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,33 +54,23 @@ public class AchievementService {
         achievementRepository.deleteById(id);
     }
 
-    public boolean checkUserAchievementValid(User user, Achievement achievement){
-        return switch (achievement.getConditions()) {
-            case MULTIPLAYER_AMOUNT -> checkMultiplayerAmount(user, achievement.getConditionAmounts());
-            case MULTIPLAYER_CREATED -> checkMultiplayerCreated(user, achievement.getConditionAmounts());
-            case MULTIPLAYER_WINS -> checkMultiplayerWins(user, achievement.getConditionAmounts());
-            case SINGLEPLAYER_AMOUNT -> checkSingleplayerAmount(user, achievement.getConditionAmounts());
-            case SINGLEPLAYER_WINS -> checkSingleplayerWins(user, achievement.getConditionAmounts());
-        };
-    }
+
 
     //Achievement checks for User
-    private boolean checkMultiplayerAmount(User user, int amount){
-
-        return user.getMultiplayerGames().size() >= amount;
-    }
-    private boolean checkSingleplayerAmount(User user, int amount){
-        return user.getSingleplayerGames().size() >= amount;
-    }
-    private boolean checkMultiplayerCreated(User user, int amount){
+    private boolean checkMultiplayerAmount(Statistic stat, int amount){
         return false;
     }
-    private boolean checkMultiplayerWins(User user, int amount){
-
-        return statService.getStatisticByUserId(user.getId()).getNumberMultiPlayerWins() >= amount;
+    private boolean checkSingleplayerAmount(Statistic stat, int amount){
+        return false;
     }
-    private boolean checkSingleplayerWins(User user, int amount){
-        return statService.getStatisticByUserId(user.getId()).getNumberSinglePlayerWins() >= amount;
+    private boolean checkMultiplayerCreated(Statistic stat, int amount){
+        return false;
+    }
+    private boolean checkMultiplayerWins(Statistic stat, int amount){
+        return false;
+    }
+    private boolean checkSingleplayerWins(Statistic stat, int amount){
+        return false;
     }
 
     public Achievement findByName(String achievementName) {
