@@ -46,6 +46,7 @@ public class AchievementServiceTest {
         assertThat(a.getDescription()).isEqualTo("An achievement for tests");
         assertThat(a.getConditions()).isEqualTo(Achievement.condits.MULTIPLAYER_AMOUNT);
         assertThat(a.getConditionAmounts()).isEqualTo(20);
+        assertThat(this.aService.exists(a)).isEqualTo(true);
     }
 
     @Test
@@ -65,12 +66,24 @@ public class AchievementServiceTest {
         Integer id = a.getId();
         this.aService.updateAchievement(a, id);
         assertThat(a.getName()).isEqualTo("Changed name");
+        assertThat(this.aService.exists(a)).isEqualTo(true);
 
     }
 
     @Test
-    public void deleteAchievementWorks(){
-        // TODO
+    public void deleteAchievementWorks() throws InvalidAchievementNameExeption {
+        Achievement a = new Achievement();
+        a.setName("Test Achievement");
+        a.setDescription("An achievement for tests");
+        a.setConditions(Achievement.condits.MULTIPLAYER_AMOUNT);
+        a.setConditionAmounts(20);
+        this.aService.addAchievement(a);
+
+
+        this.aService.deleteAchievement(a.getName());
+        assertThat(this.aService.exists(a)).isEqualTo(false);
+
+
     }
 
     @Test
