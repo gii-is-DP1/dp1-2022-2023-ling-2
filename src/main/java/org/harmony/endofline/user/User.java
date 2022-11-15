@@ -43,7 +43,10 @@ public class User extends BaseEntity {
     @NotNull
     private Set<Singleplayer> singleplayerGames;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany
+    @JoinTable(name = "achievement_user",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "achievement_id"))
     private List<Achievement> achievements;
 
     public User(){

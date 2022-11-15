@@ -39,10 +39,7 @@ public class Achievement extends BaseEntity {
     @Min(value=1)
     private Integer conditionAmounts;
 
-    @JoinTable(name = "achievement_user",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "achievement_id"))
-    @ManyToMany
+    @ManyToMany(mappedBy = "achievements")
     List<User> users;
 
     public enum condits{
