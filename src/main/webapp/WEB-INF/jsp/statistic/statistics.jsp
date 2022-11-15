@@ -23,7 +23,7 @@
                     <c:forEach items="${single}" var="statistic">
                         <tr>
                             <td>
-                                <c:out value="${statistic.user.username}"/>
+                                <a href="/u/${statistic.user.username}">${statistic.user.username}</>
                             </td>
                             <td>
                                 <c:out value="${statistic.numberSinglePlayerWins}"/>
@@ -46,7 +46,7 @@
                     <c:forEach items="${multi}" var="statistic">
                         <tr>
                             <td>
-                                <c:out value="${statistic.user.username}"/>
+                                <a href="/u/${statistic.user.username}">${statistic.user.username}</>
                             </td>
                             <td>
                                 <c:out value="${statistic.numberMultiPlayerWins}"/>
