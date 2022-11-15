@@ -24,3 +24,7 @@ INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('T
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,2);
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (2,2);
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (3,2);
+
+INSERT INTO statistics(user_id, number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (1, 34, 10, 4, 7, 13);
+INSERT INTO statistics(user_id, number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (2, 42, 20, 9, 11, 2)
+

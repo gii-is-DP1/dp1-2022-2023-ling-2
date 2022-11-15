@@ -4,6 +4,8 @@ import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.achievement.AchievementRepository;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.singleplayer.Singleplayer;
+import org.harmony.endofline.statistic.Statistic;
+import org.harmony.endofline.statistic.StatisticService;
 import org.harmony.endofline.userGame.UserGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    @Autowired
+    private StatisticService statisticService;
 
     private final AchievementRepository achievementRepository;
     @Autowired
@@ -30,6 +35,8 @@ public class UserService {
 
     @Transactional
     public User createUser(User user) {
+        Statistic statistic = new Statistic();
+        statistic.setUser(user);
         return userRepository.save(user);
     }
 
