@@ -1,11 +1,14 @@
 package org.harmony.endofline.achievement;
 
+import org.harmony.endofline.user.UserService;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
+
+import javax.validation.ConstraintViolationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -15,6 +18,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class AchievementServiceTest {
     @Autowired
     AchievementService aService;
+
+    @Autowired
+    UserService uService;
 
     @Test
     public void shouldFindByName(){
@@ -81,21 +87,35 @@ public class AchievementServiceTest {
     }
 
     @Test
-    public void shouldValidateUserAchievement(){
+    public void shouldValidateUserAchievement() throws InvalidAchievementNameExeption {
        // TODO
        // user meets achievement criteria
+        Achievement a = new Achievement();
+        a.setName("Test Achievement");
+        a.setDescription("An achievement for tests");
+        a.setConditions(Achievement.condits.MULTIPLAYER_AMOUNT);
+        a.setConditionAmounts(20);
+        this.aService.addAchievement(a);
+
+
 
     }
 
     @Test
-    public void shouldNotValidateUserAchievement(){
+    public void shouldNotValidateUserAchievement() throws InvalidAchievementNameExeption {
        // TODO
        // user doesn't meet achievement criteria
+        Achievement a = new Achievement();
+        a.setName("Test Achievement");
+        a.setDescription("An achievement for tests");
+        a.setConditions(Achievement.condits.MULTIPLAYER_AMOUNT);
+        a.setConditionAmounts(20);
+        this.aService.addAchievement(a);
     }
 
     @Test
     public void updateAchievementNameTooLong() throws InvalidAchievementNameExeption {
-        // TODO
+        // Exception expected temporarily changed to ConstraintViolationException
         Achievement a = new Achievement();
         a.setName("Test Achievement");
         a.setDescription("An achievement for tests");
@@ -109,7 +129,7 @@ public class AchievementServiceTest {
             "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
             "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
         Integer id = a.getId();
-        assertThrows(InvalidAchievementNameExeption.class,
+        assertThrows(ConstraintViolationException.class,
             () -> {
                 this.aService.updateAchievement(a, id);
             });
@@ -118,7 +138,7 @@ public class AchievementServiceTest {
 
     @Test
     public void updateAchievementNameTooShort() throws InvalidAchievementNameExeption {
-        // TODO
+        // Exception expected temporarily changed to ConstraintViolationException
         Achievement a = new Achievement();
         a.setName("Test Achievement");
         a.setDescription("An achievement for tests");
@@ -128,7 +148,7 @@ public class AchievementServiceTest {
 
         a.setName("hi");
         Integer id = a.getId();
-        assertThrows(InvalidAchievementNameExeption.class,
+        assertThrows(ConstraintViolationException.class,
             () -> {
                 this.aService.updateAchievement(a, id);
             });
