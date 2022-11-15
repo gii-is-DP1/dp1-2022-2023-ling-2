@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -59,8 +60,9 @@ public class AchievementService {
     }
 
     // Achievement checks for User
-    private boolean checkMultiplayerCreated(Statistic stat, int amount){
-        return false;
+    private boolean checkMultiplayerCreated(User user, int amount){
+        Integer playerOneGames = Math.toIntExact(user.getMultiplayerGames().stream().filter(ug -> ug.getPlayer() == 1).count());
+        return playerOneGames >= amount;
     }
 
     @Transactional
@@ -77,7 +79,7 @@ public class AchievementService {
                         user.addAchievement(achievement);
                 }
                 case MULTIPLAYER_CREATED -> {
-                    if (checkMultiplayerCreated(stats, achievement.getConditionAmounts()))
+                    if (checkMultiplayerCreated(user, achievement.getConditionAmounts()))
                         user.addAchievement(achievement);
                 }
                 case SINGLEPLAYER_AMOUNT -> {
