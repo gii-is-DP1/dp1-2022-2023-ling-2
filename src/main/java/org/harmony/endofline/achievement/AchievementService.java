@@ -51,28 +51,14 @@ public class AchievementService {
     }
 
     public boolean checkUserAchievementValid(User user, Achievement achievement){
-        boolean result = true;
-            switch (achievement.getConditions()){
-                case MULTIPLAYER_AMOUNT:
-                    result = result && checkMultiplayerAmount(user,achievement.getConditionAmounts());
-                    break;
-                case MULTIPLAYER_CREATED:
-                    result = result && checkMultiplayerCreated(user,achievement.getConditionAmounts());
-                    break;
-                case MUlTIPLAYER_WINS:
-                    result = result && checkMultiplayerWins(user,achievement.getConditionAmounts());
-                    break;
-                case SINGLEPLAYER_AMOUNT:
-                    result = result && checkSingleplayerAmount(user,achievement.getConditionAmounts());
-                    break;
-                case SINGLEPLAYER_CREATED:
-                    result = result && checkSingleplayerCreated(user,achievement.getConditionAmounts());
-                    break;
-                case SINGLEPLAYER_WINS:
-                    result = result && checkSingleplayerWins(user,achievement.getConditionAmounts());
-                    break;
-            }
-        return result;
+        return switch (achievement.getConditions()) {
+            case MULTIPLAYER_AMOUNT -> checkMultiplayerAmount(user, achievement.getConditionAmounts());
+            case MULTIPLAYER_CREATED -> checkMultiplayerCreated(user, achievement.getConditionAmounts());
+            case MULTIPLAYER_WINS -> checkMultiplayerWins(user, achievement.getConditionAmounts());
+            case SINGLEPLAYER_AMOUNT -> checkSingleplayerAmount(user, achievement.getConditionAmounts());
+            case SINGLEPLAYER_CREATED -> checkSingleplayerCreated(user, achievement.getConditionAmounts());
+            case SINGLEPLAYER_WINS -> checkSingleplayerWins(user, achievement.getConditionAmounts());
+        };
     }
 
     //Achievement checks for User
