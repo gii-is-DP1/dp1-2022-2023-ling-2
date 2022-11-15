@@ -111,6 +111,7 @@
         </div>
     </c:if>
         <div style="height:250px; overflow:auto; float: left; width: 49%">
+            <br>
             <table class="table table-striped">
                 <caption>Statistics</caption>
 
@@ -145,6 +146,7 @@
             </table>
         </div>
         <div style="height:250px; overflow:auto; float: right; width: 49%">
+            <br>
             <table class="table table-striped">
             <caption> Achievements </caption>
             <thead>

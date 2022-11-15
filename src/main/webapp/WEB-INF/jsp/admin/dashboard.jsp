@@ -105,6 +105,7 @@
     </div>
     <div>
         <div style="height:500px; overflow:auto; float: left; width: 49%">
+            <br>
             <table class="table table-striped">
                 <caption>Users</caption>
                 <thead>
@@ -137,6 +138,7 @@
             </table>
         </div>
         <div style="height:500px; overflow:auto; float: right; width: 49%">
+            <br>
             <table class="table table-striped">
                 <caption>Achievements</caption>
                 <thead>
