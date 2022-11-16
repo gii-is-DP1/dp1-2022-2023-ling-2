@@ -1,14 +1,11 @@
 package org.harmony.endofline.achievement;
 
-import org.harmony.endofline.statistic.Statistic;
-import org.harmony.endofline.statistic.StatisticService;
 import org.harmony.endofline.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -16,8 +13,6 @@ public class AchievementService {
 
     @Autowired
     private AchievementRepository achievementRepository;
-    @Autowired
-    private StatisticService statService;
 
     @Transactional
     public void addAchievement(Achievement achievement) throws InvalidAchievementNameExeption {
@@ -55,44 +50,54 @@ public class AchievementService {
         achievementRepository.deleteById(id);
     }
 
+    public boolean checkUserAchievementValid(User user, Achievement achievement){
+        boolean result = true;
+            switch (achievement.getConditions()){
+                case MULTIPLAYER_AMOUNT:
+                    result = result && checkMultiplayerAmount(user,achievement.getConditionAmounts());
+                    break;
+                case MULTIPLAYER_CREATED:
+                    result = result && checkMultiplayerCreated(user,achievement.getConditionAmounts());
+                    break;
+                case MULTIPLAYER_WINS:
+                    result = result && checkMultiplayerWins(user,achievement.getConditionAmounts());
+                    break;
+                case SINGLEPLAYER_AMOUNT:
+                    result = result && checkSingleplayerAmount(user,achievement.getConditionAmounts());
+                    break;
+                case SINGLEPLAYER_CREATED:
+                    result = result && checkSingleplayerCreated(user,achievement.getConditionAmounts());
+                    break;
+                case SINGLEPLAYER_WINS:
+                    result = result && checkSingleplayerWins(user,achievement.getConditionAmounts());
+                    break;
+            }
+        return result;
+    }
+
+    //Achievement checks for User
+    private boolean checkMultiplayerAmount(User user, int amount){
+
+        return user.getMultiplayerGames().size() >= amount;
+    }
+    private boolean checkSingleplayerAmount(User user, int amount){
+        return user.getSingleplayerGames().size() >= amount;
+    }
+    private boolean checkMultiplayerCreated(User user, int amount){
+        return false;
+    }
+    private boolean checkSingleplayerCreated(User user, int amount){
+        return false;
+    }
+    private boolean checkMultiplayerWins(User user, int amount){
+        return false;
+    }
+    private boolean checkSingleplayerWins(User user, int amount){
+        return false;
+    }
+
     public Achievement findByName(String achievementName) {
         return achievementRepository.findByName(achievementName);
     }
 
-    // Achievement checks for User
-    private boolean checkMultiplayerCreated(User user, int amount){
-        Integer playerOneGames = Math.toIntExact(user.getMultiplayerGames().stream().filter(ug -> ug.getPlayer() == 1).count());
-        return playerOneGames >= amount;
-    }
-
-    @Transactional
-    public User calculateAchievementsForUser(User user, Statistic stats, List<Achievement> allAchievements) {
-        for(Achievement achievement: allAchievements) if (!user.getAchievements().contains(achievement)){
-            switch (achievement.getConditions()){
-                case MULTIPLAYER_AMOUNT -> {
-                    if (user.getMultiplayerGames().size() >= achievement.getConditionAmounts())
-                        user.addAchievement(achievement);
-                }
-                case MULTIPLAYER_WINS -> {
-                    if (stats.getNumberMultiPlayerWins() >= achievement.getConditionAmounts())
-                        user.addAchievement(achievement);
-                }
-                case MULTIPLAYER_CREATED -> {
-                    if (checkMultiplayerCreated(user, achievement.getConditionAmounts()))
-                        user.addAchievement(achievement);
-                }
-                case SINGLEPLAYER_AMOUNT -> {
-                    if (user.getSingleplayerGames().size() >= achievement.getConditionAmounts())
-                        user.addAchievement(achievement);
-                }
-                case SINGLEPLAYER_WINS -> {
-                    if (stats.getNumberSinglePlayerWins() >= achievement.getConditionAmounts())
-                        user.addAchievement(achievement);
-                }
-                default -> {
-                }
-            }
-        }
-        return user;
-    }
 }
