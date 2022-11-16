@@ -59,7 +59,7 @@ public class AchievementService {
                 case MULTIPLAYER_CREATED:
                     result = result && checkMultiplayerCreated(user,achievement.getConditionAmounts());
                     break;
-                case MUlTIPLAYER_WINS:
+                case MULTIPLAYER_WINS:
                     result = result && checkMultiplayerWins(user,achievement.getConditionAmounts());
                     break;
                 case SINGLEPLAYER_AMOUNT:
