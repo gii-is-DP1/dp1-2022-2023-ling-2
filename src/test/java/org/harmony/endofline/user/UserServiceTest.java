@@ -4,6 +4,7 @@ package org.harmony.endofline.user;
 import org.assertj.core.api.Assertions;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.singleplayer.Singleplayer;
+import org.harmony.endofline.userGame.UserGame;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -61,16 +63,20 @@ public class UserServiceTest {
 
     @Test
     public void updateUserWorks() {
-        User user = new User();
-        user.setUsername("username");
-        user.setEmail("username@localhost.com");
-        user.setPassword("password");
-        this.userService.createUser(user);
-        assertThat(user.getUsername()).isEqualTo("username");
+        User oldUser = new User();
+        oldUser.setUsername("username");
+        oldUser.setEmail("username@localhost.com");
+        oldUser.setPassword("password");
+        this.userService.createUser(oldUser);
+        assertThat(oldUser.getPassword()).isEqualTo("password");
 
-        user.setUsername("new-username");
-        this.userService.updateUser(user);
-        assertThat(user.getUsername()).isEqualTo("new-username");
+        User newUser = new User();
+        newUser.setUsername("username");
+        newUser.setEmail("username@localhost.com");
+        newUser.setPassword("new-password");
+        this.userService.updateUser(oldUser, newUser);
+        oldUser = this.userService.findByUsername(oldUser.getUsername());
+        assertThat(oldUser.getPassword()).isEqualTo("new-password");
     }
 
     @Test
@@ -81,35 +87,31 @@ public class UserServiceTest {
         user.setPassword("password");
         this.userService.createUser(user);
 
-        /* TODO getUser doesnt work with String/Id?
-        assertThat(this.userService.getUser("username")).isEqualTo(user);
-        this.userService.deleteUser("username");
-        assertThat(this.userService.getUser("username")).isEqualTo(null);
 
-        TODO deleteUser doesnt work either with String/Id?
         assertThat(this.userService.findByUsername("username")).isEqualTo(user);
-        this.userService.deleteUser("username");
-        assertThat(this.userService.findByUsername("username")).isEqualTo(null);
-*/
+        this.userService.deleteUser(user);
+        assertThat(this.userService.findByUsername("username")).isNull();
     }
 
     @Test
     public void addUserGameWorks() {
-
+        UserGame userGame = new UserGame();
+        User user = new User();
+        int userStats = user.getStatistic().getNumberGames();
+        this.userService.addUserGame(user, userGame);
+        int newUserStats = user.getStatistic().getNumberGames();
+        Set<UserGame> gameSet = user.getMultiplayerGames();
+        assertThat(gameSet.contains(userGame)).isTrue();
+        assertThat(newUserStats).isEqualTo(userStats+1);
     }
 
     @Test
     public void addSingleplayerGame() {
-
-    }
-
-    @Test
-    public void getMultiplayerGames() {
-
-    }
-
-    @Test
-    public void getSingleplayerGames() {
+        Singleplayer singleplayer = new Singleplayer();
+        User user = new User();
+        this.userService.addSingleplayerGame(user, singleplayer);
+        Set<Singleplayer> gameSet = user.getSingleplayerGames();
+        assertThat(gameSet.contains(singleplayer)).isTrue();
 
     }
 
