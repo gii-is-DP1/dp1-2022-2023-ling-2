@@ -41,9 +41,13 @@ class StatisticServiceTest {
 
     @Test
     void getLeaderBoardSingleWins() {
+        List<Statistic> stats = statisticService.getLeaderBoardSingleWins();
+        assertTrue(stats.get(0).getNumberSinglePlayerWins() >= stats.get(1).getNumberSinglePlayerWins());
     }
 
     @Test
     void getLeaderBoardMultiWins() {
+        List<Statistic> stats = statisticService.getLeaderBoardSingleWins();
+        assertTrue(stats.get(0).getNumberMultiPlayerWins()>= stats.get(1).getNumberMultiPlayerWins());
     }
 }
