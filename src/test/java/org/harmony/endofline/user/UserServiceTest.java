@@ -93,9 +93,12 @@ public class UserServiceTest {
     public void addUserGameWorks() {
         UserGame userGame = new UserGame();
         User user = new User();
+        int userStats = user.getStatistic().getNumberGames();
         this.userService.addUserGame(user, userGame);
+        int newUserStats = user.getStatistic().getNumberGames();
         Set<UserGame> gameSet = user.getMultiplayerGames();
         assertThat(gameSet.contains(userGame)).isTrue();
+        assertThat(newUserStats).isEqualTo(userStats+1);
     }
 
     @Test
