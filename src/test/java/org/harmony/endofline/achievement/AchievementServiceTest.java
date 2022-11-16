@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
@@ -80,7 +81,6 @@ public class AchievementServiceTest {
 
     @Test
     public void updateAchievementNameTooLong() throws InvalidAchievementNameExeption {
-        // Exception expected temporarily changed to ConstraintViolationException
         Achievement a = new Achievement();
         a.setName("Test Achievement");
         a.setDescription("An achievement for tests");
@@ -101,7 +101,6 @@ public class AchievementServiceTest {
 
     @Test
     public void updateAchievementNameTooShort() throws InvalidAchievementNameExeption {
-        // Exception expected temporarily changed to ConstraintViolationException
         Achievement a = new Achievement();
         a.setName("Test Achievement");
         a.setDescription("An achievement for tests");
@@ -112,6 +111,33 @@ public class AchievementServiceTest {
         a.setName("hi");
         Integer id = a.getId();
         assertThrows(ConstraintViolationException.class,
+            () -> this.aService.updateAchievement(a, id));
+    }
+
+    @Test
+    public void addAchievementNameTaken() throws InvalidAchievementNameExeption {
+        Achievement a = new Achievement();
+        a.setName("Winner");
+        a.setDescription("An achievement for tests");
+        a.setConditions(Achievement.condits.MULTIPLAYER_AMOUNT);
+        a.setConditionAmounts(20);
+
+        assertThrows(InvalidAchievementNameExeption.class,
+            () -> this.aService.addAchievement(a));
+    }
+
+    @Test
+    public void updateAchievementNameTaken() throws InvalidAchievementNameExeption {
+        Achievement a = new Achievement();
+        a.setName("Test Achievement");
+        a.setDescription("An achievement for tests");
+        a.setConditions(Achievement.condits.MULTIPLAYER_AMOUNT);
+        a.setConditionAmounts(20);
+        this.aService.addAchievement(a);
+
+        a.setName("Winner");
+        Integer id = a.getId();
+        assertThrows(DataIntegrityViolationException.class,
             () -> this.aService.updateAchievement(a, id));
     }
 }
