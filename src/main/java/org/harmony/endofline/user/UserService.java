@@ -80,6 +80,7 @@ public class UserService {
         return userRepository.findAchievementsByUsername(username);
     }
 
+    @Transactional
     public void updateUser(User olduser, User newuser) {
         olduser.setEmail(newuser.getEmail());
         olduser.setPassword(newuser.getPassword());
