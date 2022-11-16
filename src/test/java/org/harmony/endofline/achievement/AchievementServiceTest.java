@@ -1,6 +1,6 @@
 package org.harmony.endofline.achievement;
 
-import org.harmony.endofline.user.UserService;
+
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +10,10 @@ import org.springframework.stereotype.Service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class AchievementServiceTest {
     @Autowired
     AchievementService aService;
-
-    @Autowired
-    UserService uService;
 
     @Test
     public void shouldFindByName(){
@@ -65,7 +60,6 @@ public class AchievementServiceTest {
         this.aService.updateAchievement(a, id);
         assertThat(a.getName()).isEqualTo("Changed name");
         assertThat(this.aService.exists(a)).isEqualTo(true);
-
     }
 
     @Test
@@ -77,11 +71,8 @@ public class AchievementServiceTest {
         a.setConditionAmounts(20);
         this.aService.addAchievement(a);
 
-
         this.aService.deleteAchievement(a.getName());
         assertThat(this.aService.exists(a)).isEqualTo(false);
-
-
     }
 
 }
