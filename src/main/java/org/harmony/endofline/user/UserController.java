@@ -154,6 +154,10 @@ public class UserController {
         else {
             User oldUser = userService.findByUsername(username);
             user.setId(oldUser.getId());
+            user.setAchievements(oldUser.getAchievements());
+            user.setMultiplayerGames(oldUser.getMultiplayerGames());
+            user.setSingleplayerGames(oldUser.getSingleplayerGames());
+            user.setStatistic(oldUser.getStatistic());
             userService.updateUser(user);
             return "welcome";
         }
