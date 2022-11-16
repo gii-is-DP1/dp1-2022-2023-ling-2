@@ -4,6 +4,7 @@ package org.harmony.endofline.user;
 import org.assertj.core.api.Assertions;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.singleplayer.Singleplayer;
+import org.harmony.endofline.userGame.UserGame;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -81,35 +83,28 @@ public class UserServiceTest {
         user.setPassword("password");
         this.userService.createUser(user);
 
-        /* TODO getUser doesnt work with String/Id?
-        assertThat(this.userService.getUser("username")).isEqualTo(user);
-        this.userService.deleteUser("username");
-        assertThat(this.userService.getUser("username")).isEqualTo(null);
 
-        TODO deleteUser doesnt work either with String/Id?
         assertThat(this.userService.findByUsername("username")).isEqualTo(user);
-        this.userService.deleteUser("username");
-        assertThat(this.userService.findByUsername("username")).isEqualTo(null);
-*/
+        this.userService.deleteUser(user);
+        assertThat(this.userService.findByUsername("username")).isNull();
     }
 
     @Test
     public void addUserGameWorks() {
-
+        UserGame userGame = new UserGame();
+        User user = new User();
+        this.userService.addUserGame(user, userGame);
+        Set<UserGame> gameSet = user.getMultiplayerGames();
+        assertThat(gameSet.contains(userGame)).isTrue();
     }
 
     @Test
     public void addSingleplayerGame() {
-
-    }
-
-    @Test
-    public void getMultiplayerGames() {
-
-    }
-
-    @Test
-    public void getSingleplayerGames() {
+        Singleplayer singleplayer = new Singleplayer();
+        User user = new User();
+        this.userService.addSingleplayerGame(user, singleplayer);
+        Set<Singleplayer> gameSet = user.getSingleplayerGames();
+        assertThat(gameSet.contains(singleplayer)).isTrue();
 
     }
 
