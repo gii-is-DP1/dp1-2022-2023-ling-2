@@ -13,20 +13,12 @@ import java.util.Collection;
 @Service
 public class CardService {
 
-    private CardRepository cardRepository;
-
     @Autowired
-    public CardService(CardRepository cardRepository) {
-        this.cardRepository = cardRepository;
-    }
+    private CardRepository cardRepository;
 
     @Transactional
     public Collection<Card> findCards() throws DataAccessException {
         return cardRepository.findAll();
     }
 
-    @Transactional
-    public Card findCardById(int id) {
-        return cardRepository.findById(id);
-    }
 }

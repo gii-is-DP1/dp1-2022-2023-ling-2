@@ -26,8 +26,8 @@
     <br>
     <br>
     <c:if test="${private_info}">
-        <div>
-            <table class="table table-striped" style="float: left; width: 49%">
+        <div style="height:250px; overflow:auto; float: left; width: 49%">
+            <table class="table table-striped">
                 <caption>Multiplayer Games</caption>
                 <thead>
                 <tr>
@@ -68,7 +68,9 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <table class="table table-striped" style="float: right; width: 49%">
+        </div>
+        <div style="height:250px; overflow:auto; float: right; width: 49%">
+            <table class="table table-striped">
                 <caption>Singleplayer Games</caption>
                 <thead>
                 <tr>
@@ -106,28 +108,66 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <table class="table table-striped" style="float: right; width: 49%">
-                <caption> Achievements </caption>
+        </div>
+    </c:if>
+        <div style="height:250px; overflow:auto; float: left; width: 49%">
+            <br>
+            <table class="table table-striped">
+                <caption>Statistics</caption>
+
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
+                    <th>Total Games</th>
+                    <th>Singleplayer Wins</th>
+                    <th>Singleplayer Losses</th>
+                    <th>Multiplayer Wins</th>
+                    <th>Multiplayer Losses</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${achievements}" var="achievement">
                     <tr>
                         <td>
-                            <c:out value="${achievement.name}"/>
+                            <c:out value="${statistic.numberGames}"/>
                         </td>
                         <td>
-                            <c:out value="${achievement.description}"/>
+                            <c:out value="${statistic.numberSinglePlayerWins}"/>
                         </td>
-
+                        <td>
+                            <c:out value="${statistic.numberSinglePlayerLosses}"/>
+                        </td>
+                        <td>
+                            <c:out value="${statistic.numberMultiPlayerWins}"/>
+                        </td>
+                        <td>
+                            <c:out value="${statistic.numberMultiPlayerLosses}"/>
+                        </td>
                     </tr>
-                </c:forEach>
                 </tbody>
             </table>
         </div>
-    </c:if>
+        <div style="height:250px; overflow:auto; float: right; width: 49%">
+            <br>
+            <table class="table table-striped">
+            <caption> Achievements </caption>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${achievements}" var="achievement">
+                <tr>
+                    <td>
+                        <c:out value="${achievement.name}"/>
+                    </td>
+                    <td>
+                        <c:out value="${achievement.description}"/>
+                    </td>
+
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </endofline:layout>
