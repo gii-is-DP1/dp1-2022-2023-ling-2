@@ -36,11 +36,6 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUser(User user) {
-        return userRepository.save(user);
-    }
-
-    @Transactional
     public void deleteUser(User user) {
         userRepository.deleteByUsername(user.getUsername());
     }
@@ -83,5 +78,11 @@ public class UserService {
 
     public List<Achievement> getAllAchievementsOfUser(String username){
         return userRepository.findAchievementsByUsername(username);
+    }
+
+    public void updateUser(User olduser, User newuser) {
+        olduser.setEmail(newuser.getEmail());
+        olduser.setPassword(newuser.getPassword());
+        userRepository.save(olduser);
     }
 }

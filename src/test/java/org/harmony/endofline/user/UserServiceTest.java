@@ -63,16 +63,20 @@ public class UserServiceTest {
 
     @Test
     public void updateUserWorks() {
-        User user = new User();
-        user.setUsername("username");
-        user.setEmail("username@localhost.com");
-        user.setPassword("password");
-        this.userService.createUser(user);
-        assertThat(user.getUsername()).isEqualTo("username");
+        User oldUser = new User();
+        oldUser.setUsername("username");
+        oldUser.setEmail("username@localhost.com");
+        oldUser.setPassword("password");
+        this.userService.createUser(oldUser);
+        assertThat(oldUser.getPassword()).isEqualTo("password");
 
-        user.setUsername("new-username");
-        this.userService.updateUser(user);
-        assertThat(user.getUsername()).isEqualTo("new-username");
+        User newUser = new User();
+        newUser.setUsername("username");
+        newUser.setEmail("username@localhost.com");
+        newUser.setPassword("new-password");
+        this.userService.updateUser(oldUser, newUser);
+        oldUser = this.userService.findByUsername(oldUser.getUsername());
+        assertThat(oldUser.getPassword()).isEqualTo("new-password");
     }
 
     @Test

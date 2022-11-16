@@ -154,7 +154,7 @@ public class UserController {
         else {
             User oldUser = userService.findByUsername(username);
             user.setId(oldUser.getId());
-            userService.updateUser(user);
+            userService.updateUser(authenticatedUser, user);
             return "welcome";
         }
     }
