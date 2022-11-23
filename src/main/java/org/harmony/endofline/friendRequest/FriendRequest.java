@@ -36,6 +36,8 @@ public class FriendRequest extends BaseEntity {
     public FriendRequest(User sender, User receiver){
         this.sender = sender;
         this.receiver = receiver;
+        this.pending = true;
+        this.accepted = false;
     }
 
 }
