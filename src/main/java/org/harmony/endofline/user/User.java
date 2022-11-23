@@ -91,4 +91,7 @@ public class User extends BaseEntity {
         this.achievements.add(achievement);
     }
 
+    public void addFriend(User user) {
+        this.friends.add(user);
+    }
 }

@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -211,5 +212,20 @@ public class UserController {
         model.put("achievements", achievements);
 
         return VIEWS_DASHBOARD;
+    }
+
+    @GetMapping("/u/{username}/friends")
+    public String getFriends(@PathVariable String username, Map<String, Object> model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+
+        User user = this.userService.findByUsername(username);
+        // TODO check the authenticated user is the owner of the account
+
+        model.put("friends", userService.getFriends(user));
+        model.put("pending_received_requests", userService.getPendingReveivedRequests(user));
+        model.put("pending_sent_requests", userService.getPendingSentRequests(user));
+        // TODO Friends page
+        return "welcome";
     }
 }

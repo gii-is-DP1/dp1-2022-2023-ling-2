@@ -2,6 +2,7 @@ package org.harmony.endofline.user;
 
 import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.achievement.AchievementRepository;
+import org.harmony.endofline.friendRequest.FriendRequest;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.singleplayer.Singleplayer;
 import org.harmony.endofline.statistic.Statistic;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -89,5 +91,17 @@ public class UserService {
             olduser.setPassword(newuser.getPassword());
         }
         userRepository.save(olduser);
+    }
+
+    public List<User> getFriends(User user) {
+        return user.getFriends();
+    }
+
+    public List<FriendRequest> getPendingReveivedRequests(User user) {
+        return user.getReceivedRequests().stream().filter(e -> e.getPending()).collect(Collectors.toList());
+    }
+
+    public Object getPendingSentRequests(User user) {
+        return user.getSentRequests().stream().filter(e -> e.getPending()).collect(Collectors.toList());
     }
 }
