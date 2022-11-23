@@ -8,6 +8,24 @@ INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (
 INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (3,1,0,2,1); -- Card 3 right
 INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (4,2,0,1,1); -- Card 4
 INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (5,1,0,1,1); -- Card 5
+INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (6,0,0,0,0); -- Block card
+
+-- EASY DIFFICULTY (YELLOW)
+-- Puzzle 1
+INSERT INTO puzzles(difficulty) VALUES (0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (1,1,2,2,0);
+
+-- Puzzle 2
+INSERT INTO puzzles(difficulty) VALUES (0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (2,1,2,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (2,7,2,3,0);
+
+-- Puzzle 3
+INSERT INTO puzzles(difficulty) VALUES (0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (3,1,2,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (3,7,1,3,0);
+
+
 
 INSERT INTO statistics(number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (34, 10, 4, 7, 13);
 INSERT INTO statistics(number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (42, 20, 9, 11, 2);
