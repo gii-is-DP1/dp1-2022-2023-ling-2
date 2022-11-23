@@ -13,5 +13,4 @@ public interface StatisticRepository extends CrudRepository<Statistic, Integer> 
 
     @Query("SELECT stat FROM Statistic stat")
     List<Statistic> findAll();
-
 }

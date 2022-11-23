@@ -82,8 +82,12 @@ public class UserService {
 
     @Transactional
     public void updateUser(User olduser, User newuser) {
-        olduser.setEmail(newuser.getEmail());
-        olduser.setPassword(newuser.getPassword());
+        if (newuser.getEmail() != null && !newuser.getEmail().equals(olduser.getEmail())) {
+            olduser.setEmail(newuser.getEmail());
+        }
+        if (newuser.getPassword() != null && !newuser.getPassword().equals(olduser.getPassword())) {
+            olduser.setPassword(newuser.getPassword());
+        }
         userRepository.save(olduser);
     }
 }

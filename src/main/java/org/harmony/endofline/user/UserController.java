@@ -9,6 +9,8 @@ import org.harmony.endofline.singleplayer.Singleplayer;
 import org.harmony.endofline.singleplayer.SingleplayerService;
 import org.harmony.endofline.statistic.Statistic;
 import org.harmony.endofline.statistic.StatisticService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -130,6 +132,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
         model.put("user", user);
+        model.put("own", authenticatedUser.getUsername().equals(username));
         return VIEWS_USER_CREATE_UPDATE_FORM;
     }
 
@@ -137,24 +140,28 @@ public class UserController {
     public String processUpdateUserForm(@Valid User user, BindingResult result, @PathVariable("username") String username, Map<String, Object> model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User authenticatedUser = userService.findByUsername(auth.getName());
+        User oldUser = userService.findByUsername(username);
+        if (oldUser == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
         if (authenticatedUser==null || (!authenticatedUser.getUsername().equals(username) && !authenticatedUser.getIsAdmin())){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-        if (result.hasErrors()) {
+        if (result.hasFieldErrors("email") || (result.hasFieldErrors("password") && authenticatedUser.getUsername().equals(username))) {
             user.setId(userService.findByUsername(username).getId());
             model.put("user", user);
+            model.put("own", authenticatedUser.getUsername().equals(username));
             return VIEWS_USER_CREATE_UPDATE_FORM;
         }
         else if (userService.isEmailTaken(user.getEmail()) && !user.getEmail().equals(authenticatedUser.getEmail())) {
             result.rejectValue("email", "taken", "This email is already in use");
             user.setId(userService.findByUsername(username).getId());
             model.put("user", user);
+            model.put("own", authenticatedUser.getUsername().equals(username));
             return VIEWS_USER_CREATE_UPDATE_FORM;
         }
         else {
-            User oldUser = userService.findByUsername(username);
-            user.setId(oldUser.getId());
-            userService.updateUser(authenticatedUser, user);
+            userService.updateUser(oldUser, user);
             return "welcome";
         }
     }

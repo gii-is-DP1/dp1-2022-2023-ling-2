@@ -41,10 +41,7 @@ public class AchievementService {
     }
 
     private boolean checkNameIsValid(String name) {
-        if (!(achievementRepository.getByName(name)==null)) {
-            return false;
-        }
-        return true;
+        return achievementRepository.getByName(name) == null;
     }
     public List<Achievement> getAllAchievements(){
         return (List<Achievement>) achievementRepository.findAll();

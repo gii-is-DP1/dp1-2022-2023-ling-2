@@ -19,7 +19,7 @@
             <div class="form-group has-feedback">
                 <c:if test="${user['new']}"><endofline:inputField label="Username" name="username"/></c:if>
                 <endofline:inputField label="Mail" name="email"/>
-                <endofline:passwordInputField label="Password" name="password"/>
+                <c:if test="${own}"><endofline:passwordInputField label="Password" name="password"/></c:if>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
