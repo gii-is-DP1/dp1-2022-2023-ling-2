@@ -15,6 +15,10 @@
                 <form:form action="/u/${user.username}/edit" method="GET">
                     <input type="submit" class="btn margins-small" value="Edit"/>
                 </form:form>
+                <form:form action="/friendrequest/send" method="GET">
+                    <input type="hidden" name="receiver" value="${user}"/>
+                    <button class="btn btn-default" type="submit">Add friend</button>
+                </form:form>
                 <c:if test="${!admin}">
                     <form:form action="/u/${user.username}/delete" method="GET">
                         <input type="submit" class="btn btn-danger margins-small" value="Delete"/>
