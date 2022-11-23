@@ -46,6 +46,7 @@ public class FriendRequestService {
         fr.receiver.addFriend(fr.sender);
     }
 
+    @Transactional
     public void rejectRequest(FriendRequest fr) {
         fr.setPending(false);
         fr.setAccepted(false);
