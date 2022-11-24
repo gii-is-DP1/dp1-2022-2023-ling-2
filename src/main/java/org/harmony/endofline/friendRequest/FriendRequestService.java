@@ -30,7 +30,7 @@ public class FriendRequestService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not the receiver of this request");
     }
 
-    public FriendRequest findById(Integer friendRequestId) {
+    public FriendRequest findById(Integer friendRequestId) throws ResponseStatusException{
         FriendRequest res = friendRequestRepository.findById(friendRequestId).orElse(null);
         if (res==null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Friend Request not found");
@@ -51,4 +51,5 @@ public class FriendRequestService {
         fr.setPending(false);
         fr.setAccepted(false);
     }
+
 }
