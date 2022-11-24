@@ -31,7 +31,7 @@
                             <input type="submit" class="btn margins-small" value="Accept Friend Request"/>
                         </form:form>
                         <form:form action="/friendrequest/${friend_request.id}/reject" method="GET">
-                            <input type="submit" class="btn margins-small" value="Reject Friend Request"/>
+                            <input type="submit" class="btn btn-danger margins-small" value="Reject Friend Request"/>
                         </form:form>
                     </div>
                 </c:when>
