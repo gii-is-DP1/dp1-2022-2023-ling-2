@@ -438,6 +438,91 @@ INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (131,7,0,2,0);
 INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (131,7,1,1,0);
 INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (131,7,3,1,0);
 
+-- Puzzle 132
+INSERT INTO puzzles(difficulty) VALUES (2);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (132,1,2,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (132,7,1,3,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (132,7,3,1,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (132,7,4,1,0);
+
+-- Puzzle 133
+INSERT INTO puzzles(difficulty) VALUES (2);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (133,1,2,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (133,7,2,3,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (133,7,3,1,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (133,7,4,1,0);
+
+-- Puzzle 134
+INSERT INTO puzzles(difficulty) VALUES (2);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (134,1,2,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (134,7,2,3,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (134,7,0,1,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (134,7,1,1,0);
+
+-- Puzzle 135
+INSERT INTO puzzles(difficulty) VALUES (2);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (135,1,2,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (135,7,3,3,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (135,7,0,1,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (135,7,1,1,0);
+
+-- Puzzle 136
+INSERT INTO puzzles(difficulty) VALUES (2);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (136,1,2,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (136,7,3,1,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (136,7,4,0,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (136,7,3,3,0);
+
+-- Puzzle 137
+INSERT INTO puzzles(difficulty) VALUES (2);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (137,1,2,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (137,7,3,1,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (137,7,4,0,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (137,7,3,2,0);
+
+-- Puzzle 138
+INSERT INTO puzzles(difficulty) VALUES (2);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (138,1,2,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (138,7,0,0,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (138,7,1,1,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (138,7,1,2,0);
+
+-- Puzzle 139
+INSERT INTO puzzles(difficulty) VALUES (2);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (139,1,2,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (139,7,0,0,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (139,7,1,1,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (139,7,1,3,0);
+
+-- Puzzle 140
+INSERT INTO puzzles(difficulty) VALUES (2);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (140,1,2,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (140,7,1,1,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (140,7,3,1,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (140,7,4,0,0);
+
+-- Puzzle 141
+INSERT INTO puzzles(difficulty) VALUES (2);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (141,1,2,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (141,7,1,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (141,7,3,1,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (141,7,4,0,0);
+
+-- Puzzle 142
+INSERT INTO puzzles(difficulty) VALUES (2);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (142,1,2,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (142,7,0,0,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (142,7,1,1,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (142,7,3,2,0);
+
+-- Puzzle 143
+INSERT INTO puzzles(difficulty) VALUES (2);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (143,1,2,2,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (143,7,0,0,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (143,7,1,1,0);
+INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (143,7,3,1,0);
+
+
 INSERT INTO statistics(number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (34, 10, 4, 7, 13);
 INSERT INTO statistics(number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (42, 20, 9, 11, 2);
 
