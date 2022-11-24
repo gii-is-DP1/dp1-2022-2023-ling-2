@@ -241,7 +241,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Friendship does not exists");
 
         userService.removeFriendFromUser(authenticatedUser, friend);
-        return "redirect:/u/{username}/friends";
+        return "redirect:/u/"+authenticatedUser.getUsername()+"/friends";
     }
 
 }
