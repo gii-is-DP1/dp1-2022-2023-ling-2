@@ -37,6 +37,10 @@
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
                     <li><a href="<c:url value="/logout" />">Logout</a></li>
+                    <li><a href="/u/<sec:authentication property="name" />/friends">
+                        <span class="glyphicon glyphicon-heart-empty"></span>
+                        Friends
+                    </a></li>
                     <li><a href="/u/<sec:authentication property="name" />">
                         <span class="glyphicon glyphicon-user"></span>
                         <strong><sec:authentication property="name" /></strong>
