@@ -40,4 +40,7 @@ public class FriendRequest extends BaseEntity {
         this.accepted = false;
     }
 
+    public FriendRequest() {
+
+    }
 }
