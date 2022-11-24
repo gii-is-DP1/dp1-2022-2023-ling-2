@@ -31,8 +31,11 @@ public class FriendRequestController {
 
         User receiver = userService.findByUsername(username);
 
+        if (sender.equals(receiver))
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Cannot send a friend request to yourself");
+
         if (friendRequestService.findRequestByUsers(sender, receiver)!=null)
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Ongoing friend request with this user");
 
         friendRequestService.newRequest(sender, receiver);
 
