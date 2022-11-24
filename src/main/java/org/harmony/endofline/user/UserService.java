@@ -5,8 +5,6 @@ import org.harmony.endofline.achievement.AchievementRepository;
 import org.harmony.endofline.friendRequest.FriendRequest;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.singleplayer.Singleplayer;
-import org.harmony.endofline.statistic.Statistic;
-import org.harmony.endofline.statistic.StatisticService;
 import org.harmony.endofline.userGame.UserGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -104,5 +102,19 @@ public class UserService {
 
     public Object getPendingSentRequests(User user) {
         return user.getSentRequests().stream().filter(e -> e.getPending()).collect(Collectors.toList());
+    }
+
+    public Object getFriendStatus(User authenticatedUser, User user, FriendRequest fr) {
+        String res = "";
+        if (authenticatedUser.getFriends().contains(user))
+            res = "friend";
+        else if (fr==null)
+            res = "request";
+        else if (fr.getSender().equals(authenticatedUser))
+            res = "pending";
+        else if (fr.getReceiver().equals(authenticatedUser))
+            res = "accept";
+
+        return res;
     }
 }

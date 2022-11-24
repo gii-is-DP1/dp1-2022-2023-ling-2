@@ -1,20 +1,17 @@
 package org.harmony.endofline.user;
 
-import org.ehcache.core.spi.service.StatisticsService;
 import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.achievement.AchievementService;
+import org.harmony.endofline.friendRequest.FriendRequest;
+import org.harmony.endofline.friendRequest.FriendRequestService;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.singleplayer.Singleplayer;
 import org.harmony.endofline.singleplayer.SingleplayerService;
-import org.harmony.endofline.statistic.Statistic;
 import org.harmony.endofline.statistic.StatisticService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -24,7 +21,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,14 +37,16 @@ public class UserController {
     private final SingleplayerService singleplayerService;
     private final AchievementService achievementService;
     private final StatisticService statisticService;
+    private final FriendRequestService friendRequestService;
 
     @Autowired
-    public UserController(UserService us, MultiplayerService multiplayerService, SingleplayerService singleplayerService, AchievementService achievementService,StatisticService statisticService) {
+    public UserController(UserService us, MultiplayerService multiplayerService, SingleplayerService singleplayerService, AchievementService achievementService, StatisticService statisticService, FriendRequestService friendRequestService) {
         this.userService = us;
         this.multiplayerService = multiplayerService;
         this.singleplayerService = singleplayerService;
         this.achievementService = achievementService;
         this.statisticService = statisticService;
+        this.friendRequestService = friendRequestService;
     }
 
     @InitBinder
@@ -97,14 +95,15 @@ public class UserController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User authenticatedUser = userService.findByUsername(auth.getName());
-        mav.addObject(
-            "private_info",
-            user.getUsername().equals(authenticatedUser.getUsername()) || authenticatedUser.getIsAdmin()
-        );
-        mav.addObject(
-            "admin",
-            user.getIsAdmin()
-        );
+
+        mav.addObject("private_info", user.getUsername().equals(authenticatedUser.getUsername()) || authenticatedUser.getIsAdmin());
+        mav.addObject("admin", user.getIsAdmin());
+
+        mav.addObject("show_fr_button", !user.getUsername().equals(authenticatedUser.getUsername()));
+
+        FriendRequest fr = friendRequestService.findRequestByUsers(authenticatedUser, user);
+        mav.addObject("friend_request", fr);
+        mav.addObject("fr_status", userService.getFriendStatus(authenticatedUser, user, fr));
 
         List<Multiplayer> multiplayerGames = userService.getMultiplayerGames(username);
         mav.addObject("multiplayerGames", multiplayerGames);
