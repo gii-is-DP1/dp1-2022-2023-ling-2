@@ -52,4 +52,8 @@ public class FriendRequestService {
         fr.setAccepted(false);
     }
 
+    public FriendRequest findRequestByUsers(User sender, User receiver) {
+        return friendRequestRepository.findPendingPair(sender, receiver);
+    }
+
 }

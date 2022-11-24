@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface FriendRequestRepository extends CrudRepository<FriendRequest, Integer> {
 
-    @Query("SELECT fr FROM FriendRequest fr WHERE (fr.sender=:sender AND fr.receiver=:receiver) OR (fr.sender=:receiver AND fr.receiver=:sender)")
+    @Query("SELECT fr FROM FriendRequest fr WHERE fr.pending IS TRUE AND ((fr.sender=:sender AND fr.receiver=:receiver) OR (fr.sender=:receiver AND fr.receiver=:sender))")
     FriendRequest findPendingPair(User sender, User receiver);
 }

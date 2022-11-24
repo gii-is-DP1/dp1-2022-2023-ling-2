@@ -3,6 +3,7 @@ package org.harmony.endofline.friendRequest;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -30,9 +31,12 @@ public class FriendRequestController {
 
         User receiver = userService.findByUsername(username);
 
+        if (friendRequestService.findRequestByUsers(sender, receiver)!=null)
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
+
         friendRequestService.newRequest(sender, receiver);
 
-        return "redirect:/u/{username}/friends";
+        return "redirect:/u/{username}";
     }
 
     @GetMapping("/{id}/accept")
@@ -46,7 +50,7 @@ public class FriendRequestController {
 
         friendRequestService.acceptRequest(fr);
 
-        return "redirect:/u/{receiver.username}/friends";
+        return "redirect:/u/"+receiver.getUsername()+"/friends";
     }
 
     @GetMapping("/{id}/reject")
@@ -60,7 +64,7 @@ public class FriendRequestController {
 
         friendRequestService.rejectRequest(fr);
 
-        return "redirect:/u/{receiver.username}/friends";
+        return "redirect:/u/"+receiver.getUsername()+"/friends";
     }
 
 }
