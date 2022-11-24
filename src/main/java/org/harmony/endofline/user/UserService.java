@@ -117,4 +117,14 @@ public class UserService {
 
         return res;
     }
+
+    @Transactional
+    public void removeFriendFromUser(User user, User friend) {
+        user.removeFriend(friend);
+        friend.removeFriend(user);
+    }
+
+    public boolean isFriendFromUser(User user, User friend) {
+        return user.getFriends().contains(friend);
+    }
 }

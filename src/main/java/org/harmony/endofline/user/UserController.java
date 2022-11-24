@@ -227,4 +227,20 @@ public class UserController {
         // TODO Friends page
         return "welcome";
     }
+
+    @GetMapping("/removefriend/{username}")
+    public String removeFriend(@PathVariable("username") String username, Map<String, Object> model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+        User friend = this.userService.findByUsername(username);
+
+        if(friend==null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        if (!userService.isFriendFromUser(authenticatedUser, friend))
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Friendship does not exists");
+
+        userService.removeFriendFromUser(authenticatedUser, friend);
+        return "redirect:/u/{username}/friends";
+    }
+
 }

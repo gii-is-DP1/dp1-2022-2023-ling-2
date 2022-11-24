@@ -18,7 +18,9 @@
                     </form:form>
                 </c:when>
                 <c:when test="${fr_status.equals('friend')}">
-                    <h4>${user.username} is a friend of yours!</h4>
+                    <form:form action="/removefriend/${user.username}" method="GET">
+                        <input type="submit" class="btn btn-danger margins-small" value="Remove Friend"/>
+                    </form:form>
                 </c:when>
                 <c:when test="${fr_status.equals('pending')}">
                     <h4>A friend request has been sent</h4>

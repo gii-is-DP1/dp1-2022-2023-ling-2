@@ -94,4 +94,8 @@ public class User extends BaseEntity {
     public void addFriend(User user) {
         this.friends.add(user);
     }
+
+    public void removeFriend(User friend) {
+        this.friends.remove(friend);
+    }
 }
