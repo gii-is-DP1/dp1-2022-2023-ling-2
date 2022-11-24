@@ -96,7 +96,7 @@ public class UserService {
         return user.getFriends();
     }
 
-    public List<FriendRequest> getPendingReveivedRequests(User user) {
+    public List<FriendRequest> getPendingReceivedRequests(User user) {
         return user.getReceivedRequests().stream().filter(e -> e.getPending()).collect(Collectors.toList());
     }
 

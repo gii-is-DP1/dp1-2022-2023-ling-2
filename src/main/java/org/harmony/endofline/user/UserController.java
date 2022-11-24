@@ -29,7 +29,7 @@ public class UserController {
 
     private static final String VIEWS_USER_CREATE_UPDATE_FORM = "users/createOrUpdateUserForm";
     private static final String VIEWS_USER_DELETE_FORM = "users/deleteUserForm";
-    private static final String VIEWS_USER_GAMES_FORM = "users/viewUsersGames";
+    private static final String VIEWS_USER_FRIENDS = "users/friends";
     private static final String VIEWS_DASHBOARD = "admin/dashboard";
 
     private final UserService userService;
@@ -219,13 +219,14 @@ public class UserController {
         User authenticatedUser = userService.findByUsername(auth.getName());
 
         User user = this.userService.findByUsername(username);
-        // TODO check the authenticated user is the owner of the account
+        if (!user.equals(authenticatedUser))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 
         model.put("friends", userService.getFriends(user));
-        model.put("pending_received_requests", userService.getPendingReveivedRequests(user));
+        model.put("pending_received_requests", userService.getPendingReceivedRequests(user));
         model.put("pending_sent_requests", userService.getPendingSentRequests(user));
         // TODO Friends page
-        return "welcome";
+        return VIEWS_USER_FRIENDS;
     }
 
     @GetMapping("/removefriend/{username}")
