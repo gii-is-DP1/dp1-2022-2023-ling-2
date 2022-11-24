@@ -65,7 +65,7 @@ public class User extends BaseEntity {
     private List<FriendRequest> receivedRequests;
 
     @ManyToMany
-    private List<User> friends;
+    private Set<User> friends;
 
     public User(){
         this.isAdmin = Boolean.FALSE;
@@ -74,7 +74,7 @@ public class User extends BaseEntity {
         this.singleplayerGames = new HashSet<Singleplayer>();
         this.sentRequests = new ArrayList<FriendRequest>();
         this.receivedRequests = new ArrayList<FriendRequest>();
-        this.friends = new ArrayList<User>();
+        this.friends = new HashSet<User>();
         this.achievements = new ArrayList<Achievement>();
         this.statistic = new Statistic();
     }

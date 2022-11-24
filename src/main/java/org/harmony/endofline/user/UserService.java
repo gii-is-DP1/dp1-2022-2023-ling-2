@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -93,7 +94,7 @@ public class UserService {
         userRepository.save(olduser);
     }
 
-    public List<User> getFriends(User user) {
+    public Set<User> getFriends(User user) {
         return user.getFriends();
     }
 
