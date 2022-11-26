@@ -22,7 +22,7 @@ public class Singleplayer extends Game {
     @NotNull
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "puzzle_id")
     @NotNull
     private Puzzle puzzle;
