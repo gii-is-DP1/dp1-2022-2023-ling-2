@@ -24,7 +24,6 @@ public class Singleplayer extends Game {
 
     @ManyToOne
     @JoinColumn(name = "puzzle_id")
-    @NotNull
     private Puzzle puzzle;
 
     public Singleplayer(User user) {
