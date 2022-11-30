@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Map;
+
 @RequestMapping("/singleplayer")
 @Controller
 public class SingleplayerController {
 
+    private static final String VIEWS_SINGLEPLAYER_CREATE_FORM = "singleplayer/difficulty";
     private final SingleplayerService singleplayerService;
     private final UserService userService;
     private final BoardService boardService;
@@ -28,6 +31,11 @@ public class SingleplayerController {
         this.singleplayerService = singleplayerService;
         this.userService = userService;
         this.boardService = boardService;
+    }
+
+    @GetMapping("/create")
+    public String create(Map<String, Object> model) {
+        return VIEWS_SINGLEPLAYER_CREATE_FORM;
     }
 
     @PostMapping("/create")
