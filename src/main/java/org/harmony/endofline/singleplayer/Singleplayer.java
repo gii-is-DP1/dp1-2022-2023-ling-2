@@ -11,6 +11,7 @@ import org.harmony.endofline.user.User;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -33,6 +34,7 @@ public class Singleplayer extends Game {
 
     public Singleplayer(User user) {
         super(LocalDateTime.now());
+        this.gameCards = new ArrayList<GameCard>();
         this.user = user;
     }
 

@@ -17,13 +17,26 @@
         <c:out value="${game}"></c:out>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="center-horizontal">
             <endofline:board board="${board}">
                 <c:forEach items="${board.cards}" var="card">
                     <endofline:card size="100" card="${card}"/>
                 </c:forEach>
             </endofline:board>
         </div>
+        <div>
+            <endofline:handCard id="5" ></endofline:handCard>
+        </div>
+        <button onclick="javascript:highlightBoard();">Display</button>
     </div>
 </body>
 </html>
+<script>
+    let selectedCardId;
+
+    function updateSelectedCard(id){
+
+    }
+
+
+</script>

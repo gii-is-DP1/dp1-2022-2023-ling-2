@@ -3,6 +3,7 @@ package org.harmony.endofline.board;
 import lombok.Getter;
 import lombok.Setter;
 import org.harmony.endofline.card.Card;
+import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.model.BaseEntity;
 
 import javax.persistence.CascadeType;

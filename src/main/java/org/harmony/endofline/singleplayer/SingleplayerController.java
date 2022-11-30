@@ -2,6 +2,7 @@ package org.harmony.endofline.singleplayer;
 
 import org.harmony.endofline.board.Board;
 import org.harmony.endofline.board.BoardService;
+import org.harmony.endofline.puzzle.Difficulty;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
@@ -39,10 +37,11 @@ public class SingleplayerController {
     }
 
     @PostMapping("/create")
-    public ModelAndView createGame(ModelMap model){
+    public ModelAndView createGame(ModelMap model, @RequestAttribute Difficulty difficulty){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
         Singleplayer game = new Singleplayer(user);
+
         singleplayerService.save(game);
         userService.addSingleplayerGame(user, game);
         Integer id = game.getId();
@@ -58,8 +57,8 @@ public class SingleplayerController {
             ModelAndView result = new ModelAndView("SingleplayerBoard");
             result.addObject("game", game);
             result.addObject("board", boardService.findById(1).get());
-            result.addObject("cards", singleplayerService.getAllCardsInGame(id));
-            result.addObject("handCards", singleplayerService.getAllCardsInHand(id));
+            //result.addObject("cards", singleplayerService.getAllCardsInGame(id));
+            //result.addObject("handCards", singleplayerService.getAllCardsInHand(id));
             return result;
         }catch (InvalidIDException e){
             return new ModelAndView("welcome");
