@@ -23,19 +23,13 @@ public class GameCard extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private Integer gameID;
-
     private Boolean isMultiplayer;
+
+    private Boolean inHand;
 
     private Integer x;
 
     private Integer y;
 
     private Integer rotation;
-
-    private Boolean inHand;
-
-
-
-
 }

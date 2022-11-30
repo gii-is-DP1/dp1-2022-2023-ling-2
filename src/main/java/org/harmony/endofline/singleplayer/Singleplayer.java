@@ -28,7 +28,6 @@ public class Singleplayer extends Game {
     @JoinColumn(name = "puzzle_id")
     private Puzzle puzzle;
 
-
     @OneToMany
     private List<GameCard> gameCards;
 
@@ -40,8 +39,4 @@ public class Singleplayer extends Game {
     public Singleplayer() {
         super(LocalDateTime.now());
     }
-
-    // TODO many to many relation with line cards (Association class)
-    // TODO one to many relation with Users (User foreign key here)
-
 }
