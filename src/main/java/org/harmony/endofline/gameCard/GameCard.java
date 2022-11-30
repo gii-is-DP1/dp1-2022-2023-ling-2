@@ -65,7 +65,7 @@ public class GameCard extends BaseEntity {
         return res;
     }
 
-    private List<Side> getRotatedSides() {
+    public List<Side> getRotatedSides() {
         List<Side> sidesRotated = null;
         switch (rotation){
             case 0 -> sidesRotated = List.of(this.card.getUp(), this.card.getRight(), this.card.getDown(), this.card.getLeft());
