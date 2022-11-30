@@ -17,16 +17,14 @@ import java.util.List;
 @Getter
 @Setter
 public class Board extends BaseEntity {
-    String background;
     @Positive
     int width;
     @Positive
     int height;
 
     public Board(){
-        this.background="resources/images/tablero-ajedrez.jpg";
-        this.width=800;
-        this.height=800;
+        this.width=5;
+        this.height=5;
     }
 
 }

@@ -7,52 +7,44 @@
 <canvas id="canvas" width="${board.width}" height="${board.height}"></canvas>
 <img id="source" src="<spring:url value="/resources/images/backgroundSingleplayer.png" htmlEscape="true"/>" style="display:none">
 <img id="highlight" src="<spring:url value="/resources/images/highlightedTile.png" htmlEscape="true"/>" style="display:none">
-<script>
-function drawBoard(){
-    console.log("loaded Board");
-    var canvas = document.getElementById("canvas");
-    var ctx = canvas.getContext("2d");
-    var image = document.getElementById('source');
-    ctx.drawImage(image, 0, 0, ${board.width}, ${board.height});
 
-    const highlight = document.createElement("img");
-    highlight.src = "<spring:url value="/resources/images/highlightedTile.png" htmlEscape="true"/>";
-    highlight.onclick = ""
-    canvas.appendChild(highlight);
-    <jsp:doBody/>
+<div style="display: flex;flex-direction: row;">
+<c:forEach var = "i" begin = "0" end = "${board.width}">
+    <div style="display: flex;flex-direction: column;">
+        <c:forEach var = "j" begin = "0" end = "${board.height}">
+            <div id="tile${i}${j}" class="tile" onclick="selectTile(${i},${j})">
+            </div>
+        </c:forEach>
+    </div>
+</c:forEach>
+</div>
+<script>
+
+function selectTile(x,y){
+      console.log(x +", " +y);
 }
+
 function highlightBoard(b){
     console.log("marked squares");
     const x1 = 3;
     const y1 = 3;
-
-    const x2 = 1;
-    const y2 = 4;
-
-    const cardHeight = ${board.width}/5;
-    console.log(cardHeight);
-
-    const x1_pixelCoordinates = x1 * cardHeight;
-    const y1_pixelCoordinates = y1 * cardHeight;
-    const x2_pixelCoordinates = x2 * cardHeight;
-    const y2_pixelCoordinates = y2 * cardHeight;
-    console.log(x1_pixelCoordinates);
-
-
-
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    const image = document.getElementById('highlight');
-    if(b) {
-
-        //ctx.drawImage(image, x1_pixelCoordinates, y1_pixelCoordinates, cardHeight, cardHeight);
-        //ctx.drawImage(image, x2_pixelCoordinates, y2_pixelCoordinates, cardHeight, cardHeight);
+    if(b){
+        let highlighted1 = document.getElementById(("tile"+x1)+y1);
+        highlighted1.style.backgroundColor = "#000000"
     }else{
-        var image1 = document.getElementById('source');
-        ctx.drawImage(image1, 0, 0, ${board.width}, ${board.height});
-        <jsp:doBody/>
+        let highlighted1 = document.getElementById(("tile"+x1)+y1);
+        highlighted1.style.backgroundColor = "#03a9f4"
     }
-
 }
-window.onload =drawBoard();
 </script>
+<style>
+    .tile{
+        border: 5px solid black;
+        border: black;
+        height: 50px;
+        width: 50px;
+        border-radius: 15px;
+        margin: 5px;
+        background-color: #03a9f4;
+    }
+</style>

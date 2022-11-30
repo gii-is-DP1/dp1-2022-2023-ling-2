@@ -5,22 +5,25 @@
               description="Card to show" %>
 
 <div>
-    <img id="testcard" src="<spring:url value="/resources/images/highlightedTile.png" htmlEscape="true"/>" onclick="clicked(event)">
-
+    <img id="testcard${id}" src="<spring:url value="/resources/images/highlightedTile.png" htmlEscape="true"/>" onclick="clicked(event,${id})">
 </div>
 <script>
     let selected = false;
 
-    function clicked(ev) {
+    function clicked(ev, clickedId) {
         console.log("selected");
         selected = !selected;
-        if(!selected){
-            document.getElementById("testcard").style.height = "500px";
+        let h = document.getElementById("testcard"+clickedId).offsetHeight;
+        console.log(h)
+
+        if(selected){
+            document.getElementById("testcard"+clickedId).style.height = (h*1.1).toString()+"px";
+            updateSelectedCard(clickedId);
             highlightBoard(true)
         }else{
-            document.getElementById("testcard").style.height = "50px";
+            document.getElementById("testcard"+clickedId).style.height = (h*0.9090909).toString()+"px";
+            updateSelectedCard(-1);
             highlightBoard(false)
-
         }
     }
 </script>
