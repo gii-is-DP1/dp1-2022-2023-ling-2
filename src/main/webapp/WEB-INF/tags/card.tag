@@ -1,6 +1,6 @@
 <%@ attribute name="size" required="true" rtexprvalue="true" 
  description="Size of the card to show" %>
- <%@ attribute name="card" required="true" rtexprvalue="true" type="org.harmony.endofline.board.BoardCard"
+ <%@ attribute name="card" required="true" rtexprvalue="true" type="org.harmony.endofline.gameCard.GameCard"
  description="Card to be rendered" %>
  
  image = document.getElementById('${piece.type}-${piece.color}');
