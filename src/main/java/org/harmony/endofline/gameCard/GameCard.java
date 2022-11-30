@@ -13,7 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -45,17 +47,18 @@ public class GameCard extends BaseEntity {
     private Boolean inHand;
 
 
-    public List<List<Integer>> getExitPositions(Integer boardDimensions) {
-        List<List<Integer>> res = new ArrayList<>();
+    public Map<String, List<Integer>> getExitPositions(Integer boardDimensions) {
+        // Calculates the necessary entry position and coordinates for the next card based on the card's exits
+        Map<String, List<Integer>> res = new HashMap<>();
         List<Side> sidesRotated = getRotatedSides();
         for(int i=0; i<sidesRotated.size(); i++){
             Side side = sidesRotated.get(i);
             if(side.equals(Side.EXIT)){
                 switch (i){
-                    case 0 -> res.add(List.of(x, (y-1)%boardDimensions));
-                    case 1 -> res.add(List.of((x+1)%boardDimensions, y));
-                    case 2 -> res.add(List.of(x, (y+1)%boardDimensions));
-                    case 3 -> res.add(List.of((x-1)%boardDimensions, y));
+                    case 0 -> res.put("down", List.of(x, (y-1)%boardDimensions));
+                    case 1 -> res.put("left", List.of((x+1)%boardDimensions, y));
+                    case 2 -> res.put("up", List.of(x, (y+1)%boardDimensions));
+                    case 3 -> res.put("right", List.of((x-1)%boardDimensions, y));
                 }
             }
         }
