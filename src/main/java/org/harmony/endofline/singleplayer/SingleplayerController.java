@@ -1,7 +1,7 @@
 package org.harmony.endofline.singleplayer;
 
-import org.harmony.endofline.board.Board;
 import org.harmony.endofline.board.BoardService;
+import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.puzzle.Difficulty;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/singleplayer")
@@ -20,6 +21,7 @@ import java.util.Map;
 public class SingleplayerController {
 
     private static final String VIEWS_SINGLEPLAYER_CREATE_FORM = "singleplayer/difficulty";
+    private static final String VIEWS_SINGLEPLAYER_BOARD = "SingleplayerBoard";
     private final SingleplayerService singleplayerService;
     private final UserService userService;
     private final BoardService boardService;
@@ -50,18 +52,33 @@ public class SingleplayerController {
     }
 
     @GetMapping("/{id}")
-    public ModelAndView showGame(@PathVariable("id") Integer id){
+    public String showGame(@PathVariable("id") Integer id, Map<String, Object> model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         try {
             Singleplayer game = singleplayerService.findByID(id);
-            ModelAndView result = new ModelAndView("SingleplayerBoard");
-            result.addObject("game", game);
-            result.addObject("board", boardService.findById(1).get());
-            //result.addObject("cards", singleplayerService.getAllCardsInGame(id));
+
+            model.put("game", game);
+            model.put("board", boardService.findById(1).get());
+            //result.addObject("cards", singleplayerService.getAllCardsInBoard(id));
             //result.addObject("handCards", singleplayerService.getAllCardsInHand(id));
-            return result;
+            return VIEWS_SINGLEPLAYER_BOARD;
         }catch (InvalidIDException e){
-            return new ModelAndView("welcome");
+            return "welcome";
+        }
+    }
+
+    @PostMapping("/{id}")
+    public String moveCard(@PathVariable("id") Integer id, @RequestParam("gcid") Integer gameCardId, @RequestParam("rotation") Integer rotation, @RequestParam("x") Integer x, @RequestParam("y") Integer y){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            List<GameCard> boardCards = singleplayerService.getAllCardsInBoard(id);
+            GameCard cardToMove = boardCards.stream().filter(c -> c.getId()==gameCardId).findAny().get();
+
+            singleplayerService.moveCard(id, boardCards, cardToMove, x, y);
+
+            return "redirect:/singleplayer/"+id;
+        }catch (InvalidIDException e){
+            return "welcome";
         }
     }
 }
