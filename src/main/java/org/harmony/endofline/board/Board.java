@@ -28,6 +28,4 @@ public class Board extends BaseEntity {
         this.height=800;
     }
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "board",fetch = FetchType.EAGER)
-    List<BoardCard> cards;
 }
