@@ -9,6 +9,8 @@ import org.harmony.endofline.user.User;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Getter
 @Setter
@@ -27,10 +29,14 @@ public class GameCard extends BaseEntity {
 
     private Boolean isMultiplayer;
 
+    @Min(0)
     private Integer x;
 
+    @Min(0)
     private Integer y;
 
+    @Min(0)
+    @Max(3)
     private Integer rotation;
 
     private Boolean inHand;
