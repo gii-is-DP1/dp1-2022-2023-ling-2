@@ -945,6 +945,18 @@ INSERT INTO multiplayer_games(date_ended, date_started, p1energy_left, p2energy_
 INSERT INTO usergames(user_id, game_id, player, role) VALUES (1, 1, 1, 'player');
 INSERT INTO usergames(user_id, game_id, player, role) VALUES (2, 1, 2, 'player');
 INSERT INTO singleplayer_game(date_ended, date_started, user_id, puzzle_id) VALUES (null, '2022-11-09 11:08:21.139157', 1, 1);
+INSERT INTO game_card(card_id, user_id, gameid, in_hand, is_multiplayer, rotation, x, y) VALUES
+                                                                                            (1, 2, 1, true, false, 0, null, null),
+                                                                                            (1, 2, 1, true, false, 0, null, null),
+                                                                                            (1, 2, 1, true, false, 0, null, null),
+                                                                                            (1, 2, 1, true, false, 0, null, null),
+                                                                                            (1, 2, 1, true, false, 0, null, null);
+
+INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES (1, 1),
+                                                                                (1, 2),
+                                                                                (1, 3),
+                                                                                (1, 4),
+                                                                                (1, 5);
 
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('Winner','Win one Game', 1, 1);
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('TEST admin 2','Win one Game', 3, 50);
