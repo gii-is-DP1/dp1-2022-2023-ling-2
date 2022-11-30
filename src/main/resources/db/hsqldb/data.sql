@@ -544,5 +544,6 @@ INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,1);
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,2);
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,3);
 
-INSERT INTO board(id,background,height,width) VALUES (1,'resources/images/Background.png',560 ,560);
+INSERT INTO board(id,background,height,width) VALUES (1,'resources/images/backgroundSingleplayer.png',560 ,560);
+INSERT INTO board(id,background,height,width) VALUES (2,'resources/images/Background.png',560 ,560);
 

@@ -1,5 +1,6 @@
 package org.harmony.endofline.singleplayer;
 
+import org.harmony.endofline.gameCard.GameCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,13 @@ public class SingleplayerService {
         }else{
             throw new InvalidIDException();
         }
+    }
+
+    public List<GameCard> getAllCardsInGame(Integer id){
+        return singleplayerRepository.FindAllGameCards(id).stream().filter(c -> !c.getInHand()).toList();
+    }
+    public List<GameCard> getAllCardsInHand(Integer id){
+        var a = singleplayerRepository.FindAllGameCards(id).stream().filter(c -> c.getInHand()).toList();
+        return a;
     }
 }

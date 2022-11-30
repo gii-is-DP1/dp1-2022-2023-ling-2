@@ -50,6 +50,8 @@ public class SingleplayerController {
             ModelAndView result = new ModelAndView("SingleplayerBoard");
             result.addObject("game", game);
             result.addObject("board", boardService.findById(1).get());
+            result.addObject("cards", singleplayerService.getAllCardsInGame(id));
+            result.addObject("handCards", singleplayerService.getAllCardsInHand(id));
             return result;
         }catch (InvalidIDException e){
             return new ModelAndView("welcome");
