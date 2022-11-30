@@ -29,12 +29,8 @@ public class Singleplayer extends Game {
     @JoinColumn(name = "puzzle_id")
     private Puzzle puzzle;
 
-    @OneToMany
-    private List<GameCard> gameCards;
-
     public Singleplayer(User user) {
         super(LocalDateTime.now());
-        this.gameCards = new ArrayList<GameCard>();
         this.user = user;
     }
 
