@@ -36,3 +36,43 @@
 .margins-small {
   margin: 1em;
 }
+
+.board {
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+    width: 50%;
+    aspect-ratio: 1 / 1;
+}
+
+.row {
+  flex-grow: 1;
+  display: flex;
+}
+
+.card {
+  flex-grow: 1;
+  border: darkgrey solid 2px;
+  border-radius: 10px;
+  width: auto;
+  aspect-ratio: 1 / 1;
+  margin: 0.2em;
+}
+
+.deck {
+  flex-grow: 1;
+  border: darkgrey solid 2px;
+  border-radius: 10px;
+  width: auto;
+  aspect-ratio: 1 / 1;
+  margin: 0.2em;
+  background-color: darkgrey;
+}
+
+.hand {
+    display: flex;
+    flex-direction: row;
+    margin: 1em;
+    width: 50%;
+    height: 15%;
+}

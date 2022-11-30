@@ -4,7 +4,6 @@
               description="Card to be rendered" %>
 
 
-<div class="card">
+<div class="deck">
 
 </div>
-
