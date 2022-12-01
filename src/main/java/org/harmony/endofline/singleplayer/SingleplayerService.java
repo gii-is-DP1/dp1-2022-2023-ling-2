@@ -5,6 +5,7 @@ import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.gameCard.GameCardRepository;
 import org.harmony.endofline.puzzle.PuzzleRepository;
 import org.harmony.endofline.puzzleCards.PuzzleCards;
+import org.harmony.endofline.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,10 @@ public class SingleplayerService {
         }else{
             throw new InvalidIDException();
         }
+    }
+
+    public boolean isGameFromUser(Integer gameId, User user){
+        return singleplayerRepository.FindUserSingleplayerGame(user, gameId).size()>0;
     }
 
     public List<GameCard> getAllCardsInBoard(Integer id){

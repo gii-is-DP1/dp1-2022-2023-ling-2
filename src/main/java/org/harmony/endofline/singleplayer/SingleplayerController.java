@@ -8,11 +8,13 @@ import org.harmony.endofline.puzzle.PuzzleService;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -61,6 +63,9 @@ public class SingleplayerController {
     @GetMapping("/{id}")
     public String showGame(@PathVariable("id") Integer id, Map<String, Object> model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(auth.getName());
+        if (!singleplayerService.isGameFromUser(id, user))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         try {
             Singleplayer game = singleplayerService.findByID(id);
 
@@ -80,6 +85,9 @@ public class SingleplayerController {
     @PostMapping("/{id}/place")
     public String placeCard(@PathVariable("id") Integer id, @RequestParam("gcid") Integer gameCardId, @RequestParam("rotation") Integer rotation, @RequestParam("x") Integer x, @RequestParam("y") Integer y){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(auth.getName());
+        if (!singleplayerService.isGameFromUser(id, user))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         try {
             List<GameCard> boardCards = singleplayerService.getAllCardsInBoard(id);
 
