@@ -2,17 +2,15 @@ package org.harmony.endofline.singleplayer;
 
 import org.harmony.endofline.card.Side;
 import org.harmony.endofline.gameCard.GameCard;
+import org.harmony.endofline.gameCard.GameCardRepository;
 import org.harmony.endofline.puzzle.PuzzleRepository;
 import org.harmony.endofline.puzzleCards.PuzzleCards;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SingleplayerService {
@@ -21,6 +19,8 @@ public class SingleplayerService {
     private SingleplayerRepository singleplayerRepository;
     @Autowired
     private PuzzleRepository puzzleRepository;
+    @Autowired
+    private GameCardRepository gameCardRepository;
 
     @Transactional
     public void save(Singleplayer game) {
@@ -49,40 +49,48 @@ public class SingleplayerService {
     }
 
     @Transactional
-    public void moveCard(Integer id, List<GameCard> cards, GameCard cardToMove, Integer x, Integer y) throws InvalidIDException {
+    public void moveCard(Integer id, List<GameCard> cardsOnBoard, Integer cardToMoveId, Integer rotation, Integer x, Integer y) throws InvalidIDException {
         List<Integer> futurePosition = List.of(x, y);
-        List<List<Integer>> validPositions = getValidPositions(id, cards, cardToMove);
+        List<List<Integer>> validPositions = new ArrayList<>();
+        Singleplayer game = findByID(id);
+        GameCard cardToMove = gameCardRepository.findById(cardToMoveId).orElse(null);
+        if (cardToMove!=null && cardToMove.getInHand())
+            validPositions = getValidPositions(game, cardsOnBoard, cardToMove, rotation);
 
         if (validPositions.contains(futurePosition)) {
             cardToMove.setX(x);
             cardToMove.setY(y);
             cardToMove.setInHand(false);
+            game.setLastPlacedCard(cardToMove);
         }
     }
 
-    private List<List<Integer>> getValidPositions(Integer id, List<GameCard> cards, GameCard cardToMove) throws InvalidIDException {
-        Singleplayer game = findByID(id);
-        // TODO GameCard lastCard = game.getLastPlacedCard()
-        GameCard lastCard = null;
+    private List<List<Integer>> getValidPositions(Singleplayer game, List<GameCard> cardsOnBoard, GameCard cardToMove, Integer rotation) throws InvalidIDException {
+        GameCard lastCard = game.getLastPlacedCard();
 
         // TODO normalize board dimesions
-        Map<String, List<Integer>> requiredEntryForExit = lastCard.getExitPositions(5);
+        Map<String, List<Integer>> requiredEntryForExit = new HashMap<>();
+        if (lastCard==null){
+            requiredEntryForExit.put("down", List.of((5-1)/2, (5-1)/2-1));
 
-        List<List<Integer>> lastCardExitPositions = (List<List<Integer>>) requiredEntryForExit.values();
+        } else {
+            requiredEntryForExit = lastCard.getExitPositions(5);
+        }
+
+        List<List<Integer>> lastCardExitPositions = requiredEntryForExit.values().stream().toList();
         List<PuzzleCards> puzzleCards = puzzleRepository.findCardsOfPuzzle(game.getPuzzle().getId());
 
-        List<List<Integer>> occupiedPositions = cards.stream().map(c -> List.of(c.getX(), c.getY())).toList();
+        List<List<Integer>> occupiedPositions = cardsOnBoard.stream().map(c -> List.of(c.getX(), c.getY())).collect(Collectors.toList());
         occupiedPositions.addAll(puzzleCards.stream().map(c -> List.of(c.getX(), c.getY())).toList());
 
         List<List<Integer>> availablePositions = lastCardExitPositions.stream().filter(p -> !occupiedPositions.contains(p)).toList();
 
-        List<Side> cardToMoveSides = cardToMove.getRotatedSides();
+        List<Side> cardToMoveSides = cardToMove.getRotatedSides(rotation);
 
         List<List<Integer>> validPositions = cleanAvailablePositionsUsingCardToMove(requiredEntryForExit, availablePositions, cardToMoveSides);
 
         return validPositions;
-    }
-
+}
     private static List<List<Integer>> cleanAvailablePositionsUsingCardToMove(Map<String, List<Integer>> requiredEntryForExit, List<List<Integer>> availablePositions, List<Side> cardToMoveSides) {
         List<List<Integer>> res = new ArrayList<>();
         for(int i = 0; i< cardToMoveSides.size(); i++){
@@ -90,20 +98,20 @@ public class SingleplayerService {
             if(side.equals(Side.ENTRY)){
                 switch (i){
                     case 0 -> {
-                        if (availablePositions.contains(requiredEntryForExit.get("down")))
-                            res.add(requiredEntryForExit.get("down"));
-                    }
-                    case 1 -> {
-                        if (availablePositions.contains(requiredEntryForExit.get("left")))
-                            res.add(requiredEntryForExit.get("left"));
-                    }
-                    case 2 -> {
                         if (availablePositions.contains(requiredEntryForExit.get("up")))
                             res.add(requiredEntryForExit.get("up"));
                     }
-                    case 3 -> {
+                    case 1 -> {
                         if (availablePositions.contains(requiredEntryForExit.get("right")))
                             res.add(requiredEntryForExit.get("right"));
+                    }
+                    case 2 -> {
+                        if (availablePositions.contains(requiredEntryForExit.get("down")))
+                            res.add(requiredEntryForExit.get("down"));
+                    }
+                    case 3 -> {
+                        if (availablePositions.contains(requiredEntryForExit.get("left")))
+                            res.add(requiredEntryForExit.get("left"));
                     }
                 }
             }
