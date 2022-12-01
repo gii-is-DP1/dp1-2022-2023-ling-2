@@ -71,8 +71,6 @@ public class SingleplayerController {
 
             model.put("game", game);
             model.put("board", boardService.findById(1).get());
-            //result.addObject("cards", singleplayerService.getAllCardsInBoard(id));
-            //result.addObject("handCards", singleplayerService.getAllCardsInHand(id));
             model.put("puzzleCards", puzzleService.getPuzzleCards(game.getPuzzle().getId()));
             model.put("gameCards", singleplayerService.getAllCardsInBoard(id));
             model.put("handCards", singleplayerService.getAllCardsInHand(id));
