@@ -43,11 +43,11 @@ public class SingleplayerController {
     }
 
     @PostMapping("/create")
-    public ModelAndView createGame(ModelMap model){
+    public ModelAndView createGame(@RequestParam("difficulty") String difficulty, ModelMap model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
 
-        Puzzle puzzle = puzzleService.randomByDifficulty(Difficulty.HARD);
+        Puzzle puzzle = puzzleService.randomByDifficulty(Difficulty.valueOf(difficulty));
 
         Singleplayer game = new Singleplayer(user, puzzle);
 
