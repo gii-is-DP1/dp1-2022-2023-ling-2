@@ -100,6 +100,7 @@ public class SingleplayerServiceTest {
     @Test
     void invalidCardsPlacement() throws InvalidIDException {
         shouldNotPlaceCardNoRotationNoWrapAround();
+        shouldNotHaveLastPlacedCardIdTwo();
     }
 
     private void shouldNotPlaceCardNoRotationNoWrapAround() throws InvalidIDException {
@@ -113,6 +114,11 @@ public class SingleplayerServiceTest {
 
         List<GameCard> newCardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
         assertEquals(newCardsOnBoard, cardsOnBoard);
+    }
+
+    private void shouldNotHaveLastPlacedCardIdTwo() throws InvalidIDException {
+        Singleplayer game = singleplayerService.findByID(1);
+        assertEquals(game.getLastPlacedCard().getId(), 1);
     }
 
 }
