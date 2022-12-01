@@ -10,9 +10,9 @@
 
 
 <div class="board">
-    <c:forEach var="row" begin="0" end="${side - 1}">
+    <c:forEach var="col" begin="0" end="${side - 1}">
         <div class="row">
-            <c:forEach var="col" begin="0" end="${side - 1}">
+            <c:forEach var="row" begin="0" end="${side - 1}">
                 <c:if test="${puzzleCards != null}">
                     <c:choose>
                         <c:when test="${puzzleCards.stream().filter(c -> c.getX() == row && c.getY() == col).findFirst().orElse(null) != null}">
