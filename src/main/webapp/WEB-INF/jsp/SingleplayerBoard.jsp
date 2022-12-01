@@ -7,6 +7,6 @@
     <div class="center">
         <h1>Singleplayer</h1>
         <endofline:board side="5" gameCards="${gameCards}" puzzleCards="${puzzleCards}"/>
-        <endofline:hand num="4"/>
+        <endofline:hand handCards="${handCards}" num="4"/>
     </div>
 </endofline:layout>

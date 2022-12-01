@@ -3,10 +3,19 @@
 <%@ taglib prefix="endofline" tagdir="/WEB-INF/tags" %>
 <%@ attribute name="num" required="true" rtexprvalue="true" type="java.lang.Integer"
               description="Number of cards in the hand" %>
+<%@ attribute name="handCards" required="false" rtexprvalue="true" type="java.util.List"
+              description="Cards in the hand of the player" %>
 
 <div class="hand">
     <endofline:deck left="16"/>
     <c:forEach var="n" begin="0" end="${num - 1}">
-            <endofline:card />
+        <c:choose>
+            <c:when test="${handCards != null && handCards.size() > n}">
+                <endofline:card gameCard="${handCards.get(n)}"/>
+            </c:when>
+            <c:otherwise>
+                <endofline:card/>
+            </c:otherwise>
+        </c:choose>
     </c:forEach>
 </div>
