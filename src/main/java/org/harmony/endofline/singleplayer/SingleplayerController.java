@@ -2,6 +2,9 @@ package org.harmony.endofline.singleplayer;
 
 import org.harmony.endofline.board.BoardService;
 import org.harmony.endofline.gameCard.GameCard;
+import org.harmony.endofline.puzzle.Difficulty;
+import org.harmony.endofline.puzzle.Puzzle;
+import org.harmony.endofline.puzzle.PuzzleService;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +27,14 @@ public class SingleplayerController {
     private final SingleplayerService singleplayerService;
     private final UserService userService;
     private final BoardService boardService;
+    private final PuzzleService puzzleService;
 
     @Autowired
-    public SingleplayerController(SingleplayerService singleplayerService, UserService userService,BoardService boardService) {
+    public SingleplayerController(SingleplayerService singleplayerService, UserService userService,BoardService boardService, PuzzleService puzzleService) {
         this.singleplayerService = singleplayerService;
         this.userService = userService;
         this.boardService = boardService;
+        this.puzzleService = puzzleService;
     }
 
     @GetMapping("/create")
@@ -41,7 +46,10 @@ public class SingleplayerController {
     public ModelAndView createGame(ModelMap model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
-        Singleplayer game = new Singleplayer(user);
+
+        Puzzle puzzle = puzzleService.randomByDifficulty(Difficulty.HARD);
+
+        Singleplayer game = new Singleplayer(user, puzzle);
 
         singleplayerService.save(game);
         userService.addSingleplayerGame(user, game);
@@ -60,7 +68,9 @@ public class SingleplayerController {
             model.put("board", boardService.findById(1).get());
             //result.addObject("cards", singleplayerService.getAllCardsInBoard(id));
             //result.addObject("handCards", singleplayerService.getAllCardsInHand(id));
+            model.put("puzzleCards", puzzleService.getPuzzleCards(game.getPuzzle().getId()));
             model.put("gameCards", singleplayerService.getAllCardsInBoard(id));
+            model.put("handCards", singleplayerService.getAllCardsInHand(id));
             return VIEWS_SINGLEPLAYER_BOARD;
         }catch (InvalidIDException e){
             return "welcome";

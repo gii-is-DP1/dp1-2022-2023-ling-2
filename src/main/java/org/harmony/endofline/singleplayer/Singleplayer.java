@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.model.Game;
+import org.harmony.endofline.puzzle.Difficulty;
 import org.harmony.endofline.puzzle.Puzzle;
 import org.harmony.endofline.user.User;
 
@@ -33,9 +34,10 @@ public class Singleplayer extends Game {
     @JoinColumn(name = "last_placed_card_id")
     private GameCard lastPlacedCard;
 
-    public Singleplayer(User user) {
+    public Singleplayer(User user, Puzzle puzzle) {
         super(LocalDateTime.now());
         this.user = user;
+        this.puzzle = puzzle;
     }
 
     public Singleplayer() {

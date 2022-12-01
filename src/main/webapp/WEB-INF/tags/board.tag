@@ -3,24 +3,26 @@
 <%@ taglib prefix="endofline" tagdir="/WEB-INF/tags" %>
 <%@ attribute name="side" required="true" rtexprvalue="true" type="java.lang.Integer"
               description="Cards per side" %>
-<%@ attribute name="cards" required="true" rtexprvalue="true" type="java.util.List"
-              description="Cards in the board" %>
+<%@ attribute name="puzzleCards" required="false" rtexprvalue="true" type="java.util.List"
+              description="Cards in the board from the puzzle" %>
+<%@ attribute name="gameCards" required="true" rtexprvalue="true" type="java.util.List"
+              description="Cards in the board from the game" %>
 
 
 <div class="board">
     <c:forEach var="row" begin="0" end="${side - 1}">
         <div class="row">
             <c:forEach var="col" begin="0" end="${side - 1}">
-                <c:forEach var="card" items="${cards}">
+                <c:if test="${puzzleCards != null}">
                     <c:choose>
-                        <c:when test="${card.getX() == row && card.getY() == col}">
-                            <endofline:card gameCard="${card}"/>
+                        <c:when test="${puzzleCards.stream().filter(c -> c.getX() == row && c.getY() == col).findFirst().orElse(null) != null}">
+                            <endofline:card puzzleCard="${puzzleCards.stream().filter(c -> c.getX() == row && c.getY() == col).findFirst().orElse(null)}"/>
                         </c:when>
                         <c:otherwise>
                             <endofline:card/>
                         </c:otherwise>
                     </c:choose>
-                </c:forEach>
+                </c:if>
             </c:forEach>
         </div>
     </c:forEach>

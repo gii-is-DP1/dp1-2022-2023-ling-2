@@ -11,4 +11,5 @@ public interface PuzzleRepository extends CrudRepository<Puzzle, Integer> {
     @Query("SELECT pz FROM PuzzleCards pz JOIN pz.puzzle p WHERE p.id=:id")
     List<PuzzleCards> findCardsOfPuzzle(Integer id);
 
+    List<Puzzle> findByDifficulty(Difficulty difficulty);
 }
