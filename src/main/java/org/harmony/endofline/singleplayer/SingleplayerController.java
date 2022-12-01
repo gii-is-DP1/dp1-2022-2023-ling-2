@@ -2,7 +2,6 @@ package org.harmony.endofline.singleplayer;
 
 import org.harmony.endofline.board.BoardService;
 import org.harmony.endofline.gameCard.GameCard;
-import org.harmony.endofline.puzzle.Difficulty;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,7 @@ public class SingleplayerController {
     }
 
     @PostMapping("/create")
-    public ModelAndView createGame(ModelMap model, @RequestAttribute Difficulty difficulty){
+    public ModelAndView createGame(ModelMap model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
         Singleplayer game = new Singleplayer(user);
@@ -67,14 +66,13 @@ public class SingleplayerController {
         }
     }
 
-    @PostMapping("/{id}")
-    public String moveCard(@PathVariable("id") Integer id, @RequestParam("gcid") Integer gameCardId, @RequestParam("rotation") Integer rotation, @RequestParam("x") Integer x, @RequestParam("y") Integer y){
+    @PostMapping("/{id}/place")
+    public String placeCard(@PathVariable("id") Integer id, @RequestParam("gcid") Integer gameCardId, @RequestParam("rotation") Integer rotation, @RequestParam("x") Integer x, @RequestParam("y") Integer y){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         try {
             List<GameCard> boardCards = singleplayerService.getAllCardsInBoard(id);
-            GameCard cardToMove = boardCards.stream().filter(c -> c.getId()==gameCardId).findAny().get();
 
-            singleplayerService.moveCard(id, boardCards, cardToMove, x, y);
+            singleplayerService.moveCard(id, boardCards, gameCardId, rotation, x, y);
 
             return "redirect:/singleplayer/"+id;
         }catch (InvalidIDException e){
