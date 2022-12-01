@@ -44,6 +44,7 @@ public class SingleplayerServiceTest {
         shouldPlaceCardNoRotationNoWrapAround();
         shouldHaveLastPlacedCardIdTwo();
         shouldPlaceCardWithWrapAround();
+        shouldPlaceCardWithCorrectRotation();
     }
 
     private void shouldPlaceCardNoRotationNoWrapAround() throws InvalidIDException {
@@ -79,6 +80,21 @@ public class SingleplayerServiceTest {
         assertEquals(newCardsOnBoard.size(), 3);
         assertEquals(newCardsOnBoard.get(2).getX(), 2);
         assertEquals(newCardsOnBoard.get(2).getY(), 4);
+    }
+
+    void shouldPlaceCardWithCorrectRotation() throws InvalidIDException {
+        Integer gameId = 1;
+        Integer cardToMove = 4;
+        Integer rotation = 1;
+        Integer x = 3;
+        Integer y = 4;
+        List<GameCard> cardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
+        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y);
+
+        List<GameCard> newCardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
+        assertEquals(newCardsOnBoard.size(), 4);
+        assertEquals(newCardsOnBoard.get(3).getX(), 3);
+        assertEquals(newCardsOnBoard.get(3).getY(), 4);
     }
 
 }
