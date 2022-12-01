@@ -63,11 +63,11 @@ public class SingleplayerController {
     @GetMapping("/{id}")
     public String showGame(@PathVariable("id") Integer id, Map<String, Object> model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUsername(auth.getName());
-        if (!singleplayerService.isGameFromUser(id, user))
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         try {
             Singleplayer game = singleplayerService.findByID(id);
+            User user = userService.findByUsername(auth.getName());
+            if (!singleplayerService.isGameFromUser(id, user))
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 
             model.put("game", game);
             model.put("board", boardService.findById(1).get());
@@ -85,10 +85,11 @@ public class SingleplayerController {
     @PostMapping("/{id}/place")
     public String placeCard(@PathVariable("id") Integer id, @RequestParam("gcid") Integer gameCardId, @RequestParam("rotation") Integer rotation, @RequestParam("x") Integer x, @RequestParam("y") Integer y){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUsername(auth.getName());
-        if (!singleplayerService.isGameFromUser(id, user))
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         try {
+            User user = userService.findByUsername(auth.getName());
+            if (!singleplayerService.isGameFromUser(id, user))
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+
             List<GameCard> boardCards = singleplayerService.getAllCardsInBoard(id);
 
             singleplayerService.moveCard(id, boardCards, gameCardId, rotation, x, y);
