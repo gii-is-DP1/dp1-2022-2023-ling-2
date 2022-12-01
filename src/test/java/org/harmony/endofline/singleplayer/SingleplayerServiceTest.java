@@ -40,7 +40,7 @@ public class SingleplayerServiceTest {
     }
 
     @Test
-    void cardsPlacement() throws InvalidIDException {
+    void validCardsPlacement() throws InvalidIDException {
         shouldPlaceCardNoRotationNoWrapAround();
         shouldHaveLastPlacedCardIdTwo();
         shouldPlaceCardWithWrapAround();
