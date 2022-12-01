@@ -5,7 +5,7 @@
               description="Number of cards in the hand" %>
 
 <div class="hand">
-    <endofline:deck/>
+    <endofline:deck left="16"/>
     <c:forEach var="n" begin="0" end="${num - 1}">
             <endofline:card />
     </c:forEach>

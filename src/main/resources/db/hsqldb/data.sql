@@ -1,3 +1,7 @@
+-- noinspection SqlDialectInspectionForFile
+
+-- noinspection SqlNoDataSourceInspectionForFile
+
 -- All card models
 INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (0,1,2,2,2); -- Start card
 INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (0,1,0,1,1); -- Card 0
@@ -946,17 +950,9 @@ INSERT INTO usergames(user_id, game_id, player, role) VALUES (1, 1, 1, 'player')
 INSERT INTO usergames(user_id, game_id, player, role) VALUES (2, 1, 2, 'player');
 INSERT INTO singleplayer_game(date_ended, date_started, user_id, puzzle_id, last_placed_card_id) VALUES (null, '2022-11-09 11:08:21.139157', 1, 1, null);
 INSERT INTO game_card(card_id, user_id, gameid, in_hand, is_multiplayer, rotation, x, y) VALUES
-                                                                                            (3, 1, 1, true, false, 0, null, null),
-                                                                                            (3, 1, 1, true, false, 0, null, null),
-                                                                                            (3, 1, 1, true, false, 0, null, null),
-                                                                                            (3, 1, 1, true, false, 0, null, null),
-                                                                                            (3, 1, 1, true, false, 0, null, null);
+                                                                                            (3, 1, 1, false, false, 0, 2, 2);
 
-INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES (1, 1),
-                                                                                (1, 2),
-                                                                                (1, 3),
-                                                                                (1, 4),
-                                                                                (1, 5);
+INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES (1, 1);
 
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('Winner','Win one Game', 1, 1);
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('TEST admin 2','Win one Game', 3, 50);

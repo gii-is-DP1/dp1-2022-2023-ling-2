@@ -54,19 +54,37 @@
   flex-grow: 1;
   border: darkgrey solid 2px;
   border-radius: 10px;
-  width: auto;
+  width: 100%;
   aspect-ratio: 1 / 1;
   margin: 0.2em;
+}
+
+.card img {
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
 }
 
 .deck {
   flex-grow: 1;
   border: darkgrey solid 2px;
   border-radius: 10px;
-  width: auto;
+  width: 100%;
   aspect-ratio: 1 / 1;
   margin: 0.2em;
   background-color: darkgrey;
+  position: relative;
+}
+
+.deck p {
+  display: block;
+  font-size: 170%;
+  font-weight: bold;
+  color: #f1f1f1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .hand {

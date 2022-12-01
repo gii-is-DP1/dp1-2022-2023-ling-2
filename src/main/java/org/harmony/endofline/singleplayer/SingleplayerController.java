@@ -60,6 +60,7 @@ public class SingleplayerController {
             model.put("board", boardService.findById(1).get());
             //result.addObject("cards", singleplayerService.getAllCardsInBoard(id));
             //result.addObject("handCards", singleplayerService.getAllCardsInHand(id));
+            model.put("gameCards", singleplayerService.getAllCardsInBoard(id));
             return VIEWS_SINGLEPLAYER_BOARD;
         }catch (InvalidIDException e){
             return "welcome";
