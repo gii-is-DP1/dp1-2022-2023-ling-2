@@ -50,7 +50,7 @@ public class GameCard extends BaseEntity {
     public Map<String, List<Integer>> getExitPositions(Integer boardDimensions) {
         // Calculates the necessary entry position and coordinates for the next card based on the card's exits
         Map<String, List<Integer>> res = new HashMap<>();
-        List<Side> sidesRotated = getRotatedSides();
+        List<Side> sidesRotated = getRotatedSides(rotation);
         for(int i=0; i<sidesRotated.size(); i++){
             Side side = sidesRotated.get(i);
             if(side.equals(Side.EXIT)){
@@ -65,7 +65,7 @@ public class GameCard extends BaseEntity {
         return res;
     }
 
-    public List<Side> getRotatedSides() {
+    public List<Side> getRotatedSides(Integer rotation) {
         List<Side> sidesRotated = null;
         switch (rotation){
             case 0 -> sidesRotated = List.of(this.card.getUp(), this.card.getRight(), this.card.getDown(), this.card.getLeft());
