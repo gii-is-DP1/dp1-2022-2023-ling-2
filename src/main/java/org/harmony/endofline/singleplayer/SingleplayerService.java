@@ -41,10 +41,10 @@ public class SingleplayerService {
     }
 
     public List<GameCard> getAllCardsInBoard(Integer id){
-        return singleplayerRepository.FindAllGameCards(id).stream().filter(c -> !c.getInHand()).toList();
+        return singleplayerRepository.FindAllGameCardsInBoard(id);
     }
     public List<GameCard> getAllCardsInHand(Integer id){
-        return singleplayerRepository.FindAllGameCards(id).stream().filter(c -> c.getInHand()).toList();
+        return singleplayerRepository.FindAllGameCardsInHand(id);
     }
 
     @Transactional

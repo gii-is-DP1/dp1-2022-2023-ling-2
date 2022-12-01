@@ -15,4 +15,10 @@ public interface SingleplayerRepository extends CrudRepository<Singleplayer, Int
     @Query("SELECT s.gameCards FROM Singleplayer s WHERE s.id=:id")
     List<GameCard> FindAllGameCards(@Param("id") Integer id);
 
+    @Query("SELECT gc FROM Singleplayer s JOIN s.gameCards gc WHERE s.id=:id AND gc.inHand IS TRUE")
+    List<GameCard> FindAllGameCardsInHand(@Param("id") Integer id);
+
+    @Query("SELECT gc FROM Singleplayer s JOIN s.gameCards gc WHERE s.id=:id AND gc.inHand IS FALSE")
+    List<GameCard> FindAllGameCardsInBoard(@Param("id") Integer id);
+
 }
