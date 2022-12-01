@@ -28,8 +28,8 @@ public class SingleplayerServiceTest {
     @Test
     void shouldGiveAllHandCardsOfGameOne(){
         List<GameCard> cards = singleplayerService.getAllCardsInHand(1);
-        assertEquals(cards.size(), 1);
-        assertThat(cards.stream().allMatch(c -> c.getCard().getId()==3));
+        assertEquals(cards.size(), 3);
+        assertEquals(cards.get(0).getCard().getId(), 3);
     }
 
     @Test
@@ -39,5 +39,46 @@ public class SingleplayerServiceTest {
         assertThat(cards.stream().allMatch(c -> c.getCard().getId()==3));
     }
 
+    @Test
+    void cardsPlacement() throws InvalidIDException {
+        shouldPlaceCardNoRotationNoWrapAround();
+        shouldHaveLastPlacedCardIdTwo();
+        shouldPlaceCardWithWrapAround();
+    }
+
+    private void shouldPlaceCardNoRotationNoWrapAround() throws InvalidIDException {
+        Integer gameId = 1;
+        Integer cardToMove = 2;
+        Integer rotation = 0;
+        Integer x = 2;
+        Integer y = 0;
+        List<GameCard> cardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
+        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y);
+
+        List<GameCard> newCardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
+        assertEquals(newCardsOnBoard.size(), 2);
+        assertEquals(newCardsOnBoard.get(1).getX(), 2);
+        assertEquals(newCardsOnBoard.get(1).getY(), 0);
+    }
+
+    private void shouldHaveLastPlacedCardIdTwo() throws InvalidIDException {
+        Singleplayer game = singleplayerService.findByID(1);
+        assertEquals(game.getLastPlacedCard().getId(), 2);
+    }
+
+    void shouldPlaceCardWithWrapAround() throws InvalidIDException {
+        Integer gameId = 1;
+        Integer cardToMove = 3;
+        Integer rotation = 0;
+        Integer x = 2;
+        Integer y = 4;
+        List<GameCard> cardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
+        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y);
+
+        List<GameCard> newCardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
+        assertEquals(newCardsOnBoard.size(), 3);
+        assertEquals(newCardsOnBoard.get(2).getX(), 2);
+        assertEquals(newCardsOnBoard.get(2).getY(), 4);
+    }
 
 }
