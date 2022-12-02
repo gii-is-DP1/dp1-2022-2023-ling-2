@@ -56,11 +56,11 @@ public class SingleplayerController {
         singleplayerService.save(game);
         userService.addSingleplayerGame(user, game);
         Integer id = game.getId();
-        String st = "redirect:/singleplayer/" + id;
+        String st = "redirect:/singleplayer/" + id +"/";
         return new ModelAndView(st, model);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/")
     public String showGame(@PathVariable("id") Integer id, Map<String, Object> model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         try {
@@ -92,7 +92,7 @@ public class SingleplayerController {
 
             singleplayerService.moveCard(id, boardCards, gameCardId, rotation, x, y);
 
-            return "redirect:/singleplayer/"+id;
+            return "redirect:/singleplayer/"+id+"/";
         }catch (InvalidIDException e){
             return "welcome";
         }
