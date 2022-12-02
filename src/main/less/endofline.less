@@ -67,6 +67,13 @@
   border-radius: 8px;
 }
 
+.card-slot {
+  display:block;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
 .deck {
   flex-grow: 1;
   border: darkgrey solid 2px;
@@ -132,4 +139,13 @@
 .rotated-card-3 {
   -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
+}
+
+.disabled-card-slot{
+  pointer-events: none;
+}
+
+.enabled-card-slot{
+  cursor: pointer;
+  background: whitesmoke;
 }

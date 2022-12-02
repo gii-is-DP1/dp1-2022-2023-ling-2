@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="form" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="endofline" tagdir="/WEB-INF/tags" %>
 
 <%@ attribute name="gameCard" required="false" rtexprvalue="true" type="org.harmony.endofline.gameCard.GameCard"
               description="Game card to be rendered" %>
@@ -26,7 +27,7 @@
         <span class="rotate-button glyphicon glyphicon-repeat" onclick="rotateHandCard('${handCard.id}', '${handCard.rotation}')"></span>
     </c:if>
     <c:if test="${col !=null && row!=null}">
-        <span id="cardslot-${col}-${row}"/>
+        <span class="btn card-slot disabled-card-slot" id="cardslot-${col}-${row}"/>
     </c:if>
 </div>
 <script>
