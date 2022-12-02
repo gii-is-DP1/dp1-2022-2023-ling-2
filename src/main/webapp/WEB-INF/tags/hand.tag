@@ -25,13 +25,13 @@
 
     function clicked(handCardId) {
         if (selectedHandCardId==null){
-            document.getElementById("handcard" + handCardId).style.backgroundColor = "grey";
+            document.getElementById("handcard" + handCardId).style.backgroundColor = "lightgrey";
             selectedHandCardId=handCardId;
         } else if(selectedHandCardId==handCardId) {
             document.getElementById("handcard" + handCardId).style.backgroundColor = "white";
             selectedHandCardId=null;
         } else {
-            document.getElementById("handcard" + handCardId).style.backgroundColor = "grey";
+            document.getElementById("handcard" + handCardId).style.backgroundColor = "lightgrey";
             document.getElementById("handcard" + selectedHandCardId).style.backgroundColor = "white";
             selectedHandCardId=handCardId;
         }
