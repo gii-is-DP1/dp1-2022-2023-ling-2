@@ -20,6 +20,7 @@
     </c:forEach>
 </div>
 <script>
+    let cardRotation = {};
     let selectedHandCardId = null;
 
     function clicked(handCardId) {
