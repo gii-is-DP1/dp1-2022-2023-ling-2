@@ -64,6 +64,7 @@ public class SingleplayerService {
         if (validPositions.contains(futurePosition)) {
             cardToMove.setX(x);
             cardToMove.setY(y);
+            cardToMove.setRotation(rotation);
             cardToMove.setInHand(false);
             game.setLastPlacedCard(cardToMove);
         }

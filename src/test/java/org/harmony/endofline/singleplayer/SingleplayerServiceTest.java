@@ -95,6 +95,7 @@ public class SingleplayerServiceTest {
         assertEquals(newCardsOnBoard.size(), 4);
         assertEquals(newCardsOnBoard.get(3).getX(), 3);
         assertEquals(newCardsOnBoard.get(3).getY(), 4);
+        assertEquals(newCardsOnBoard.get(3).getRotation(), 1);
     }
 
     @Test
