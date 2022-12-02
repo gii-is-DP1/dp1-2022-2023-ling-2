@@ -3,6 +3,8 @@
 
 <%@ attribute name="gameCard" required="false" rtexprvalue="true" type="org.harmony.endofline.gameCard.GameCard"
               description="Game card to be rendered" %>
+<%@ attribute name="handCard" required="false" rtexprvalue="true" type="org.harmony.endofline.gameCard.GameCard"
+              description="Game card to be rendered in hand" %>
 <%@ attribute name="puzzleCard" required="false" rtexprvalue="true" type="org.harmony.endofline.puzzleCards.PuzzleCards"
               description="Puzzle card to be rendered" %>
 
@@ -14,5 +16,7 @@
     <c:if test="${gameCard != null}">
         <img src="<spring:url value="/resources/images/cards/${gameCard.card.id}.svg" />" alt="A card" />
     </c:if>
+    <c:if test="${handCard != null}">
+        <img id="handcard${handCard.id}" src="<spring:url value="/resources/images/cards/${handCard.card.id}.svg" />" alt="A card" onclick="clicked('${handCard.id}')">
+    </c:if>
 </div>
-

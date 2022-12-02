@@ -11,7 +11,7 @@
     <c:forEach var="n" begin="0" end="${num - 1}">
         <c:choose>
             <c:when test="${handCards != null && handCards.size() > n}">
-                <endofline:card gameCard="${handCards.get(n)}"/>
+                <endofline:card handCard="${handCards.get(n)}"/>
             </c:when>
             <c:otherwise>
                 <endofline:card/>
@@ -19,3 +19,20 @@
         </c:choose>
     </c:forEach>
 </div>
+<script>
+    let selectedHandCardId = null;
+
+    function clicked(handCardId) {
+        if (selectedHandCardId==null){
+            document.getElementById("handcard" + handCardId).style.backgroundColor = "grey";
+            selectedHandCardId=handCardId;
+        } else if(selectedHandCardId==handCardId) {
+            document.getElementById("handcard" + handCardId).style.backgroundColor = "white";
+            selectedHandCardId=null;
+        } else {
+            document.getElementById("handcard" + handCardId).style.backgroundColor = "grey";
+            document.getElementById("handcard" + selectedHandCardId).style.backgroundColor = "white";
+            selectedHandCardId=handCardId;
+        }
+    }
+</script>
