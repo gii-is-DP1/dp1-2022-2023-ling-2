@@ -21,7 +21,7 @@
                         <endofline:card gameCard="${gameCards.stream().filter(c -> c.getX() == row && c.getY() == col).findFirst().orElse(null)}"/>
                     </c:when>
                     <c:otherwise>
-                        <endofline:card/>
+                        <endofline:card col="${col}" row="${row}"/>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
