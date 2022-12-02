@@ -27,10 +27,24 @@
         <span class="rotate-button glyphicon glyphicon-repeat" onclick="rotateHandCard('${handCard.id}', '${handCard.rotation}')"></span>
     </c:if>
     <c:if test="${col !=null && row!=null}">
-        <span class="btn card-slot disabled-card-slot" id="cardslot-${col}-${row}"/>
+        <span class="btn card-slot disabled-card-slot" id="cardslot-${col}-${row}" onclick="getPlaceCardURI('${col}', '${row}')"></span>
+        <form:form id="place-card" method="POST">
+        </form:form>
     </c:if>
 </div>
 <script>
+    function getPlaceCardURI(y, x) {
+        let selectedRotation;
+        if (cardRotation[selectedHandCardId]) {
+            selectedRotation = cardRotation[selectedHandCardId];
+        } else {
+            selectedRotation = 0;
+        }
+        const uri = "/singleplayer/1/place?gcid="+selectedHandCardId+"&rotation="+selectedRotation+"&x="+x+"&y="+y;
+        document.getElementById("place-card").setAttribute("action", uri);
+        document.getElementById("place-card").submit();
+    }
+
     function rotateHandCard(handCardId, initialRotation){
         if(cardRotation[handCardId]){
             cardRotation[handCardId] = (cardRotation[handCardId]+1)%4;
