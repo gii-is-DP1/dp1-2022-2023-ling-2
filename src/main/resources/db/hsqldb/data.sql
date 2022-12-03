@@ -13,7 +13,6 @@ INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (
 INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (4,2,0,1,1); -- Card 4
 INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (5,1,0,1,1); -- Card 5
 INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (6,0,0,0,0); -- Block card
-INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (3,0,0,0,0); -- Energy card
 
 -- EASY DIFFICULTY (YELLOW)
 -- Puzzle 1
