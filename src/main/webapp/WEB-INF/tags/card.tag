@@ -51,6 +51,8 @@
         } else{
             cardRotation[handCardId] = (initialRotation+1)%4;
         }
+        cardsInHand.find(e => e.id==handCardId).rotation=cardRotation[handCardId]
+        updateSelectedCard()
         document.getElementById("handcard" + handCardId).setAttribute("class", "rotated-card-"+cardRotation[handCardId]);
     }
 </script>

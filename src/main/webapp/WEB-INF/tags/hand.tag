@@ -22,6 +22,7 @@
 <script>
     let cardRotation = {};
     let selectedHandCardId = null;
+    let selectedHandCard;
 
     function clicked(handCardId) {
         if (selectedHandCardId==null){
@@ -34,6 +35,17 @@
             document.getElementById("handcard" + handCardId).style.backgroundColor = "lightgrey";
             document.getElementById("handcard" + selectedHandCardId).style.backgroundColor = "white";
             selectedHandCardId=handCardId;
+        }
+        updateSelectedCard();
+    }
+
+    function updateSelectedCard() {
+        if (selectedHandCardId !== null) {
+            selectedHandCard = cardsInHand.find(e => e.id == selectedHandCardId);
+            updateHighlightedCardSlots();
+        } else {
+            selectedHandCard = null;
+            cleanHighLightedCardSlots();
         }
     }
 </script>
