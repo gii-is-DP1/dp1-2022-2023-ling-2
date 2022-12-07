@@ -53,8 +53,9 @@ public class SingleplayerServiceTest {
         Integer rotation = 0;
         Integer x = 2;
         Integer y = 0;
+        boolean energyUsed = false;
         List<GameCard> cardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
-        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y);
+        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y, energyUsed);
 
         List<GameCard> newCardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
         assertEquals(newCardsOnBoard.size(), 2);
@@ -73,8 +74,9 @@ public class SingleplayerServiceTest {
         Integer rotation = 0;
         Integer x = 2;
         Integer y = 4;
+        boolean energyUsed = false;
         List<GameCard> cardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
-        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y);
+        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y, energyUsed);
 
         List<GameCard> newCardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
         assertEquals(newCardsOnBoard.size(), 3);
@@ -88,8 +90,9 @@ public class SingleplayerServiceTest {
         Integer rotation = 1;
         Integer x = 3;
         Integer y = 4;
+        boolean energyUsed = false;
         List<GameCard> cardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
-        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y);
+        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y, energyUsed);
 
         List<GameCard> newCardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
         assertEquals(newCardsOnBoard.size(), 4);
@@ -112,8 +115,9 @@ public class SingleplayerServiceTest {
         Integer rotation = 0;
         Integer x = 3;
         Integer y = 0;
+        boolean energyUsed = false;
         List<GameCard> cardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
-        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y);
+        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y, energyUsed);
 
         List<GameCard> newCardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
         assertEquals(newCardsOnBoard, cardsOnBoard);
@@ -130,8 +134,9 @@ public class SingleplayerServiceTest {
         Integer rotation = 1;
         Integer x = 3;
         Integer y = 4;
+        boolean energyUsed = false;
         List<GameCard> cardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
-        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y);
+        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y, energyUsed);
 
         List<GameCard> newCardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
         assertEquals(newCardsOnBoard, cardsOnBoard);
@@ -143,8 +148,9 @@ public class SingleplayerServiceTest {
         Integer rotation = 0;
         Integer x = 2;
         Integer y = 2;
+        boolean energyUsed = false;
         List<GameCard> cardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
-        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y);
+        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y, energyUsed);
 
         List<GameCard> newCardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
         assertEquals(newCardsOnBoard, cardsOnBoard);

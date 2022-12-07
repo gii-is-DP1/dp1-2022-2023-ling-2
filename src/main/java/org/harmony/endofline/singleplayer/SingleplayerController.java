@@ -81,7 +81,7 @@ public class SingleplayerController {
     }
 
     @PostMapping("/{id}/place")
-    public String placeCard(@PathVariable("id") Integer id, @RequestParam("gcid") Integer gameCardId, @RequestParam("rotation") Integer rotation, @RequestParam("x") Integer x, @RequestParam("y") Integer y){
+    public String placeCard(@PathVariable("id") Integer id, @RequestParam("gcid") Integer gameCardId, @RequestParam("rotation") Integer rotation, @RequestParam("x") Integer x, @RequestParam("y") Integer y, @RequestParam("energy") Boolean energyUsed){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         try {
             User user = userService.findByUsername(auth.getName());
@@ -90,7 +90,7 @@ public class SingleplayerController {
 
             List<GameCard> boardCards = singleplayerService.getAllCardsInBoard(id);
 
-            singleplayerService.moveCard(id, boardCards, gameCardId, rotation, x, y);
+            singleplayerService.moveCard(id, boardCards, gameCardId, rotation, x, y, energyUsed);
 
             return "redirect:/singleplayer/"+id+"/";
         }catch (InvalidIDException e){
