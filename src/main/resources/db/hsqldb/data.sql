@@ -952,7 +952,7 @@ INSERT INTO game_card(card_id, user_id, gameid, in_hand, is_multiplayer, rotatio
                                                                                             (3, 1, 1, true, false, 0, null, null),
                                                                                             (8, 1, 1, true, false, 0, null, null),
                                                                                             (6, 1, 1, true, false, 0, null, null);
-INSERT INTO singleplayer_game(date_ended, date_started, user_id, puzzle_id, last_placed_card_id) VALUES (null, '2022-11-09 11:08:21.139157', 1, 1, 1);
+INSERT INTO singleplayer_game(date_ended, date_started, user_id, puzzle_id, last_placed_card_id, energy) VALUES (null, '2022-11-09 11:08:21.139157', 1, 1, 1, 3);
 
 INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES (1, 1),
                                                                                 (1, 2),

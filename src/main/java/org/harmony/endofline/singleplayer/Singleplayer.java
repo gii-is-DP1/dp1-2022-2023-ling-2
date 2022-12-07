@@ -10,6 +10,8 @@ import org.harmony.endofline.puzzle.Puzzle;
 import org.harmony.endofline.user.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,10 +36,15 @@ public class Singleplayer extends Game {
     @JoinColumn(name = "last_placed_card_id")
     private GameCard lastPlacedCard;
 
+    @Min(0)
+    @Max(3)
+    private Integer energy;
+
     public Singleplayer(User user, Puzzle puzzle) {
         super(LocalDateTime.now());
         this.user = user;
         this.puzzle = puzzle;
+        this.energy = 3;
     }
 
     public Singleplayer() {
