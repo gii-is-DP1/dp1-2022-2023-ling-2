@@ -5,7 +5,6 @@ import org.harmony.endofline.card.Side;
 import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.gameCard.GameCardRepository;
 import org.harmony.endofline.gameCard.Status;
-import org.harmony.endofline.model.Game;
 import org.harmony.endofline.puzzle.PuzzleRepository;
 import org.harmony.endofline.puzzleCards.PuzzleCards;
 import org.harmony.endofline.user.User;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class SingleplayerService {
@@ -25,6 +25,7 @@ public class SingleplayerService {
     private PuzzleRepository puzzleRepository;
     @Autowired
     private GameCardRepository gameCardRepository;
+    private Random random = new Random();
 
     @Transactional
     public void save(Singleplayer game) {
@@ -59,10 +60,10 @@ public class SingleplayerService {
     }
 
     public List<GameCard> getAllCardsInBoard(Integer id){
-        return singleplayerRepository.FindAllGameCardsInBoard(id);
+        return singleplayerRepository.findCardsInBoard(id);
     }
     public List<GameCard> getAllCardsInHand(Integer id){
-        return singleplayerRepository.FindAllGameCardsInHand(id);
+        return singleplayerRepository.findCardsInHand(id);
     }
 
     @Transactional
@@ -174,5 +175,18 @@ public class SingleplayerService {
             }
         }
         return res;
+    }
+
+    public void drawCardsFromDeck(Singleplayer game) {
+        List<GameCard> cardsInHand = singleplayerRepository.findCardsInHand(game.getId());
+        List<GameCard> cardsInDeck = singleplayerRepository.findCardsInDeck(game.getId());
+        if(cardsInHand.size() < 5 && cardsInDeck.size() > 0){
+            int cardsToDraw = 5 - cardsInHand.size();
+            if(cardsInDeck.size() < cardsToDraw)
+                cardsToDraw = cardsInDeck.size();
+            IntStream.range(0, cardsToDraw).forEach(i -> {
+                cardsInDeck.get(random.nextInt(cardsInDeck.size())).setStatus(Status.HAND);
+            });
+        }
     }
 }

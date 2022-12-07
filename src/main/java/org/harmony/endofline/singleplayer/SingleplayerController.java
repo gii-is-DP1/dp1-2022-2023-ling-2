@@ -58,6 +58,7 @@ public class SingleplayerController {
 
         singleplayerService.save(game);
         singleplayerService.addInitialCards(game, deckService.getDeckCards(deckService.findByID(1)));
+        singleplayerService.drawCardsFromDeck(game);
         userService.addSingleplayerGame(user, game);
         Integer id = game.getId();
         String st = "redirect:/singleplayer/" + id +"/";
@@ -95,6 +96,7 @@ public class SingleplayerController {
             List<GameCard> boardCards = singleplayerService.getAllCardsInBoard(id);
 
             singleplayerService.moveCard(id, boardCards, gameCardId, rotation, x, y, energyUsed);
+            singleplayerService.drawCardsFromDeck(singleplayerService.findByID(id));
 
             return "redirect:/singleplayer/"+id+"/";
         }catch (InvalidIDException e){
