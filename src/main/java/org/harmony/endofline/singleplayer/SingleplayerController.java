@@ -1,6 +1,7 @@
 package org.harmony.endofline.singleplayer;
 
 import org.harmony.endofline.board.BoardService;
+import org.harmony.endofline.deck.DeckService;
 import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.puzzle.Difficulty;
 import org.harmony.endofline.puzzle.Puzzle;
@@ -30,13 +31,15 @@ public class SingleplayerController {
     private final UserService userService;
     private final BoardService boardService;
     private final PuzzleService puzzleService;
+    private final DeckService deckService;
 
     @Autowired
-    public SingleplayerController(SingleplayerService singleplayerService, UserService userService,BoardService boardService, PuzzleService puzzleService) {
+    public SingleplayerController(SingleplayerService singleplayerService, UserService userService, BoardService boardService, PuzzleService puzzleService, DeckService deckService) {
         this.singleplayerService = singleplayerService;
         this.userService = userService;
         this.boardService = boardService;
         this.puzzleService = puzzleService;
+        this.deckService = deckService;
     }
 
     @GetMapping("/create")
@@ -54,6 +57,7 @@ public class SingleplayerController {
         Singleplayer game = new Singleplayer(user, puzzle);
 
         singleplayerService.save(game);
+        singleplayerService.addInitialCards(game, deckService.getDeckCards(deckService.findByID(1)));
         userService.addSingleplayerGame(user, game);
         Integer id = game.getId();
         String st = "redirect:/singleplayer/" + id +"/";

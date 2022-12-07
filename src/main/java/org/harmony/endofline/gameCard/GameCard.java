@@ -34,6 +34,8 @@ public class GameCard extends BaseEntity {
 
     private Boolean isMultiplayer;
 
+    private Status status;
+
     @Min(0)
     private Integer x;
 
@@ -44,8 +46,19 @@ public class GameCard extends BaseEntity {
     @Max(3)
     private Integer rotation;
 
-    private Boolean inHand;
+    public GameCard(Card card, User user, Integer gameID, Boolean isMultiplayer, Status status, Integer x, Integer y, Integer rotation) {
+        this.card = card;
+        this.user = user;
+        this.gameID = gameID;
+        this.isMultiplayer = isMultiplayer;
+        this.status = status;
+        this.x = x;
+        this.y = y;
+        this.rotation = rotation;
+    }
 
+    public GameCard() {
+    }
 
     public Map<String, List<Integer>> getExitPositions(Integer boardDimensions) {
         // Calculates the necessary entry position and coordinates for the next card based on the card's exits

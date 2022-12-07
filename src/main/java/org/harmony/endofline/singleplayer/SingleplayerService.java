@@ -1,8 +1,11 @@
 package org.harmony.endofline.singleplayer;
 
+import org.harmony.endofline.card.Card;
 import org.harmony.endofline.card.Side;
 import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.gameCard.GameCardRepository;
+import org.harmony.endofline.gameCard.Status;
+import org.harmony.endofline.model.Game;
 import org.harmony.endofline.puzzle.PuzzleRepository;
 import org.harmony.endofline.puzzleCards.PuzzleCards;
 import org.harmony.endofline.user.User;
@@ -45,6 +48,16 @@ public class SingleplayerService {
         return singleplayerRepository.FindUserSingleplayerGame(user, gameId).size()>0;
     }
 
+    public void addInitialCards(Singleplayer game, List<Card> deckCards) {
+        deckCards.stream()
+            .map(card -> new GameCard(card, game.getUser(), game.getId(), false, Status.DECK, null, null, null))
+            .forEach(gameCard -> gameCardRepository.save(gameCard));
+    }
+
+    public void addCardToGame(Singleplayer game, GameCard gameCard) {
+        gameCardRepository.save(gameCard);
+    }
+
     public List<GameCard> getAllCardsInBoard(Integer id){
         return singleplayerRepository.FindAllGameCardsInBoard(id);
     }
@@ -58,15 +71,14 @@ public class SingleplayerService {
         List<List<Integer>> validPositions = new ArrayList<>();
         Singleplayer game = findByID(id);
         GameCard cardToMove = gameCardRepository.findById(cardToMoveId).orElse(null);
-
-        if (cardToMove!=null && cardToMove.getInHand() && (!energyUsed || !game.getEnergy().equals(0)))
+        if (cardToMove!=null && cardToMove.getStatus().equals(Status.HAND) && (!energyUsed || !game.getEnergy().equals(0)))
             validPositions = getValidPositions(game, cardsOnBoard, cardToMove, rotation, energyUsed);
 
         if (validPositions.contains(futurePosition)) {
             cardToMove.setX(x);
             cardToMove.setY(y);
             cardToMove.setRotation(rotation);
-            cardToMove.setInHand(false);
+            cardToMove.setStatus(Status.BOARD);
             game.setLastPlacedCard(cardToMove);
             if(energyUsed && !game.getEnergy().equals(0))
                 game.setEnergy(game.getEnergy()-1);

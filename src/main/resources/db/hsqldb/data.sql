@@ -14,6 +14,18 @@ INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (
 INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (5,1,0,1,1); -- Card 5
 INSERT INTO cards(initiative,top_side,bottom_side,left_side,right_side) VALUES (6,0,0,0,0); -- Block card
 
+-- All decks
+INSERT INTO deck() VALUES ();
+INSERT INTO deck_card(deck_id,card_id,quantity) VALUES (1,2,1);
+INSERT INTO deck_card(deck_id,card_id,quantity) VALUES (1,3,9);
+INSERT INTO deck_card(deck_id,card_id,quantity) VALUES (1,4,4);
+INSERT INTO deck_card(deck_id,card_id,quantity) VALUES (1,5,4);
+INSERT INTO deck_card(deck_id,card_id,quantity) VALUES (1,6,2);
+INSERT INTO deck_card(deck_id,card_id,quantity) VALUES (1,7,2);
+INSERT INTO deck_card(deck_id,card_id,quantity) VALUES (1,8,2);
+INSERT INTO deck_card(deck_id,card_id,quantity) VALUES (1,9,1);
+
+
 -- EASY DIFFICULTY (YELLOW)
 -- Puzzle 1
 INSERT INTO puzzles(difficulty) VALUES (0);
@@ -290,14 +302,12 @@ INSERT INTO puzzles(difficulty) VALUES (1);
 INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (47,1,2,2,0);
 INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (47,10,0,4,0);
 INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (47,10,1,3,0);
-INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (47,4,2,1,0);
 
 -- Puzzle 48
 INSERT INTO puzzles(difficulty) VALUES (1);
 INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (48,1,2,2,0);
 INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (48,10,3,3,0);
 INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (48,10,4,4,0);
-INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (48,5,2,1,0);
 
 -- MEDIUM DIFFICULTY (BLUE)
 -- Puzzle 49
@@ -949,45 +959,31 @@ INSERT INTO usergames(user_id, game_id, player, role) VALUES (1, 1, 1, 'player')
 INSERT INTO usergames(user_id, game_id, player, role) VALUES (2, 1, 2, 'player');
 
 -- Game 1
-INSERT INTO game_card(card_id, user_id, gameid, in_hand, is_multiplayer, rotation, x, y) VALUES
-                                                                                            (3, 1, 1, false, false, 0, 2, 1),
-                                                                                            (3, 1, 1, true, false, 0, null, null),
-                                                                                            (8, 1, 1, true, false, 0, null, null),
-                                                                                            (6, 1, 1, true, false, 0, null, null);
+INSERT INTO game_card(card_id, user_id, gameid, status, is_multiplayer, rotation, x, y) VALUES
+                                                                                            (3, 1, 1, 0, false, 0, 2, 1),
+                                                                                            (3, 1, 1, 1, false, 0, null, null),
+                                                                                            (8, 1, 1, 1, false, 0, null, null),
+                                                                                            (6, 1, 1, 1, false, 0, null, null);
 INSERT INTO singleplayer_game(date_ended, date_started, user_id, puzzle_id, last_placed_card_id, energy) VALUES (null, '2022-11-09 11:08:21.139157', 1, 1, 1, 3);
 
-INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES (1, 1),
-                                                                                (1, 2),
-                                                                                (1, 3),
-                                                                                (1, 4);
-
 -- Game 2
-INSERT INTO game_card(card_id, user_id, gameid, in_hand, is_multiplayer, rotation, x, y) VALUES
-                                                                                             (3, 1, 2, true, false, 0, null, null),
-                                                                                             (3, 1, 2, true, false, 0, null, null),
-                                                                                             (6, 1, 2, false, false, 0, 2, 1),
-                                                                                             (8, 1, 2, false, false, 3, 1, 1);
+INSERT INTO game_card(card_id, user_id, gameid, status, is_multiplayer, rotation, x, y) VALUES
+                                                                                             (3, 1, 2, 1, false, 0, null, null),
+                                                                                             (3, 1, 2, 1, false, 0, null, null),
+                                                                                             (6, 1, 2, 0, false, 0, 2, 1),
+                                                                                             (8, 1, 2, 0, false, 3, 1, 1);
 
 INSERT INTO singleplayer_game(date_ended, date_started, user_id, puzzle_id, last_placed_card_id, energy) VALUES (null, '2022-11-09 11:08:21.139157', 1, 2, 8, 3);
 
-INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES (2, 5),
-                                                                                (2, 6),
-                                                                                (2, 7),
-                                                                                (2, 8);
-
 -- Game 3
-INSERT INTO game_card(card_id, user_id, gameid, in_hand, is_multiplayer, rotation, x, y) VALUES
-                                                                                             (3, 1, 3, true, false, 0, null, null),
-                                                                                             (3, 1, 3, true, false, 0, null, null),
-                                                                                             (6, 1, 3, false, false, 0, 2, 1),
-                                                                                             (8, 1, 3, false, false, 3, 1, 1);
+INSERT INTO game_card(card_id, user_id, gameid, status, is_multiplayer, rotation, x, y) VALUES
+                                                                                             (3, 1, 3, 1, false, 0, null, null),
+                                                                                             (3, 1, 3, 1, false, 0, null, null),
+                                                                                             (6, 1, 3, 0, false, 0, 2, 1),
+                                                                                             (8, 1, 3, 0, false, 3, 1, 1);
 
 INSERT INTO singleplayer_game(date_ended, date_started, user_id, puzzle_id, last_placed_card_id, energy) VALUES (null, '2022-11-09 11:08:21.139157', 1, 2, 8, 0);
 
-INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES (3, 9),
-                                                                                (3, 10),
-                                                                                (3, 11),
-                                                                                (3, 12);
 
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('Winner','Win one Game', 1, 1);
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('TEST admin 2','Win one Game', 3, 50);
