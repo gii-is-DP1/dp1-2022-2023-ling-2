@@ -51,7 +51,7 @@ public class SingleplayerService {
 
     public void addInitialCards(Singleplayer game, List<Card> deckCards) {
         deckCards.stream()
-            .map(card -> new GameCard(card, game.getUser(), game.getId(), false, Status.DECK, null, null, null))
+            .map(card -> new GameCard(card, game.getUser(), game.getId(), false, Status.DECK, null, null, 0))
             .forEach(gameCard -> gameCardRepository.save(gameCard));
     }
 
