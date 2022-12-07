@@ -75,28 +75,48 @@
         return sidesRotated;
     }
 
+    function calculateEntriesForExits() {
+        let requiredEntriesForExit = {};
+        let cardEntryForExitMap = {};
+
+        if(!usingEnergy) {
+            cardEntryForExitMap = getExitPositions(lastPlacedCard, 5);
+            for(let [key, value] of Object.entries(cardEntryForExitMap)){
+                requiredEntriesForExit[key] = [value];
+            }
+        }
+        else{
+            for(let [key, card] of Object.entries(cardsOnBoard)){
+                cardEntryForExitMap = getExitPositions(card, 5);
+                for(let [key, value] of Object.entries(cardEntryForExitMap)){
+                    if(requiredEntriesForExit[key]!==undefined)
+                        requiredEntriesForExit[key].push(value);
+                    else
+                        requiredEntriesForExit[key] = [value];
+                }
+            }
+        }
+        return requiredEntriesForExit;
+    }
+
     function updateHighlightedCardSlots(){
-        let requiredEntryForExit = getExitPositions(lastPlacedCard, 5)
-        let lastCardExitPositions = [];
-        for (let key in requiredEntryForExit){
-            lastCardExitPositions.push(requiredEntryForExit[key])
+        let requiredEntryForExit = calculateEntriesForExits()
+        let exitPositions = [];
+        for(let [key, value] of Object.entries(requiredEntryForExit)){
+            value.forEach(e => exitPositions.push(e));
         }
 
         let occupiedPositions = [];
-        for(let gameCard in cardsOnBoard){
-            occupiedPositions.push([gameCard["x"], gameCard["y"]])
-        }
-        for(let puzzleCard in puzzleCards){
-            occupiedPositions.push([puzzleCard["x"], puzzleCard["y"]])
-        }
+        cardsOnBoard.forEach(gameCard => occupiedPositions.push([parseInt(gameCard["x"]), parseInt(gameCard["y"])]));
+        puzzleCards.forEach(puzzleCard => occupiedPositions.push([parseInt(puzzleCard["x"]), parseInt(puzzleCard["y"])]));
+        let occupiedPositionsString = JSON.stringify(occupiedPositions)
 
         let availablePositions = [];
-        for(let i in lastCardExitPositions){
-            let position = lastCardExitPositions.at(i)
-            if(!occupiedPositions.includes([position.at(0), position.at(1)])){
+        exitPositions.forEach(position => {
+            if(!occupiedPositionsString.includes(JSON.stringify([position.at(0), position.at(1)]))){
                 availablePositions.push([position.at(0), position.at(1)])
             }
-        }
+        })
 
         let cardToMoveSides = getRotatedSides(selectedHandCard, selectedHandCard["rotation"])
 
@@ -109,25 +129,34 @@
     function cleanAvailablePositionsUsingCardToMove(requiredEntryForExit, availablePositions, cardToMoveSides){
         let res = [];
         let stringAvailablePositions = JSON.stringify(availablePositions)
+        console.log("requiredEntryForExit", requiredEntryForExit)
         for(let i = 0; i< cardToMoveSides.length; i++){
             let side = cardToMoveSides.at(i);
             if(side==="ENTRY"){
                 switch (i){
                     case 0:
-                        if (stringAvailablePositions.includes(JSON.stringify(requiredEntryForExit["up"])))
-                            res.push(requiredEntryForExit["up"]);
+                        requiredEntryForExit["up"].forEach(position => {
+                            if (stringAvailablePositions.includes(JSON.stringify(position)))
+                                res.push(position);
+                        })
                         break;
                     case 1:
-                        if (stringAvailablePositions.includes(JSON.stringify(requiredEntryForExit["right"])))
-                            res.push(requiredEntryForExit["right"]);
+                        requiredEntryForExit["right"].forEach(position => {
+                            if (stringAvailablePositions.includes(JSON.stringify(position)))
+                                res.push(position);
+                        })
                         break;
                     case 2:
-                        if (stringAvailablePositions.includes(JSON.stringify(requiredEntryForExit["down"])))
-                            res.push(requiredEntryForExit["down"]);
+                        requiredEntryForExit["down"].forEach(position => {
+                            if (stringAvailablePositions.includes(JSON.stringify(position)))
+                                res.push(position);
+                        })
                         break;
                     case 3:
-                        if (stringAvailablePositions.includes(JSON.stringify(requiredEntryForExit["left"])))
-                            res.push(requiredEntryForExit["left"]);
+                        requiredEntryForExit["left"].forEach(position => {
+                            if (stringAvailablePositions.includes(JSON.stringify(position)))
+                                res.push(position);
+                        })
                         break;
                 }
             }
