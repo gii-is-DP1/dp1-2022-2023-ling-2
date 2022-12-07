@@ -947,6 +947,8 @@ INSERT INTO users(statistics_id, username,password,email,is_admin,enabled) VALUE
 INSERT INTO multiplayer_games(date_ended, date_started, p1energy_left, p2energy_left) VALUES (null, '2022-11-09 11:08:21.139157', 3, 3);
 INSERT INTO usergames(user_id, game_id, player, role) VALUES (1, 1, 1, 'player');
 INSERT INTO usergames(user_id, game_id, player, role) VALUES (2, 1, 2, 'player');
+
+-- Game 1
 INSERT INTO game_card(card_id, user_id, gameid, in_hand, is_multiplayer, rotation, x, y) VALUES
                                                                                             (3, 1, 1, false, false, 0, 2, 1),
                                                                                             (3, 1, 1, true, false, 0, null, null),
@@ -958,6 +960,20 @@ INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES 
                                                                                 (1, 2),
                                                                                 (1, 3),
                                                                                 (1, 4);
+
+-- Game 2
+INSERT INTO game_card(card_id, user_id, gameid, in_hand, is_multiplayer, rotation, x, y) VALUES
+                                                                                             (3, 1, 2, true, false, 0, null, null),
+                                                                                             (3, 1, 2, true, false, 0, null, null),
+                                                                                             (6, 1, 2, false, false, 0, 2, 1),
+                                                                                             (8, 1, 2, false, false, 3, 1, 1);
+
+INSERT INTO singleplayer_game(date_ended, date_started, user_id, puzzle_id, last_placed_card_id, energy) VALUES (null, '2022-11-09 11:08:21.139157', 1, 2, 8, 3);
+
+INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES (2, 5),
+                                                                                (2, 6),
+                                                                                (2, 7),
+                                                                                (2, 8);
 
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('Winner','Win one Game', 1, 1);
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('TEST admin 2','Win one Game', 3, 50);
