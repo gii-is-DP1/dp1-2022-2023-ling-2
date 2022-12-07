@@ -129,34 +129,37 @@
     function cleanAvailablePositionsUsingCardToMove(requiredEntryForExit, availablePositions, cardToMoveSides){
         let res = [];
         let stringAvailablePositions = JSON.stringify(availablePositions)
-        console.log("requiredEntryForExit", requiredEntryForExit)
         for(let i = 0; i< cardToMoveSides.length; i++){
             let side = cardToMoveSides.at(i);
             if(side==="ENTRY"){
                 switch (i){
                     case 0:
-                        requiredEntryForExit["up"].forEach(position => {
-                            if (stringAvailablePositions.includes(JSON.stringify(position)))
-                                res.push(position);
-                        })
+                        if(requiredEntryForExit["up"]!==undefined)
+                            requiredEntryForExit["up"].forEach(position => {
+                                if (stringAvailablePositions.includes(JSON.stringify(position)))
+                                    res.push(position);
+                            })
                         break;
                     case 1:
-                        requiredEntryForExit["right"].forEach(position => {
-                            if (stringAvailablePositions.includes(JSON.stringify(position)))
-                                res.push(position);
-                        })
+                        if(requiredEntryForExit["right"]!==undefined)
+                            requiredEntryForExit["right"].forEach(position => {
+                                if (stringAvailablePositions.includes(JSON.stringify(position)))
+                                    res.push(position);
+                            })
                         break;
                     case 2:
-                        requiredEntryForExit["down"].forEach(position => {
-                            if (stringAvailablePositions.includes(JSON.stringify(position)))
-                                res.push(position);
-                        })
+                        if(requiredEntryForExit["down"]!==undefined)
+                            requiredEntryForExit["down"].forEach(position => {
+                                if (stringAvailablePositions.includes(JSON.stringify(position)))
+                                    res.push(position);
+                            })
                         break;
                     case 3:
-                        requiredEntryForExit["left"].forEach(position => {
-                            if (stringAvailablePositions.includes(JSON.stringify(position)))
-                                res.push(position);
-                        })
+                        if(requiredEntryForExit["left"]!==undefined)
+                            requiredEntryForExit["left"].forEach(position => {
+                                if (stringAvailablePositions.includes(JSON.stringify(position)))
+                                    res.push(position);
+                            })
                         break;
                 }
             }
