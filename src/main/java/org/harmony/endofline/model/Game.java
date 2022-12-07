@@ -24,9 +24,6 @@ public class Game extends BaseEntity {
     @Column(name = "date_ended")
     private LocalDateTime dateEnded;
 
-    @OneToMany
-    private List<GameCard> gameCards;
-
     private String result;
 
     public Game(LocalDateTime dateStarted){
