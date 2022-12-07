@@ -58,7 +58,8 @@ public class SingleplayerService {
         List<List<Integer>> validPositions = new ArrayList<>();
         Singleplayer game = findByID(id);
         GameCard cardToMove = gameCardRepository.findById(cardToMoveId).orElse(null);
-        if (cardToMove!=null && cardToMove.getInHand())
+
+        if (cardToMove!=null && cardToMove.getInHand() && (!energyUsed || !game.getEnergy().equals(0)))
             validPositions = getValidPositions(game, cardsOnBoard, cardToMove, rotation, energyUsed);
 
         if (validPositions.contains(futurePosition)) {
