@@ -125,6 +125,7 @@ public class SingleplayerServiceTest {
         shouldNotHaveLastPlacedCardIdTwo();
         shouldNotPlaceCardWithIncorrectRotation();
         shouldNotPlaceCardInOccupiedPosition();
+        shouldPlaceCardWithNoEnergyLeft();
     }
 
     private void shouldNotPlaceCardNoRotationNoWrapAround() throws InvalidIDException {
@@ -167,6 +168,20 @@ public class SingleplayerServiceTest {
         Integer x = 2;
         Integer y = 2;
         boolean energyUsed = false;
+        List<GameCard> cardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
+        singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y, energyUsed);
+
+        List<GameCard> newCardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
+        assertEquals(newCardsOnBoard, cardsOnBoard);
+    }
+
+    private void shouldPlaceCardWithNoEnergyLeft() throws InvalidIDException {
+        Integer gameId = 3;
+        Integer cardToMove = 9;
+        Integer rotation = 0;
+        Integer x = 2;
+        Integer y = 0;
+        boolean energyUsed = true;
         List<GameCard> cardsOnBoard = singleplayerService.getAllCardsInBoard(gameId);
         singleplayerService.moveCard(gameId, cardsOnBoard, cardToMove, rotation, x, y, energyUsed);
 
