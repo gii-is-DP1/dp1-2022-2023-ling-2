@@ -2,6 +2,7 @@
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="endofline" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 
 <endofline:layout pageName="singleplayer_game">
@@ -9,6 +10,10 @@
         <h1>Singleplayer</h1>
         <endofline:board side="5" gameCards="${gameCards}" puzzleCards="${puzzleCards}"/>
         <endofline:hand handCards="${handCards}" num="5"/>
+    </div>
+    <div class="energy">
+        <h2>Energy</h2>
+        <img src="<spring:url value="/resources/images/energy.svg" />" alt="Energy card" />
     </div>
 </endofline:layout>
 <script>
