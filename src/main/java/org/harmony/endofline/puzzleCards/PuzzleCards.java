@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.harmony.endofline.card.Card;
 import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.puzzle.Puzzle;
-import org.harmony.endofline.singleplayerHand.SingleplayerHand;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -42,8 +41,4 @@ public class PuzzleCards extends BaseEntity {
     @Max(3)
     @JoinColumn(name = "rotation")
     private Integer rotation;
-
-    @ManyToOne
-    @JoinColumn(name = "singleplayer_hand_id")
-    private SingleplayerHand singleplayerHand;
 }
