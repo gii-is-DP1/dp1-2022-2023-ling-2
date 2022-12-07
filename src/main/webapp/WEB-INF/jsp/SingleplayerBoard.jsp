@@ -78,5 +78,7 @@
                 "y": "${card.y}"
             },
         </c:forEach>
-    ]
+    ];
+
+    let energyLeft = ${game.energy};
 </script>

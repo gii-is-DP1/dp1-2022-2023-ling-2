@@ -12,5 +12,9 @@
 </div>
 
 <script>
+    let usingEnergy=false;
 
+    function toggleEnergyUsage(){
+        usingEnergy = !usingEnergy;
+    }
 </script>
