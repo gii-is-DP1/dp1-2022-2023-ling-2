@@ -2,7 +2,7 @@
 
 A 54 cards abstract game where you will have a single objective: end your opponents line before they end yours.
 
-
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=gii-is-DP1_dp1-2022-2023-ling-2)
 
 ## Running end-of-line locally
 end-of-line is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/). You can build a jar file and run it from the command line:
