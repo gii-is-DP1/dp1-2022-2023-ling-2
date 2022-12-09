@@ -22,7 +22,7 @@ public class SingleplayerServiceTest {
     @Test
     void shouldGiveAllSingleplayerGames(){
         List<Singleplayer> games = singleplayerService.getAllGamesWithUser();
-        assertThat(games).hasSize(1);
+        assertThat(games).hasSize(3);
     }
 
     @Test
@@ -104,7 +104,7 @@ public class SingleplayerServiceTest {
 
     private void shouldPlaceCardWithEnergy() throws InvalidIDException {
         Integer gameId = 2;
-        Integer cardToMove = 5;
+        Integer cardToMove = 6;
         Integer rotation = 0;
         Integer x = 2;
         Integer y = 0;
@@ -177,7 +177,7 @@ public class SingleplayerServiceTest {
 
     private void shouldPlaceCardWithNoEnergyLeft() throws InvalidIDException {
         Integer gameId = 3;
-        Integer cardToMove = 9;
+        Integer cardToMove = 10;
         Integer rotation = 0;
         Integer x = 2;
         Integer y = 0;
