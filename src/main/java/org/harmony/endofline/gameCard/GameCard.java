@@ -30,10 +30,6 @@ public class GameCard extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private Integer gameID;
-
-    private Boolean isMultiplayer;
-
     private Status status;
 
     @Min(0)
@@ -46,11 +42,9 @@ public class GameCard extends BaseEntity {
     @Max(3)
     private Integer rotation;
 
-    public GameCard(Card card, User user, Integer gameID, Boolean isMultiplayer, Status status, Integer x, Integer y, Integer rotation) {
+    public GameCard(Card card, User user, Status status, Integer x, Integer y, Integer rotation) {
         this.card = card;
         this.user = user;
-        this.gameID = gameID;
-        this.isMultiplayer = isMultiplayer;
         this.status = status;
         this.x = x;
         this.y = y;

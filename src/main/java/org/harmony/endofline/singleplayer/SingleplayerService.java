@@ -49,10 +49,11 @@ public class SingleplayerService {
         return singleplayerRepository.FindUserSingleplayerGame(user, gameId).size()>0;
     }
 
+    @Transactional
     public void addInitialCards(Singleplayer game, List<Card> deckCards) {
-        deckCards.stream()
-            .map(card -> new GameCard(card, game.getUser(), game.getId(), false, Status.DECK, null, null, 0))
-            .forEach(gameCard -> gameCardRepository.save(gameCard));
+        game.setGameCards(deckCards.stream()
+            .map(card -> gameCardRepository.save(new GameCard(card, game.getUser(), Status.DECK, null, null, 0)))
+            .collect(Collectors.toList()));
     }
 
     public void addCardToGame(Singleplayer game, GameCard gameCard) {
@@ -177,16 +178,16 @@ public class SingleplayerService {
         return res;
     }
 
+    @Transactional
     public void drawCardsFromDeck(Singleplayer game) {
-        List<GameCard> cardsInHand = singleplayerRepository.findCardsInHand(game.getId());
-        List<GameCard> cardsInDeck = singleplayerRepository.findCardsInDeck(game.getId());
-        if(cardsInHand.size() < 5 && cardsInDeck.size() > 0){
-            int cardsToDraw = 5 - cardsInHand.size();
-            if(cardsInDeck.size() < cardsToDraw)
-                cardsToDraw = cardsInDeck.size();
-            IntStream.range(0, cardsToDraw).forEach(i -> {
-                cardsInDeck.get(random.nextInt(cardsInDeck.size())).setStatus(Status.HAND);
-            });
+        Integer cardsInHand = game.getGameCards().stream().filter(c -> c.getStatus().equals(Status.HAND)).toList().size();
+        Integer cardsInDeck = game.getGameCards().stream().filter(c -> c.getStatus().equals(Status.DECK)).toList().size();
+        if(cardsInHand < 5 && cardsInDeck > 0){
+            int cardsToDraw = 5 - cardsInHand;
+            if(cardsInDeck < cardsToDraw)
+                cardsToDraw = cardsInDeck;
+            Collections.shuffle(game.getGameCards());
+            game.getGameCards().stream().filter(c -> c.getStatus().equals(Status.DECK)).limit(cardsToDraw).forEach(c -> c.setStatus(Status.HAND));
         }
     }
 }
