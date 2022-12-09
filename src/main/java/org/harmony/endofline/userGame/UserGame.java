@@ -28,9 +28,9 @@ public class UserGame extends BaseEntity {
     @Min(value=1)
     private Integer player;
 
-    private String role; // player or spectator
+    private PlayerType role; // player or spectator
 
-    public UserGame(User user, Multiplayer game, Integer player, String role) {
+    public UserGame(User user, Multiplayer game, Integer player, PlayerType role) {
         this.user = user;
         this.game = game;
         this.player = player;

@@ -1,0 +1,58 @@
+package org.harmony.endofline.gameInvite;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.harmony.endofline.model.BaseEntity;
+import org.harmony.endofline.user.User;
+import org.harmony.endofline.userGame.UserGame;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "game_invite")
+public class GameInvite extends BaseEntity {
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    User sender;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    User receiver;
+
+    @ManyToOne
+    @JoinColumn(name = "user_game_id")
+    @NotNull
+    UserGame userGame;
+
+    @NotNull
+    Boolean pending;
+
+    @NotNull
+    Boolean canceled;
+
+    @NotNull
+    Boolean accepted;
+
+    @NotNull
+    InviteType type;
+
+    public GameInvite(UserGame userGame, User sender, User receiver, InviteType type){
+        this.userGame = userGame;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.pending = true;
+        this.accepted = false;
+        this.canceled = false;
+        this.type = type;
+    }
+
+    public GameInvite() {
+
+    }
+}

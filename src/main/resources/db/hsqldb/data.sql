@@ -16,8 +16,8 @@ INSERT INTO users(statistics_id, username,password,email,is_admin,enabled) VALUE
 INSERT INTO users(statistics_id, username,password,email,is_admin,enabled) VALUES (2, 'user','user','user@localhost.com',false,true);
 
 INSERT INTO multiplayer_games(date_ended, date_started, p1energy_left, p2energy_left) VALUES (null, '2022-11-09 11:08:21.139157', 3, 3);
-INSERT INTO usergames(user_id, game_id, player, role) VALUES (1, 1, 1, 'player');
-INSERT INTO usergames(user_id, game_id, player, role) VALUES (2, 1, 2, 'player');
+INSERT INTO usergames(user_id, game_id, player, role) VALUES (1, 1, 1, 0);
+INSERT INTO usergames(user_id, game_id, player, role) VALUES (2, 1, 2, 0);
 INSERT INTO singleplayer_game(date_ended, date_started, user_id) VALUES (null, '2022-11-09 11:08:21.139157', 1);
 
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('Winner','Win one Game', 1, 1);

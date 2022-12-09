@@ -2,6 +2,7 @@ package org.harmony.endofline.multiplayer;
 
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
+import org.harmony.endofline.userGame.PlayerType;
 import org.harmony.endofline.userGame.UserGame;
 import org.harmony.endofline.userGame.UserGameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class MultiplayerController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
-        UserGame userGame = new UserGame(user, game, 1, "player");
+        UserGame userGame = new UserGame(user, game, 1, PlayerType.PLAYER);
         userGameService.save(userGame);
 
         multiplayerService.addUserGame(game, userGame);
