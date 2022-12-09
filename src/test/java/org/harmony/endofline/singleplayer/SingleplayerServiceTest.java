@@ -189,4 +189,15 @@ public class SingleplayerServiceTest {
         assertEquals(newCardsOnBoard, cardsOnBoard);
     }
 
+    @Test
+    public void shouldDrawCard() throws InvalidIDException{
+        Integer gameId = 1;
+        Singleplayer game = singleplayerService.findByID(gameId);
+
+        assertEquals(game.getGameCards().stream().filter(c -> c.getStatus().ordinal()==2).toList().size(), 1);
+        singleplayerService.drawCardsFromDeck(game);
+
+        assertEquals(game.getGameCards().stream().filter(c -> c.getStatus().ordinal()==2).toList().size(), 0);
+    }
+
 }
