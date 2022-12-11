@@ -22,7 +22,7 @@
 <script>
     let cardRotation = {};
     let selectedHandCardId = null;
-    let selectedHandCard;
+    let selectedHandCard = null;
 
     function clicked(handCardId) {
         if (selectedHandCardId==null){

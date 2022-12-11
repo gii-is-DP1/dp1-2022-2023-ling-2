@@ -12,9 +12,11 @@
         <endofline:hand handCards="${handCards}" num="5"/>
     </div>
     <div class="energy">
-        <h2>Energy</h2>
-        <img src="<spring:url value="/resources/images/energy.svg" />" alt="Energy card" />
+        <endofline:energy energyLeft="${game.energy}"/>
     </div>
+    <c:if test="${result!=null}">
+        <c:out value="${result}"></c:out>
+    </c:if>
 </endofline:layout>
 <script>
     let lastPlacedCard = {
