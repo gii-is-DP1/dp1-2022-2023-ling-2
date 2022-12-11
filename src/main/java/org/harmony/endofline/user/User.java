@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.friendRequest.FriendRequest;
+import org.harmony.endofline.gameInvite.GameInvite;
 import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.singleplayer.Singleplayer;
 import org.harmony.endofline.statistic.Statistic;
@@ -66,6 +67,14 @@ public class User extends BaseEntity {
 
     @ManyToMany
     private Set<User> friends;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotNull
+    private List<GameInvite> receivedInvitations;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotNull
+    private List<GameInvite> sentInvitations;
 
     public User(){
         this.isAdmin = Boolean.FALSE;
