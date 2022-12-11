@@ -1,5 +1,6 @@
 package org.harmony.endofline.singleplayer;
 
+import org.harmony.endofline.board.Board;
 import org.harmony.endofline.card.Card;
 import org.harmony.endofline.card.Side;
 import org.harmony.endofline.gameCard.GameCard;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 public class SingleplayerService {
@@ -87,10 +87,21 @@ public class SingleplayerService {
         }
     }
 
-    private List<List<Integer>> getValidPositions(Singleplayer game, List<GameCard> cardsOnBoard, GameCard cardToMove, Integer rotation, Boolean energyUsed) throws InvalidIDException {
+    private List<List<Integer>> getValidPositions(Singleplayer game, List<GameCard> cardsOnBoard, GameCard cardToMove, Integer rotation, Boolean energyUsed) {
         GameCard lastCard = game.getLastPlacedCard();
 
         var requiredEntriesForExit = calculateEntriesForExits(cardsOnBoard, energyUsed, lastCard);
+
+        List<List<Integer>> availablePositions = getAllAvailablePositions(game, cardsOnBoard, requiredEntriesForExit);
+
+        List<Side> cardToMoveSides = cardToMove.getRotatedSides(rotation);
+
+        List<List<Integer>> validPositions = cleanAvailablePositionsUsingCardToMove(requiredEntriesForExit, availablePositions, cardToMoveSides);
+
+        return validPositions;
+    }
+
+    private List<List<Integer>> getAllAvailablePositions(Singleplayer game, List<GameCard> cardsOnBoard, Map<String, List<List<Integer>>> requiredEntriesForExit){
 
         List<List<Integer>> exitPositions = requiredEntriesForExit.values().stream().flatMap(list -> list.stream()).toList();
         List<PuzzleCards> puzzleCards = puzzleRepository.findCardsOfPuzzle(game.getPuzzle().getId());
@@ -100,12 +111,8 @@ public class SingleplayerService {
 
         List<List<Integer>> availablePositions = exitPositions.stream().filter(p -> !occupiedPositions.contains(p)).toList();
 
-        List<Side> cardToMoveSides = cardToMove.getRotatedSides(rotation);
-
-        List<List<Integer>> validPositions = cleanAvailablePositionsUsingCardToMove(requiredEntriesForExit, availablePositions, cardToMoveSides);
-
-        return validPositions;
-}
+        return availablePositions;
+    }
 
     private static Map<String, List<List<Integer>>> calculateEntriesForExits(List<GameCard> cardsOnBoard, Boolean energyUsed, GameCard lastCard) {
         // TODO normalize board dimesions
@@ -189,5 +196,25 @@ public class SingleplayerService {
             Collections.shuffle(game.getGameCards());
             game.getGameCards().stream().filter(c -> c.getStatus().equals(Status.DECK)).limit(cardsToDraw).forEach(c -> c.setStatus(Status.HAND));
         }
+    }
+
+    public String getResultIfApplicable(Singleplayer game, List<PuzzleCards> puzzleCards, Board board) {
+        String res = null;
+
+        List<GameCard> cardsInHand = game.getGameCards().stream().filter(c -> c.getStatus().equals(Status.HAND)).toList();
+        List<GameCard> cardsOnBoard = game.getGameCards().stream().filter(c -> c.getStatus().equals(Status.BOARD)).toList();
+        if(cardsOnBoard.size()+puzzleCards.size() == board.getHeight()* board.getWidth()){
+            game.setResult("win");
+            res = "win";
+        } else {
+            List<List<Integer>> availablePositions = null;
+            Map<String, List<List<Integer>>> requiredEntriesForExit = calculateEntriesForExits(cardsOnBoard, game.getEnergy()>0, game.getLastPlacedCard());
+            availablePositions = getAllAvailablePositions(game, cardsOnBoard, requiredEntriesForExit);
+            if(availablePositions.size()==0){
+                game.setResult("lose");
+                res = "lose";
+            }
+        }
+        return res;
     }
 }
