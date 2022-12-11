@@ -199,6 +199,7 @@ public class SingleplayerService {
         }
     }
 
+    @Transactional
     public String getResultIfApplicable(Singleplayer game, List<PuzzleCards> puzzleCards, Board board) {
         String res = null;
 
