@@ -65,8 +65,8 @@
                 <tr>
                     <th>Start</th>
                     <th>Finish</th>
-                    <th>Puzzle</th>
-                    <th>Beaten</th>
+                    <th>Difficulty</th>
+                    <th>Result</th>
                     <th>Player</th>
                 </tr>
                 </thead>
@@ -89,10 +89,17 @@
                             </c:choose>
                         </td>
                         <td>
-
+                            <c:out value="${single.puzzle.difficulty}"/>
                         </td>
                         <td>
-
+                            <c:choose>
+                                <c:when test="${single.dateEnded == null}">
+                                    <c:out value="Unfinished"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:out value="${single.result}" />
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                         <td>
                             <a href="/u/${single.user.username}">${single.user.username}</>
