@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -205,6 +206,7 @@ public class SingleplayerService {
         List<GameCard> cardsOnBoard = game.getGameCards().stream().filter(c -> c.getStatus().equals(Status.BOARD)).toList();
         if(cardsOnBoard.size()+puzzleCards.size() == board.getHeight()* board.getWidth()){
             game.setResult("win");
+            game.setDateEnded(LocalDateTime.now());
             res = "win";
         } else {
             List<List<Integer>> availablePositions = null;
@@ -212,6 +214,7 @@ public class SingleplayerService {
             availablePositions = getAllAvailablePositions(game, cardsOnBoard, requiredEntriesForExit);
             if(availablePositions.size()==0){
                 game.setResult("lose");
+                game.setDateEnded(LocalDateTime.now());
                 res = "lose";
             }
         }
