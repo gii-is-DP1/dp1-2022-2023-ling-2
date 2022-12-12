@@ -76,8 +76,8 @@
                 <tr>
                     <th>Start</th>
                     <th>Finish</th>
-                    <th>Puzzle</th>
-                    <th>Beaten</th>
+                    <th>Difficulty</th>
+                    <th>Result</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -99,10 +99,17 @@
                             </c:choose>
                         </td>
                         <td>
-
+                            <c:out value="${singl.puzzle.difficulty}"/>
                         </td>
                         <td>
-
+                            <c:choose>
+                                <c:when test="${singl.dateEnded == null}">
+                                    <c:out value="Unfinished"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:out value="${singl   .result}" />
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                     </tr>
                 </c:forEach>
