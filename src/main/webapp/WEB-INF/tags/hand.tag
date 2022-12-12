@@ -5,9 +5,11 @@
               description="Number of cards in the hand" %>
 <%@ attribute name="handCards" required="false" rtexprvalue="true" type="java.util.List"
               description="Cards in the hand of the player" %>
+<%@ attribute name="cards_left" required="true" rtexprvalue="true" type="java.lang.Integer"
+              description="Cards in the hand of the player" %>
 
 <div class="hand">
-    <endofline:deck left="16"/>
+    <endofline:deck left="${cards_left}"/>
     <c:forEach var="n" begin="0" end="${num - 1}">
         <c:choose>
             <c:when test="${handCards != null && handCards.size() > n}">

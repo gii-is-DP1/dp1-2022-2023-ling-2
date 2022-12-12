@@ -9,7 +9,7 @@
     <div class="center">
         <h1>Singleplayer</h1>
         <endofline:board side="5" gameCards="${gameCards}" puzzleCards="${puzzleCards}"/>
-        <endofline:hand handCards="${handCards}" num="5"/>
+        <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}"/>
     </div>
     <div class="energy">
         <endofline:energy energyLeft="${game.energy}"/>

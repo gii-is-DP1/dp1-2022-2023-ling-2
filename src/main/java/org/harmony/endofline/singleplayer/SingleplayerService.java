@@ -67,6 +67,9 @@ public class SingleplayerService {
     public List<GameCard> getAllCardsInHand(Integer id){
         return singleplayerRepository.findCardsInHand(id);
     }
+    public List<GameCard> getAllCardsInDeck(Integer id){
+        return singleplayerRepository.findCardsInDeck(id);
+    }
 
     @Transactional
     public void moveCard(Integer id, List<GameCard> cardsOnBoard, Integer cardToMoveId, Integer rotation, Integer x, Integer y, boolean energyUsed) throws InvalidIDException {
