@@ -7,8 +7,11 @@
               description="Cards in the hand of the player" %>
 <%@ attribute name="cards_left" required="true" rtexprvalue="true" type="java.lang.Integer"
               description="Cards in the hand of the player" %>
+<%@ attribute name="energyLeft" required="true" rtexprvalue="true" type="java.lang.Integer"
+              description="Energy left from the player" %>
 
 <div class="hand">
+    <endofline:energy energyLeft="${energyLeft}"/>
     <endofline:deck left="${cards_left}"/>
     <c:forEach var="n" begin="0" end="${num - 1}">
         <c:choose>

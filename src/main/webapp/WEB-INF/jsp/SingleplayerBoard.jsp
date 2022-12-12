@@ -9,14 +9,28 @@
     <div class="center">
         <h1>Singleplayer</h1>
         <endofline:board side="5" gameCards="${gameCards}" puzzleCards="${puzzleCards}"/>
-        <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}"/>
+        <div id="hand" class="center">
+            <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${game.energy}"/>
+        </div>
+        <c:if test="${result!=null}">
+            <script>
+                document.getElementById("hand").setAttribute("style", "display: none !important;");
+            </script>
+            <c:choose>
+                <c:when test="${result=='win'}">
+                    <div class="center text-success">
+                        <h1>You won!</h1>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="center text-danger">
+                        <h1>You lost</h1>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+            <a href="/" class="btn btn-primary">Continue</a>
+        </c:if>
     </div>
-    <div class="energy">
-        <endofline:energy energyLeft="${game.energy}"/>
-    </div>
-    <c:if test="${result!=null}">
-        <c:out value="${result}"></c:out>
-    </c:if>
 </endofline:layout>
 <script>
     let lastPlacedCard = {
