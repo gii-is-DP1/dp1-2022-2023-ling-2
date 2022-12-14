@@ -1,9 +1,12 @@
 package org.harmony.endofline.admin;
 
 
+import org.harmony.endofline.achievement.AchievementService;
 import org.harmony.endofline.configuration.SecurityConfiguration;
+import org.harmony.endofline.friendRequest.FriendRequestService;
 import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.singleplayer.SingleplayerService;
+import org.harmony.endofline.statistic.StatisticService;
 import org.harmony.endofline.user.UserController;
 import org.harmony.endofline.user.UserService;
 import org.junit.jupiter.api.Test;
@@ -22,7 +25,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith({SpringExtension.class})
 @WebMvcTest(value = UserController.class,
     excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
     excludeAutoConfiguration= SecurityConfiguration.class)
@@ -32,6 +35,12 @@ public class DashboardTest {
     MockMvc mockMvc;
     @MockBean
     UserService userService;
+    @MockBean
+    AchievementService achievementService;
+    @MockBean
+    StatisticService statisticService;
+    @MockBean
+    FriendRequestService friendRequestService;
     @MockBean
     MultiplayerService multiService;
     @MockBean
@@ -47,9 +56,10 @@ public class DashboardTest {
     }
 
 
+    @WithMockUser(value = "spring")
     @Test
     public void dashboardNotAdmin() throws Exception {
-        mockMvc.perform(get("/dashboard")).andExpect(status().isForbidden());
+        mockMvc.perform(get("/dashboard")).andExpect(status().isUnauthorized());
     }
 
     @Test
