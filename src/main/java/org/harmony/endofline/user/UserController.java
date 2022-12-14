@@ -1,16 +1,14 @@
 package org.harmony.endofline.user;
 
-import org.ehcache.core.spi.service.StatisticsService;
 import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.achievement.AchievementService;
+import org.harmony.endofline.friendRequest.FriendRequest;
+import org.harmony.endofline.friendRequest.FriendRequestService;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.singleplayer.Singleplayer;
 import org.harmony.endofline.singleplayer.SingleplayerService;
-import org.harmony.endofline.statistic.Statistic;
 import org.harmony.endofline.statistic.StatisticService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -23,7 +21,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +29,7 @@ public class UserController {
 
     private static final String VIEWS_USER_CREATE_UPDATE_FORM = "users/createOrUpdateUserForm";
     private static final String VIEWS_USER_DELETE_FORM = "users/deleteUserForm";
-    private static final String VIEWS_USER_GAMES_FORM = "users/viewUsersGames";
+    private static final String VIEWS_USER_FRIENDS = "users/friends";
     private static final String VIEWS_DASHBOARD = "admin/dashboard";
 
     private final UserService userService;
@@ -40,14 +37,16 @@ public class UserController {
     private final SingleplayerService singleplayerService;
     private final AchievementService achievementService;
     private final StatisticService statisticService;
+    private final FriendRequestService friendRequestService;
 
     @Autowired
-    public UserController(UserService us, MultiplayerService multiplayerService, SingleplayerService singleplayerService, AchievementService achievementService,StatisticService statisticService) {
+    public UserController(UserService us, MultiplayerService multiplayerService, SingleplayerService singleplayerService, AchievementService achievementService, StatisticService statisticService, FriendRequestService friendRequestService) {
         this.userService = us;
         this.multiplayerService = multiplayerService;
         this.singleplayerService = singleplayerService;
         this.achievementService = achievementService;
         this.statisticService = statisticService;
+        this.friendRequestService = friendRequestService;
     }
 
     @InitBinder
@@ -96,14 +95,15 @@ public class UserController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User authenticatedUser = userService.findByUsername(auth.getName());
-        mav.addObject(
-            "private_info",
-            user.getUsername().equals(authenticatedUser.getUsername()) || authenticatedUser.getIsAdmin()
-        );
-        mav.addObject(
-            "admin",
-            user.getIsAdmin()
-        );
+
+        mav.addObject("private_info", user.getUsername().equals(authenticatedUser.getUsername()) || authenticatedUser.getIsAdmin());
+        mav.addObject("admin", user.getIsAdmin());
+
+        mav.addObject("show_fr_button", !user.getUsername().equals(authenticatedUser.getUsername()));
+
+        FriendRequest fr = friendRequestService.findRequestByUsers(authenticatedUser, user);
+        mav.addObject("friend_request", fr);
+        mav.addObject("fr_status", userService.getFriendStatus(authenticatedUser, user, fr));
 
         List<Multiplayer> multiplayerGames = userService.getMultiplayerGames(username);
         mav.addObject("multiplayerGames", multiplayerGames);
@@ -212,4 +212,36 @@ public class UserController {
 
         return VIEWS_DASHBOARD;
     }
+
+    @GetMapping("/u/{username}/friends")
+    public String getFriends(@PathVariable String username, Map<String, Object> model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+
+        User user = this.userService.findByUsername(username);
+        if (!user.equals(authenticatedUser))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+
+        model.put("friends", userService.getFriends(user));
+        model.put("pending_received_requests", userService.getPendingReceivedRequests(user));
+        model.put("pending_sent_requests", userService.getPendingSentRequests(user));
+        // TODO Friends page
+        return VIEWS_USER_FRIENDS;
+    }
+
+    @GetMapping("/removefriend/{username}")
+    public String removeFriend(@PathVariable("username") String username, Map<String, Object> model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+        User friend = this.userService.findByUsername(username);
+
+        if(friend==null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        if (!userService.isFriendFromUser(authenticatedUser, friend))
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Friendship does not exists");
+
+        userService.removeFriendFromUser(authenticatedUser, friend);
+        return "redirect:/u/"+authenticatedUser.getUsername()+"/friends";
+    }
+
 }

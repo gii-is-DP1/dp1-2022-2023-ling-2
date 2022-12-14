@@ -999,6 +999,9 @@ INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES 
                                                                                 (3, 12),
                                                                                 (3, 13);
 
+INSERT INTO usergames(user_id, game_id, player, role) VALUES (1, 1, 1, 0);
+INSERT INTO usergames(user_id, game_id, player, role) VALUES (2, 1, 2, 0);
+INSERT INTO singleplayer_game(date_ended, date_started, user_id) VALUES (null, '2022-11-09 11:08:21.139157', 1);
 
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('Winner','Win one Game', 1, 1);
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('TEST admin 2','Win one Game', 3, 50);

@@ -10,6 +10,33 @@
     <div class="center">
         <h2 class="title">${user.username}</h2>
         <p>${user.email}</p>
+        <c:if test="${show_fr_button}">
+            <c:choose>
+                <c:when test="${fr_status.equals('request')}">
+                    <form:form action="/friendrequest/send/${user.username}" method="POST">
+                        <input type="submit" class="btn margins-small" value="Send Friend Request"/>
+                    </form:form>
+                </c:when>
+                <c:when test="${fr_status.equals('friend')}">
+                    <form:form action="/removefriend/${user.username}" method="GET">
+                        <input type="submit" class="btn btn-danger margins-small" value="Remove Friend"/>
+                    </form:form>
+                </c:when>
+                <c:when test="${fr_status.equals('pending')}">
+                    <h4>A friend request has been sent</h4>
+                </c:when>
+                <c:when test="${fr_status.equals('accept')}">
+                    <div class="center-horizontal">
+                        <form:form action="/friendrequest/${friend_request.id}/accept" method="GET">
+                            <input type="submit" class="btn margins-small" value="Accept Friend Request"/>
+                        </form:form>
+                        <form:form action="/friendrequest/${friend_request.id}/reject" method="GET">
+                            <input type="submit" class="btn btn-danger margins-small" value="Reject Friend Request"/>
+                        </form:form>
+                    </div>
+                </c:when>
+            </c:choose>
+        </c:if>
         <c:if test="${private_info}">
             <div class="center-horizontal">
                 <form:form action="/u/${user.username}/edit" method="GET">

@@ -1,19 +1,21 @@
-package org.harmony.endofline.gameInvite;
+package org.harmony.endofline.friendRequest;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.user.User;
-import org.harmony.endofline.userGame.UserGame;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "game_invite")
-public class GameInvite extends BaseEntity {
+@Table(name = "friend_requests")
+public class FriendRequest extends BaseEntity {
 
     @NotNull
     @ManyToOne
@@ -25,34 +27,20 @@ public class GameInvite extends BaseEntity {
     @JoinColumn(name = "receiver_id")
     User receiver;
 
-    @ManyToOne
-    @JoinColumn(name = "user_game_id")
-    @NotNull
-    UserGame userGame;
-
     @NotNull
     Boolean pending;
 
     @NotNull
-    Boolean canceled;
-
-    @NotNull
     Boolean accepted;
 
-    @NotNull
-    InviteType type;
-
-    public GameInvite(UserGame userGame, User sender, User receiver, InviteType type){
-        this.userGame = userGame;
+    public FriendRequest(User sender, User receiver){
         this.sender = sender;
         this.receiver = receiver;
         this.pending = true;
         this.accepted = false;
-        this.canceled = false;
-        this.type = type;
     }
 
-    public GameInvite() {
+    public FriendRequest() {
 
     }
 }

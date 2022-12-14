@@ -2,10 +2,10 @@ package org.harmony.endofline.user;
 
 import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.achievement.AchievementRepository;
+import org.harmony.endofline.friendRequest.FriendRequest;
+import org.harmony.endofline.gameInvite.GameInvite;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.singleplayer.Singleplayer;
-import org.harmony.endofline.statistic.Statistic;
-import org.harmony.endofline.statistic.StatisticService;
 import org.harmony.endofline.userGame.UserGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -89,5 +91,52 @@ public class UserService {
             olduser.setPassword(newuser.getPassword());
         }
         userRepository.save(olduser);
+    }
+
+    public Set<User> getFriends(User user) {
+        return user.getFriends();
+    }
+    public Set<User> getInvitations(User user) {
+        return user.getFriends();
+    }
+
+    public List<FriendRequest> getPendingReceivedRequests(User user) {
+        return user.getReceivedRequests().stream().filter(e -> e.getPending()).collect(Collectors.toList());
+    }
+
+    public Object getPendingSentRequests(User user) {
+        return user.getSentRequests().stream().filter(e -> e.getPending()).collect(Collectors.toList());
+    }
+
+    public List<GameInvite> getPendingReceivedInvitations(User user) {
+        return user.getReceivedInvitations().stream().filter(e -> e.getPending()).collect(Collectors.toList());
+    }
+
+    public Object getPendingSentInvitations(User user) {
+        return user.getSentInvitations().stream().filter(e -> e.getPending()).collect(Collectors.toList());
+    }
+
+    public Object getFriendStatus(User authenticatedUser, User user, FriendRequest fr) {
+        String res = "";
+        if (authenticatedUser.getFriends().contains(user))
+            res = "friend";
+        else if (fr==null)
+            res = "request";
+        else if (fr.getSender().equals(authenticatedUser))
+            res = "pending";
+        else if (fr.getReceiver().equals(authenticatedUser))
+            res = "accept";
+
+        return res;
+    }
+
+    @Transactional
+    public void removeFriendFromUser(User user, User friend) {
+        user.removeFriend(friend);
+        friend.removeFriend(user);
+    }
+
+    public boolean isFriendFromUser(User user, User friend) {
+        return user.getFriends().contains(friend);
     }
 }

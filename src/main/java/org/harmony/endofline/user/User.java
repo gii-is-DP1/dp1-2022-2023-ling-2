@@ -3,6 +3,7 @@ package org.harmony.endofline.user;
 import lombok.Getter;
 import lombok.Setter;
 import org.harmony.endofline.achievement.Achievement;
+import org.harmony.endofline.friendRequest.FriendRequest;
 import org.harmony.endofline.gameInvite.GameInvite;
 import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.singleplayer.Singleplayer;
@@ -45,12 +46,6 @@ public class User extends BaseEntity {
     @NotNull
     private Set<Singleplayer> singleplayerGames;
 
-    @OneToMany(mappedBy = "recipient" , cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<GameInvite> gameInvitesRecieved;
-
-    @OneToMany(mappedBy = "sender" , cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<GameInvite> gameInvitesSent;
-
     @ManyToMany
     @JoinTable(name = "achievement_user",
         joinColumns = @JoinColumn(name = "user_id"),
@@ -62,11 +57,33 @@ public class User extends BaseEntity {
     @JoinColumn(name = "statistics_id", referencedColumnName = "id")
     private Statistic statistic;
 
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotNull
+    private List<FriendRequest> sentRequests;
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotNull
+    private List<FriendRequest> receivedRequests;
+
+    @ManyToMany
+    private Set<User> friends;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotNull
+    private List<GameInvite> receivedInvitations;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotNull
+    private List<GameInvite> sentInvitations;
+
     public User(){
         this.isAdmin = Boolean.FALSE;
         this.enabled = Boolean.TRUE;
         this.multiplayerGames = new HashSet<UserGame>();
         this.singleplayerGames = new HashSet<Singleplayer>();
+        this.sentRequests = new ArrayList<FriendRequest>();
+        this.receivedRequests = new ArrayList<FriendRequest>();
+        this.friends = new HashSet<User>();
         this.achievements = new ArrayList<Achievement>();
         this.statistic = new Statistic();
     }
@@ -83,4 +100,11 @@ public class User extends BaseEntity {
         this.achievements.add(achievement);
     }
 
+    public void addFriend(User user) {
+        this.friends.add(user);
+    }
+
+    public void removeFriend(User friend) {
+        this.friends.remove(friend);
+    }
 }
