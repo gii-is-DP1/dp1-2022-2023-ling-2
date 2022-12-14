@@ -7,13 +7,10 @@
 
 <endofline:layout pageName="singleplayer_game">
     <div class="center">
-        <h1>Singleplayer</h1>
-        <endofline:board side="5" gameCards="${gameCards}" puzzleCards="${puzzleCards}"/>
-        <div id="hand" class="center">
-            <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${game.energy}"/>
-        </div>
+        <h1 id="title">Singleplayer</h1>
         <c:if test="${result!=null}">
             <script>
+                document.getElementById("title").setAttribute("style", "display: none !important;");
                 document.getElementById("hand").setAttribute("style", "display: none !important;");
             </script>
             <c:choose>
@@ -28,8 +25,15 @@
                     </div>
                 </c:otherwise>
             </c:choose>
-            <a href="/" class="btn btn-primary">Continue</a>
+            <div class="center-horizontal">
+                <a href="/singleplayer/create" class="btn btn-primary margins-small">Play again</a>
+                <a href="/" class="btn btn-primary margins-small">Go back</a>
+            </div>
         </c:if>
+        <endofline:board side="5" gameCards="${gameCards}" puzzleCards="${puzzleCards}"/>
+        <div id="hand" class="center">
+            <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${game.energy}"/>
+        </div>
     </div>
 </endofline:layout>
 <script>
