@@ -1,6 +1,9 @@
 package org.harmony.endofline.singleplayer;
 
+import org.harmony.endofline.board.BoardService;
 import org.harmony.endofline.configuration.SecurityConfiguration;
+import org.harmony.endofline.deck.DeckService;
+import org.harmony.endofline.puzzle.PuzzleService;
 import org.harmony.endofline.singleplayer.SingleplayerController;
 import org.harmony.endofline.singleplayer.SingleplayerService;
 import org.harmony.endofline.user.UserService;
@@ -18,6 +21,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -32,15 +36,20 @@ public class SingleplayerTest {
     @MockBean
     SingleplayerService singleService;
     @MockBean
+    BoardService boardService;
+    @MockBean
+    PuzzleService puzzleService;
+    @MockBean
+    DeckService deckService;
+    @MockBean
     UserService userService;
     @MockBean
     UserGameService userGameService;
 
-    @WithMockUser(value = "spring")
+    @WithMockUser(value = "user")
     @Test
     public void singleplayerLoggedIn() throws Exception {
-        mockMvc.perform(post("/singleplayer/create").with(csrf())).andExpect(status().isOk())
-            .andExpect(model().attributeExists("game"));
+        mockMvc.perform(post("/singleplayer/create").param("difficulty", "easy").with(csrf())).andExpect(status().isOk());
     }
 
     @Test
