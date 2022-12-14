@@ -22,7 +22,7 @@ public class SingleplayerServiceTest {
     @Test
     void shouldGiveAllSingleplayerGames(){
         List<Singleplayer> games = singleplayerService.getAllGamesWithUser();
-        assertThat(games).hasSize(3);
+        assertThat(games).hasSize(4);
     }
 
     @Test

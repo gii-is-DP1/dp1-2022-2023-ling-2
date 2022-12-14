@@ -131,6 +131,6 @@ public class UserServiceTest {
     @Test
     void shouldGetSingleplayerGamesOfUser1(){
         List<Singleplayer> games = userService.getSingleplayerGames("admin");
-        Assertions.assertThat(games).hasSize(1);
+        Assertions.assertThat(games).hasSize(4);
     }
 }
