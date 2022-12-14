@@ -86,6 +86,8 @@ public class User extends BaseEntity {
         this.friends = new HashSet<User>();
         this.achievements = new ArrayList<Achievement>();
         this.statistic = new Statistic();
+        this.receivedInvitations = new ArrayList<GameInvite>();
+        this.sentInvitations = new ArrayList<GameInvite>();
     }
 
     public void addMultiplayerGame(UserGame userGame) {
