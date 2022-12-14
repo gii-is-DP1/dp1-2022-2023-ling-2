@@ -1,8 +1,11 @@
 package org.harmony.endofline.user;
 
+import org.harmony.endofline.achievement.AchievementService;
 import org.harmony.endofline.configuration.SecurityConfiguration;
+import org.harmony.endofline.friendRequest.FriendRequestService;
 import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.singleplayer.SingleplayerService;
+import org.harmony.endofline.statistic.StatisticService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,24 +38,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = UserController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 public class UserControllerTest {
 
-    private static final String TEST_USER_USERNAME = "georgify";
-
     @Autowired
-    private UserController userController;
-
+    MockMvc mockMvc;
     @MockBean
-    private UserService userService;
-
+    UserService userService;
     @MockBean
-    private MultiplayerService multiplayerService;
-
+    AchievementService achievementService;
     @MockBean
-    private SingleplayerService singleplayerService;
-
-    @Autowired
-    private MockMvc mockMvc;
+    StatisticService statisticService;
+    @MockBean
+    FriendRequestService friendRequestService;
+    @MockBean
+    MultiplayerService multiService;
+    @MockBean
+    SingleplayerService singleService;
 
     private User george;
+
+    private static final String TEST_USER_USERNAME = "georgify";
 
     @BeforeEach
     void setup() {
