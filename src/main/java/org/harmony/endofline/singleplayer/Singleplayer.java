@@ -2,15 +2,20 @@ package org.harmony.endofline.singleplayer;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.model.Game;
+import org.harmony.endofline.puzzle.Difficulty;
+import org.harmony.endofline.puzzle.Puzzle;
 import org.harmony.endofline.user.User;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,16 +28,26 @@ public class Singleplayer extends Game {
     @NotNull
     private User user;
 
-    public Singleplayer(User user) {
+    @ManyToOne
+    @JoinColumn(name = "puzzle_id")
+    private Puzzle puzzle;
+
+    @OneToOne
+    @JoinColumn(name = "last_placed_card_id")
+    private GameCard lastPlacedCard;
+
+    @Min(0)
+    @Max(3)
+    private Integer energy;
+
+    public Singleplayer(User user, Puzzle puzzle) {
         super(LocalDateTime.now());
         this.user = user;
+        this.puzzle = puzzle;
+        this.energy = 3;
     }
 
     public Singleplayer() {
         super(LocalDateTime.now());
     }
-
-    // TODO many to many relation with line cards (Association class)
-    // TODO one to many relation with Users (User foreign key here)
-
 }

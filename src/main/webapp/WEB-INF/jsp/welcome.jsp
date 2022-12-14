@@ -12,7 +12,7 @@
         <form:form action="/multiplayer/create" method="POST">
             <input type="submit" class="btn margins-small" value="Create Multiplayer Game"/>
         </form:form>
-        <form:form action="/singleplayer/create" method="POST">
+        <form:form action="/singleplayer/create" method="GET">
             <input type="submit" class="btn margins-small" value="Create Singleplayer Game"/>
         </form:form>
     </div>
