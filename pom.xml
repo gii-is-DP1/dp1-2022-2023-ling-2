@@ -13,7 +13,7 @@
 
     <groupId>org.harmony</groupId>
     <artifactId>end-of-line</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
     <name>end-of-line</name>
     <description>End Of Line project for Design and Testing 1</description>
 
