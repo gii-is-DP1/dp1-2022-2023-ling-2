@@ -4,14 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.harmony.endofline.model.Game;
 import org.harmony.endofline.userGame.UserGame;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -34,12 +32,24 @@ public class Multiplayer extends Game {
     @NotNull
     private List<UserGame> users;
 
-    public Multiplayer() {
+    @NotNull
+    private Boolean isPublic;
+
+    @NotNull
+    private LocalDateTime searchDate;
+
+    public Multiplayer(boolean isPublic) {
         super(LocalDateTime.now());
+        this.searchDate = LocalDateTime.now();
         this.priorityList = new ArrayList<Integer>();
         this.p1EnergyLeft = 3;
         this.p2EnergyLeft = 3;
+        this.isPublic = isPublic;
         this.users = new ArrayList<UserGame>();
+    }
+
+    public Multiplayer(){
+        super(LocalDateTime.now());
     }
 
     public void addUser(UserGame userGame) {

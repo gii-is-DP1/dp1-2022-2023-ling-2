@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
@@ -19,6 +21,7 @@ import java.util.Map;
 public class MultiplayerController {
 
     private static final String VIEWS_MULTIPLAYER_GAME = "MultiplayerBoard";
+    private static final String VIEWS_MULTIPLAYER_CREATE_FORM = "multiplayer/gameSearch";
 
     private final MultiplayerService multiplayerService;
     private final UserService userService;
@@ -31,10 +34,20 @@ public class MultiplayerController {
         this.userGameService = userGameService;
     }
 
-    @PostMapping("/create")
-    public String createGame(Map<String, Object> model){
+    @GetMapping("/create")
+    public String create(Map<String, Object> model) {
+        return VIEWS_MULTIPLAYER_CREATE_FORM;
+    }
 
-        Multiplayer game = new Multiplayer();
+    @PostMapping("/create")
+    public String createGame(@RequestParam("type") String type, Map<String, Object> model){
+        Boolean isPublic = true;
+        if(type.equals("public")){
+            isPublic = true;
+        }else if(type.equals("private")){
+            isPublic = false;
+        }
+        Multiplayer game = new Multiplayer(isPublic);
         multiplayerService.save(game);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

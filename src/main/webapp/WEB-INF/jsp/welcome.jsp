@@ -9,7 +9,7 @@
     <div class="center">
         <img src="<spring:url value="/resources/images/eol.png" htmlEscape="true"/>" width="40px" alt="End of Line logo">
         <h2 class="title">Welcome to End Of Line</h2>
-        <form:form action="/multiplayer/create" method="POST">
+        <form:form action="/multiplayer/create" method="GET">
             <input type="submit" class="btn margins-small" value="Create Multiplayer Game"/>
         </form:form>
         <form:form action="/singleplayer/create" method="GET">
