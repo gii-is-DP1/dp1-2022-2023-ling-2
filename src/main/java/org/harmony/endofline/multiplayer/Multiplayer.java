@@ -38,6 +38,9 @@ public class Multiplayer extends Game {
     @NotNull
     private LocalDateTime searchDate;
 
+    @NotNull
+    private Boolean inQueue;
+
     public Multiplayer(boolean isPublic) {
         super(LocalDateTime.now());
         this.searchDate = LocalDateTime.now();
@@ -45,6 +48,7 @@ public class Multiplayer extends Game {
         this.p1EnergyLeft = 3;
         this.p2EnergyLeft = 3;
         this.isPublic = isPublic;
+        this.inQueue = true;
         this.users = new ArrayList<UserGame>();
     }
 

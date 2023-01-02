@@ -60,7 +60,8 @@ public class MultiplayerController {
 
         model.put("game", game);
 
-        return VIEWS_MULTIPLAYER_GAME;
+
+        return "multiplayer/gameQueuePublic";
     }
 
 }

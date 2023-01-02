@@ -4,7 +4,7 @@
 <%@ taglib prefix="endofline" tagdir="/WEB-INF/tags" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<endofline:layout pageName="difficulty">
+<endofline:layout pageName="gameSearch">
     <div class="center">
         <p>Multiplayer search mode</p>
         <h1>Select the way of searching for the game</h1>

@@ -30,4 +30,11 @@ public class MultiplayerService {
     public List<Multiplayer> getAllGamesWithUser() {
         return (List<Multiplayer>) multiplayerRepository.findAll();
     }
+
+    public Multiplayer getNextGameInQueue(){
+        return multiplayerRepository.findSearching().get(0);
+    }
+    public List<Multiplayer> getAllGameInQueue(){
+        return multiplayerRepository.findSearching();
+    }
 }
