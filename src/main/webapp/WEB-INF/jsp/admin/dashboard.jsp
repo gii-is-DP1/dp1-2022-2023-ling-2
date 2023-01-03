@@ -16,6 +16,7 @@
                 <tr>
                     <th>Start</th>
                     <th>Finish</th>
+                    <th>Status</th>
                     <th>Winner</th>
                     <th>Players</th>
                 </tr>
@@ -39,14 +40,10 @@
                             </c:choose>
                         </td>
                         <td>
-                            <c:choose>
-                                <c:when test="${multi.result == null}">
-                                    <c:out value="Unfinished"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:out value="${multi.result}"/>
-                                </c:otherwise>
-                            </c:choose>
+                            <c:out value="${singl.gameStatus}"/>
+                        </td>
+                        <td>
+                            <c:out value="${singl.winner.username}"/>
                         </td>
                         <td>
                             <c:forEach items="${multi.users}" var="userGame">

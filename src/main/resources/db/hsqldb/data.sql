@@ -954,9 +954,9 @@ INSERT INTO statistics(number_games, number_single_player_wins, number_single_pl
 INSERT INTO users(statistics_id, username,password,email,is_admin,enabled) VALUES (1, 'admin','admin','admin@localhost.com',true,true);
 INSERT INTO users(statistics_id, username,password,email,is_admin,enabled) VALUES (2, 'user','user','user@localhost.com',false,true);
 
-INSERT INTO multiplayer_games(date_ended, date_started, p1energy_left, p2energy_left, is_public, search_date, in_queue) VALUES (null, '2022-11-09 11:08:21.139157', 3, 3, 0, '2022-11-09 11:07:21.139157',0);
-INSERT INTO usergames(user_id, game_id, player, role) VALUES (1, 1, 1, 0);
-INSERT INTO usergames(user_id, game_id, player, role) VALUES (2, 1, 2, 0);
+INSERT INTO multiplayer_games(date_ended, date_started, is_public, search_date, in_queue, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 0, '2022-11-09 11:07:21.139157',0, 0);
+INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (1, 1, 1, 3, 0);
+INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (2, 1, 2, 3, 0);
 
 -- Game 1
 INSERT INTO game_card(card_id, user_id, status, rotation, x, y) VALUES

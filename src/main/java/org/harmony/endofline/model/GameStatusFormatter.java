@@ -13,14 +13,27 @@ public abstract class GameStatusFormatter implements Formatter<GameStatus> {
 
     @Override
     public String print(GameStatus gameStatus, Locale locale) {
-        return gameStatus.name();
+        switch (gameStatus){
+            case CREATED -> {
+                return "Created";
+            }
+            case STARTED -> {
+                return "Started";
+            }
+            case FINISHED -> {
+                return "Finished";
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 
     @Override
     public GameStatus parse(String text, Locale locale) throws ParseException {
         Collection<GameStatus> findPetTypes = Arrays.stream(GameStatus.values()).toList();
         for (GameStatus status : findPetTypes) {
-            if (status.name().equals(text)) {
+            if (status.toString().equals(text)) {
                 return status;
             }
         }

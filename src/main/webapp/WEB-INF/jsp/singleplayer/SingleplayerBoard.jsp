@@ -8,13 +8,13 @@
 <endofline:layout pageName="singleplayer_game">
     <div class="center">
         <h1 id="title">Singleplayer</h1>
-        <c:if test="${result!=null}">
+        <c:if test="${game.gameStatus.toString().equals('FINISHED')}">
             <script>
                 document.getElementById("title").setAttribute("style", "display: none !important;");
                 document.getElementById("hand").setAttribute("style", "display: none !important;");
             </script>
             <c:choose>
-                <c:when test="${result=='win'}">
+                <c:when test="${game.winner!=null}">
                     <div class="center text-success">
                         <h1>You won!</h1>
                     </div>
@@ -49,6 +49,7 @@
     };
     if("${game.lastPlacedCard}"!==""){
         lastPlacedCard =
+        {
             "x": "${game.lastPlacedCard.x}",
             "y": "${game.lastPlacedCard.y}",
             "rotation": "${game.lastPlacedCard.rotation}",
