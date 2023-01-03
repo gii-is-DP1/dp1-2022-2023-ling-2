@@ -6,12 +6,16 @@ import org.harmony.endofline.card.Card;
 import org.harmony.endofline.card.Side;
 import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.user.User;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +45,12 @@ public class GameCard extends BaseEntity {
     @Min(0)
     @Max(3)
     private Integer rotation;
+
+    @CreationTimestamp
+    private LocalDateTime created;
+
+    @UpdateTimestamp
+    private LocalDateTime updated;
 
     public GameCard(Card card, User user, Status status, Integer x, Integer y, Integer rotation) {
         this.card = card;

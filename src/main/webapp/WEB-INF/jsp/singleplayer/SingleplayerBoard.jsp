@@ -31,9 +31,11 @@
             </div>
         </c:if>
         <endofline:board side="5" gameCards="${gameCards}" puzzleCards="${puzzleCards}"/>
-        <div id="hand" class="center">
-            <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${game.energy}"/>
-        </div>
+        <c:if test="${!game.gameStatus.toString().equals('FINISHED')}">
+            <div id="hand" class="center">
+                <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${game.energy}"/>
+            </div>
+        </c:if>
     </div>
 </endofline:layout>
 <script>
