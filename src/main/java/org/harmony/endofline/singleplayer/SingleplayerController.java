@@ -59,6 +59,7 @@ public class SingleplayerController {
         singleplayerService.save(game);
         singleplayerService.addInitialCards(game, deckService.getDeckCards(deckService.findByID(1)));
         singleplayerService.drawCardsFromDeck(game);
+        singleplayerService.startGame(game);
         userService.addSingleplayerGame(user, game);
         Integer id = game.getId();
         String st = "redirect:/singleplayer/" + id +"/";
@@ -74,13 +75,13 @@ public class SingleplayerController {
             if (!singleplayerService.isGameFromUser(id, user))
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 
+            singleplayerService.getResultIfApplicable(singleplayerService.findByID(id), puzzleService.getPuzzleCards(game.getPuzzle().getId()), boardService.findById(1).get());
             model.put("game", game);
             model.put("board", boardService.findById(1).get());
             model.put("puzzleCards", puzzleService.getPuzzleCards(game.getPuzzle().getId()));
             model.put("gameCards", singleplayerService.getAllCardsInBoard(id));
             model.put("handCards", singleplayerService.getAllCardsInHand(id));
             model.put("cards_left", singleplayerService.getAllCardsInDeck(id).size());
-            model.put("result", singleplayerService.getResultIfApplicable(singleplayerService.findByID(id), puzzleService.getPuzzleCards(game.getPuzzle().getId()), boardService.findById(1).get()));
             return VIEWS_SINGLEPLAYER_BOARD;
         }catch (InvalidIDException e){
             return "welcome";

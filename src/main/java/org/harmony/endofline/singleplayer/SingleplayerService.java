@@ -6,6 +6,7 @@ import org.harmony.endofline.card.Side;
 import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.gameCard.GameCardRepository;
 import org.harmony.endofline.gameCard.Status;
+import org.harmony.endofline.model.GameStatus;
 import org.harmony.endofline.puzzle.PuzzleRepository;
 import org.harmony.endofline.puzzleCards.PuzzleCards;
 import org.harmony.endofline.user.User;
@@ -31,6 +32,11 @@ public class SingleplayerService {
     @Transactional
     public void save(Singleplayer game) {
         singleplayerRepository.save(game);
+    }
+
+    @Transactional
+    public void startGame(Singleplayer game) {
+        game.setGameStatus(GameStatus.STARTED);
     }
 
     public List<Singleplayer> getAllGamesWithUser() {
@@ -203,25 +209,23 @@ public class SingleplayerService {
     }
 
     @Transactional
-    public String getResultIfApplicable(Singleplayer game, List<PuzzleCards> puzzleCards, Board board) {
+    public void getResultIfApplicable(Singleplayer game, List<PuzzleCards> puzzleCards, Board board) {
         String res = null;
 
         List<GameCard> cardsInHand = game.getGameCards().stream().filter(c -> c.getStatus().equals(Status.HAND)).toList();
         List<GameCard> cardsOnBoard = game.getGameCards().stream().filter(c -> c.getStatus().equals(Status.BOARD)).toList();
         if(cardsOnBoard.size()+puzzleCards.size() == board.getHeight()* board.getWidth()){
-            game.setResult("win");
+            game.setGameStatus(GameStatus.FINISHED);
+            game.setWinner(game.getUser());
             game.setDateEnded(LocalDateTime.now());
-            res = "win";
         } else {
             List<List<Integer>> availablePositions = null;
             Map<String, List<List<Integer>>> requiredEntriesForExit = calculateEntriesForExits(cardsOnBoard, game.getEnergy()>0, game.getLastPlacedCard());
             availablePositions = getAllAvailablePositions(game, cardsOnBoard, requiredEntriesForExit);
             if(availablePositions.size()==0){
-                game.setResult("lose");
+                game.setGameStatus(GameStatus.FINISHED);
                 game.setDateEnded(LocalDateTime.now());
-                res = "lose";
             }
         }
-        return res;
     }
 }

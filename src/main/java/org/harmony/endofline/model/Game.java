@@ -3,12 +3,10 @@ package org.harmony.endofline.model;
 import lombok.Getter;
 import lombok.Setter;
 import org.harmony.endofline.gameCard.GameCard;
+import org.harmony.endofline.user.User;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,12 +25,17 @@ public class Game extends BaseEntity {
     @OneToMany
     public List<GameCard> gameCards;
 
-    private String result;
+    @NotNull
+    private GameStatus gameStatus;
+
+    @ManyToOne
+    @JoinColumn(name = "winner_user_id")
+    private User winner;
 
     public Game(LocalDateTime dateStarted){
         this.dateStarted = dateStarted;
         this.dateEnded = null;
-        this.result = null;
+        this.gameStatus = GameStatus.CREATED;
     }
 
 }
