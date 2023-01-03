@@ -26,7 +26,7 @@ import java.util.Map;
 public class SingleplayerController {
 
     private static final String VIEWS_SINGLEPLAYER_CREATE_FORM = "singleplayer/difficulty";
-    private static final String VIEWS_SINGLEPLAYER_BOARD = "SingleplayerBoard";
+    private static final String VIEWS_SINGLEPLAYER_BOARD = "singleplayer/SingleplayerBoard";
     private final SingleplayerService singleplayerService;
     private final UserService userService;
     private final BoardService boardService;

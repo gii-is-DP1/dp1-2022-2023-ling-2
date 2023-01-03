@@ -48,7 +48,7 @@
         "right" : "EMPTY"
     };
     if("${game.lastPlacedCard}"!==""){
-        lastPlacedCard = {
+        lastPlacedCard =
             "x": "${game.lastPlacedCard.x}",
             "y": "${game.lastPlacedCard.y}",
             "rotation": "${game.lastPlacedCard.rotation}",
