@@ -159,6 +159,12 @@
             <version>2.1.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <!-- use version 2.1.0 or higher -->
+            <version>2.1.0</version>
+        </dependency>
         <!-- validation
         <dependency>
                 <groupId>org.hibernate</groupId>
@@ -240,6 +246,11 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.23.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -264,6 +275,30 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-assertions-generator-maven-plugin</artifactId>
+                <version>2.1.0</version>
+                <configuration>
+                    <packages>
+                        <param>org.harmony.endofline.achievement</param>
+                        <param>org.harmony.endofline.board</param>
+                        <param>org.harmony.endofline.card</param>
+                        <param>org.harmony.endofline.deck</param>
+                        <param>org.harmony.endofline.deckCard</param>
+                        <param>org.harmony.endofline.friendRequest</param>
+                        <param>org.harmony.endofline.gameCard</param>
+                        <param>org.harmony.endofline.gameInvite</param>
+                        <param>org.harmony.endofline.multiplayer</param>
+                        <param>org.harmony.endofline.puzzle</param>
+                        <param>org.harmony.endofline.puzzleCards</param>
+                        <param>org.harmony.endofline.singleplayer</param>
+                        <param>org.harmony.endofline.statistic</param>
+                        <param>org.harmony.endofline.user</param>
+                        <param>org.harmony.endofline.userGame</param>
+                    </packages>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.assertj</groupId>
