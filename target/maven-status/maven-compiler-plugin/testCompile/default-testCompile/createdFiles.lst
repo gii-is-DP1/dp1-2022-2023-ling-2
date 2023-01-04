@@ -1,0 +1,13 @@
+org\harmony\endofline\user\UserControllerTest.class
+org\harmony\endofline\user\UserServiceTest.class
+org\harmony\endofline\model\ValidatorTest.class
+org\harmony\endofline\multiplayer\MultiplayerServiceTest.class
+org\harmony\endofline\multiplayer\MultiplayerCreationTest.class
+org\harmony\endofline\statistic\StatisticServiceTest.class
+org\harmony\endofline\achievement\AchievementControllerTest.class
+org\harmony\endofline\singleplayer\SingleplayerServiceTest.class
+org\harmony\endofline\achievement\AchievementServiceTest.class
+org\harmony\endofline\multiplayer\MultiplayerUserGameRelationTest.class
+org\harmony\endofline\singleplayer\SingleplayerTest.class
+org\harmony\endofline\singleplayer\SingleplayerUserGameRelationTest.class
+org\harmony\endofline\admin\DashboardTest.class
