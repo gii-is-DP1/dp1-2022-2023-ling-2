@@ -3,6 +3,7 @@ package org.harmony.endofline.gameInvite;
 import lombok.Getter;
 import lombok.Setter;
 import org.harmony.endofline.model.BaseEntity;
+import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.userGame.UserGame;
 
@@ -26,9 +27,9 @@ public class GameInvite extends BaseEntity {
     User receiver;
 
     @ManyToOne
-    @JoinColumn(name = "user_game_id")
+    @JoinColumn(name = "game_id")
     @NotNull
-    UserGame userGame;
+    Multiplayer game;
 
     @NotNull
     Boolean pending;
@@ -42,8 +43,8 @@ public class GameInvite extends BaseEntity {
     @NotNull
     InviteType type;
 
-    public GameInvite(UserGame userGame, User sender, User receiver, InviteType type){
-        this.userGame = userGame;
+    public GameInvite(Multiplayer game, User sender, User receiver, InviteType type){
+        this.game = game;
         this.sender = sender;
         this.receiver = receiver;
         this.pending = true;

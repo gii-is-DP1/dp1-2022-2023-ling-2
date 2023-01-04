@@ -1,13 +1,18 @@
 package org.harmony.endofline.gameInvite;
 
+import org.harmony.endofline.multiplayer.Multiplayer;
+import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
@@ -21,9 +26,13 @@ public class GameInviteController {
 
     private final GameInviteService gameInviteService;
 
-    public GameInviteController(GameInviteService gameInviteService, UserService userService) {
+    private final MultiplayerService multiplayerService;
+
+    @Autowired
+    public GameInviteController(GameInviteService gameInviteService, UserService userService, MultiplayerService multiplayerService) {
         this.gameInviteService = gameInviteService;
         this.userService = userService;
+        this.multiplayerService = multiplayerService;
     }
 
 
@@ -40,5 +49,30 @@ public class GameInviteController {
         model.put("pending_received_invitations", userService.getPendingReceivedInvitations(user));
         model.put("pending_sent_invitations", userService.getPendingSentInvitations(user));
         return VIEWS_USER_INVITATIONS;
+    }
+
+    @GetMapping("/invitefriend/{id}")
+    public String inviteForm(@PathVariable("id") Integer gameId,Map<String, Object> model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(auth.getName());
+
+        model.put("friends", userService.getFriends(user));
+        model.put("gameId", gameId);
+        model.put("invites", userService.getPendingSentInvitations(user));
+
+        return "multiplayer/gameInviteCreate";
+    }
+
+    @GetMapping("/gameinvite/{gameId}")
+    public String createGameInvite(@RequestParam("friend") String friend,@PathVariable("gameId") Integer gameId, Map<String, Object> model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(auth.getName());
+
+        gameInviteService.sendInvite(multiplayerService.findGame(gameId),user,userService.findByUsername(friend),InviteType.PLAYER);
+
+        model.put("friends",userService.getFriends(user));
+        model.put("gameId", gameId);
+        model.put("invites", userService.getPendingSentInvitations(user));
+        return "multiplayer/gameInviteCreate";
     }
 }

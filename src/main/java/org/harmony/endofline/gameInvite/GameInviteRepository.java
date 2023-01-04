@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface GameInviteRepository extends CrudRepository<GameInvite, Integer> {
 
-    @Query("SELECT g FROM GameInvite g WHERE g.userGame.id =:gameID AND g.pending = TRUE AND g.canceled = FALSE")
+    @Query("SELECT g FROM GameInvite g WHERE g.game.id =:gameID AND g.pending = TRUE AND g.canceled = FALSE")
     List<GameInvite> findAllInvitesOfGame(@Param("gameID") Integer gameID);
 
     @Modifying

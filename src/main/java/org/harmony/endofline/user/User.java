@@ -68,11 +68,11 @@ public class User extends BaseEntity {
     @ManyToMany
     private Set<User> friends;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
     private List<GameInvite> receivedInvitations;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
     private List<GameInvite> sentInvitations;
 

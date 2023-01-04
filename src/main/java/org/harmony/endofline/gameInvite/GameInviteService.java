@@ -1,5 +1,6 @@
 package org.harmony.endofline.gameInvite;
 
+import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.userGame.UserGame;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class GameInviteService {
         GameInvite invite = this.gameInviteRepository.findById(id).get();
         this.gameInviteRepository.update(true,false,false,invite.getId());
         if(invite.type == InviteType.PLAYER) {
-            this.setAllPendingCanceled(invite.userGame.getId());
+            this.setAllPendingCanceled(invite.game.getId());
         }
     }
 
@@ -39,8 +40,8 @@ public class GameInviteService {
     }
 
     @Transactional
-    public void sendInvite(UserGame userGame, User sender, User receiver, InviteType type){
-        GameInvite newInvite = new GameInvite(userGame,sender,receiver,type);
+    public void sendInvite(Multiplayer game, User sender, User receiver, InviteType type){
+        GameInvite newInvite = new GameInvite(game,sender,receiver,type);
         this.gameInviteRepository.save(newInvite);
     }
 

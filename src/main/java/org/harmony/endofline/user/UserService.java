@@ -112,7 +112,7 @@ public class UserService {
         return user.getReceivedInvitations().stream().filter(e -> e.getPending()).collect(Collectors.toList());
     }
 
-    public Object getPendingSentInvitations(User user) {
+    public List<GameInvite> getPendingSentInvitations(User user) {
         return user.getSentInvitations().stream().filter(e -> e.getPending()).collect(Collectors.toList());
     }
 
@@ -139,4 +139,6 @@ public class UserService {
     public boolean isFriendFromUser(User user, User friend) {
         return user.getFriends().contains(friend);
     }
+
+
 }

@@ -37,10 +37,13 @@ public class MultiplayerController {
     }
 
     @PostMapping("/create")
-    public String createGame(@RequestParam("type") String type, Map<String, Object> model){
+    public String createGame(@RequestParam("isPublic") String isPublic, Map<String, Object> model){
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
+
+
+
         int size;
         if(multiplayerService.getNextGameInQueue() == null){
             size = 0;
@@ -54,15 +57,19 @@ public class MultiplayerController {
             if (size == 1 && !user2.getId().equals(user.getId())) {
                 game = addPlayer2(user);
             }else{
-                game = addPlayer1(Boolean.parseBoolean(type),user);
+                game = addPlayer1(Boolean.parseBoolean(isPublic),user);
             }
         }else {
-            game = addPlayer1(Boolean.parseBoolean(type),user);
+            game = addPlayer1(Boolean.parseBoolean(isPublic),user);
         }
 
         model.put("game", game);
 
-        return "redirect:/multiplayer/queue/"+game.getId();
+        if(Boolean.parseBoolean(isPublic)) {
+            return "redirect:/multiplayer/queue/" + game.getId();
+        }else{
+            return "redirect:/invitefriend/" + game.getId();
+        }
     }
     @GetMapping("/queue/{id}")
     public String queueStatus(@PathVariable("id") Integer id, Map<String, Object> model){

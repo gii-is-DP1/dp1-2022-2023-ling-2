@@ -47,7 +47,6 @@ public class Multiplayer extends Game {
         super(LocalDateTime.now());
         this.searchDate = LocalDateTime.now();
         this.isPublic = true;
-        this.inQueue = true;
         this.users = new ArrayList<UserGame>();
     }
 
