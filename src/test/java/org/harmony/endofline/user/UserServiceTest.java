@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class UserServiceTest {
@@ -124,13 +124,13 @@ public class UserServiceTest {
     @Test
     void shouldGetMultiplayerGamesOfUser1(){
         List<Multiplayer> games = userService.getMultiplayerGames("admin");
-        Assertions.assertThat(games).hasSize(1);
-        Assertions.assertThat(games.get(0).getUsers()).hasSize(2);
+        assertThat(games).hasSize(1);
+        assertThat(games.get(0).getUsers()).hasSize(2);
     }
 
     @Test
     void shouldGetSingleplayerGamesOfUser1(){
         List<Singleplayer> games = userService.getSingleplayerGames("admin");
-        Assertions.assertThat(games).hasSize(4);
+        assertThat(games).hasSize(4);
     }
 }
