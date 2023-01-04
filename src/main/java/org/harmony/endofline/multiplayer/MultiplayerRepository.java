@@ -13,9 +13,10 @@ public interface MultiplayerRepository extends CrudRepository<Multiplayer, Integ
     @Query("SELECT DISTINCT m FROM Multiplayer m jOIN FETCH m.users ug JOIN FETCH ug.user")
     List<Multiplayer> findAll();
 
-    @Query("SELECT m FROM Multiplayer m WHERE m.inQueue = 0 AND m.isPublic = 1 ORDER BY m.searchDate")
+    @Query("SELECT m FROM Multiplayer m WHERE m.gameStatus = 0 AND m.isPublic = TRUE ORDER BY m.searchDate")
     List<Multiplayer> findSearching();
 
     @Query("SELECT ug.user FROM UserGame ug JOIN ug.game g WHERE g.id=:gameid AND g.activePlayer<>ug.user")
     User getInactivePlayer(@Param("gameid") Integer id);
+
 }

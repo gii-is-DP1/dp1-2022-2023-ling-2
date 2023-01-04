@@ -13,8 +13,8 @@ public class MultiplayerRESTController {
         this.multiplayerService = multiplayerService;
     }
 
-    @GetMapping("queueStatus")
-    public Boolean checkPublicGameIsReady(){
-        return true;
+    @GetMapping("queueStatus/{id}")
+    public Boolean checkPublicGameIsReady(@PathVariable("id") Integer id){
+        return multiplayerService.checkGameReady(id);
     }
 }

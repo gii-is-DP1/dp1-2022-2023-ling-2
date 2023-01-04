@@ -13,13 +13,21 @@
     </div>
 </endofline:layout>
 <script>
+
     function fetchQueueStatus(){
-        fetch('http://localhost:8080/multiplayerREST/queueStatus', {
+        const id = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+        fetch('http://localhost:8080/multiplayerREST/queueStatus/${id}', {
             method: 'GET'
         })
             .then(response => response.text())
-            .then(text => console.log(text))
-        setTimeout(fetchQueueStatus, 5000);
+            .then(text => checkIfReady(text))
+        setTimeout(fetchQueueStatus, 1000);
+    }
+
+    function checkIfReady(text){
+        if(text.toLowerCase() === "true"){
+            location.reload();
+        }
     }
 
     fetchQueueStatus()

@@ -3,6 +3,7 @@ package org.harmony.endofline.multiplayer;
 import lombok.Getter;
 import lombok.Setter;
 import org.harmony.endofline.model.Game;
+import org.harmony.endofline.model.GameStatus;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.userGame.UserGame;
 import org.springframework.data.annotation.CreatedDate;
@@ -34,14 +35,11 @@ public class Multiplayer extends Game {
     @NotNull
     private LocalDateTime searchDate;
 
-    @NotNull
-    private Boolean inQueue;
 
     public Multiplayer(boolean isPublic) {
         super(LocalDateTime.now());
         this.searchDate = LocalDateTime.now();
         this.isPublic = isPublic;
-        this.inQueue = true;
         this.users = new ArrayList<UserGame>();
     }
 

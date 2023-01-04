@@ -38,11 +38,12 @@ public class UserGame extends BaseEntity {
 
     private PlayerType role; // player or spectator
 
-    public UserGame(User user, Multiplayer game, Integer player, PlayerType role) {
+    public UserGame(User user, Multiplayer game, Integer player, PlayerType role, Integer energy) {
         this.user = user;
         this.game = game;
         this.player = player;
         this.role = role;
+        this.energy = energy;
     }
 
     public UserGame() {

@@ -1,5 +1,6 @@
 package org.harmony.endofline.multiplayer;
 
+import org.harmony.endofline.model.GameStatus;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.userGame.UserGame;
 import org.harmony.endofline.userGame.UserGameRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,7 +39,11 @@ public class MultiplayerService {
     }
 
     public Multiplayer getNextGameInQueue(){
-        return multiplayerRepository.findSearching().get(0);
+        if(multiplayerRepository.findSearching().size() > 0) {
+            return multiplayerRepository.findSearching().get(0);
+        }else{
+            return null;
+        }
     }
     public List<Multiplayer> getAllGameInQueue(){
         return multiplayerRepository.findSearching();
@@ -56,4 +62,24 @@ public class MultiplayerService {
 
 
 
+    public Boolean checkGameReady(Integer id){
+        Multiplayer game = multiplayerRepository.findById(id).get();
+        if(game.getUsers().size() == 2) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Transactional
+    public void startGame(Integer id){
+        Multiplayer game = multiplayerRepository.findById(id).get();
+        game.setGameStatus(GameStatus.STARTED);
+        game.setDateStarted(LocalDateTime.now());
+        multiplayerRepository.save(game);
+    }
+
+    public Multiplayer getById(Integer id){
+        return multiplayerRepository.findById(id).get();
+    }
 }

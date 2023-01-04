@@ -999,7 +999,7 @@ INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES 
 INSERT INTO singleplayer_game(date_ended, date_started, user_id, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 1, 1);
 
 -- Multiplayer game 1
-INSERT INTO multiplayer_games(date_ended, date_started, is_public, search_date, in_queue, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 0, '2022-11-09 11:07:21.139157',0, 0);
+INSERT INTO multiplayer_games(date_ended, date_started, is_public, search_date, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 0, '2022-11-09 11:07:21.139157', 0);
 INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (1, 1, 1, 3, 0);
 INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (2, 1, 2, 3, 0);
 

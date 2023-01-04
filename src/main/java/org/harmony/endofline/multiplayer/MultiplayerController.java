@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -41,27 +38,66 @@ public class MultiplayerController {
 
     @PostMapping("/create")
     public String createGame(@RequestParam("type") String type, Map<String, Object> model){
-        Boolean isPublic = true;
-        if(type.equals("public")){
-            isPublic = true;
-        }else if(type.equals("private")){
-            isPublic = false;
-        }
-        Multiplayer game = new Multiplayer(isPublic);
-        multiplayerService.save(game);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
-        UserGame userGame = new UserGame(user, game, 1, PlayerType.PLAYER);
-        userGameService.save(userGame);
-
-        multiplayerService.addUserGame(game, userGame);
-        userService.addUserGame(user, userGame);
+        int size;
+        if(multiplayerService.getNextGameInQueue() == null){
+            size = 0;
+        }else{
+            size = multiplayerService.getNextGameInQueue().getUsers().size();
+        }
+        User user2;
+        Multiplayer game;
+        if(size > 0) {
+            user2 = multiplayerService.getNextGameInQueue().getUsers().get(0).getUser();
+            if (size == 1 && !user2.getId().equals(user.getId())) {
+                game = addPlayer2(user);
+            }else{
+                game = addPlayer1(Boolean.parseBoolean(type),user);
+            }
+        }else {
+            game = addPlayer1(Boolean.parseBoolean(type),user);
+        }
 
         model.put("game", game);
 
+        return "redirect:/multiplayer/queue/"+game.getId();
+    }
+    @GetMapping("/queue/{id}")
+    public String queueStatus(@PathVariable("id") Integer id, Map<String, Object> model){
+        Boolean ready = multiplayerService.checkGameReady(id);
+        if(ready){
+            return "redirect:/multiplayer/" + id;
+        }else{
+            return "multiplayer/gameQueuePublic";
+        }
+    }
 
-        return "multiplayer/gameQueuePublic";
+    @GetMapping("/{id}")
+    public String getGame(@PathVariable("id") Integer id, Map<String, Object> model){
+        model.put("game", multiplayerService.getById(id));
+        return VIEWS_MULTIPLAYER_GAME;
+    }
+    private Multiplayer addPlayer1(Boolean type, User user){
+        // no game in queue or not elegable
+        Multiplayer game = new Multiplayer(type);
+        game.setIsPublic(true);
+        multiplayerService.save(game);
+        UserGame userGame = new UserGame(user, game, 1, PlayerType.PLAYER,3);
+        userGameService.save(userGame);
+        multiplayerService.addUserGame(game, userGame);
+        userService.addUserGame(user, userGame);
+        return game;
+    }
+
+    private Multiplayer addPlayer2(User user){
+        //Game in Queue exists and is elegable
+        Multiplayer game = multiplayerService.getNextGameInQueue();
+        UserGame userGame = new UserGame(user, game, 2, PlayerType.PLAYER,3);
+        userGameService.save(userGame);
+        multiplayerService.startGame(game.getId());
+        return game;
     }
 
 }
