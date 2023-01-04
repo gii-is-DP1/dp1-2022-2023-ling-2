@@ -34,6 +34,8 @@ public class UserGame extends BaseEntity {
     @Range(min=0, max=3)
     private Integer energy;
 
+    private EnergyAbility abilityUsed;
+
     private PlayerType role; // player or spectator
 
     public UserGame(User user, Multiplayer game, Integer player, PlayerType role) {

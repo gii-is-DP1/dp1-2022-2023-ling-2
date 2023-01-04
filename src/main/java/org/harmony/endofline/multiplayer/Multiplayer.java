@@ -3,6 +3,7 @@ package org.harmony.endofline.multiplayer;
 import lombok.Getter;
 import lombok.Setter;
 import org.harmony.endofline.model.Game;
+import org.harmony.endofline.user.User;
 import org.harmony.endofline.userGame.UserGame;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -20,6 +21,11 @@ public class Multiplayer extends Game {
     @OneToMany(mappedBy = "game")
     @NotNull
     private List<UserGame> users;
+
+    private Integer round;
+
+    @OneToOne
+    private User activePlayer;
 
     @NotNull
     private Boolean isPublic;
