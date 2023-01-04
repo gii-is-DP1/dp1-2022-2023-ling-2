@@ -159,12 +159,6 @@
             <version>2.1.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <!-- use version 2.1.0 or higher -->
-            <version>2.1.0</version>
-        </dependency>
         <!-- validation
         <dependency>
                 <groupId>org.hibernate</groupId>
@@ -246,11 +240,6 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>3.23.1</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -298,21 +287,6 @@
                         <param>org.harmony.endofline.user</param>
                         <param>org.harmony.endofline.userGame</param>
                     </packages>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.assertj</groupId>
-                <artifactId>assertj-assertions-generator-maven-plugin</artifactId>
-                <version>2.1.0</version>
-                <configuration>
-                    <packages>
-                        <param>org.harmony.endofline.achievement</param>
-                    </packages>
-                    <classes>
-                        <param>org.harmony.endofline.achievement.AchievementController</param>
-                    </classes>
-                    <targetDir>src/assertj/java</targetDir>
-                    <cleanTargetDir>true</cleanTargetDir>
                 </configuration>
             </plugin>
             <plugin>
