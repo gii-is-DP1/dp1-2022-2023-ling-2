@@ -954,10 +954,6 @@ INSERT INTO statistics(number_games, number_single_player_wins, number_single_pl
 INSERT INTO users(statistics_id, username,password,email,is_admin,enabled) VALUES (1, 'admin','admin','admin@localhost.com',true,true);
 INSERT INTO users(statistics_id, username,password,email,is_admin,enabled) VALUES (2, 'user','user','user@localhost.com',false,true);
 
-INSERT INTO multiplayer_games(date_ended, date_started, is_public, search_date, in_queue, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 0, '2022-11-09 11:07:21.139157',0, 0);
-INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (1, 1, 1, 3, 0);
-INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (2, 1, 2, 3, 0);
-
 -- Game 1
 INSERT INTO game_card(card_id, user_id, status, rotation, x, y, created, updated) VALUES
                                                                                             (3, 1, 0, false, 2,     1,       '2022-11-09 11:08:21.139157', '2022-11-09 11:08:21.139157'),
@@ -1002,6 +998,17 @@ INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES 
 
 INSERT INTO singleplayer_game(date_ended, date_started, user_id, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 1, 1);
 
+-- Multiplayer game 1
+INSERT INTO multiplayer_games(date_ended, date_started, is_public, search_date, in_queue, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 0, '2022-11-09 11:07:21.139157',0, 0);
+INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (1, 1, 1, 3, 0);
+INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (2, 1, 2, 3, 0);
+
+-- Multiplayer game 2
+INSERT INTO multiplayer_games(date_ended, date_started, is_public, search_date, in_queue, game_status, active_player_id, round) VALUES (null, '2022-11-09 11:08:21.139157', 0, '2022-11-09 11:07:21.139157',0, 1, 1, 1);
+INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (1, 2, 1, 3, 0);
+INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (2, 2, 2, 3, 0);
+
+-- Achievements
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('Winner','Win one Game', 1, 1);
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('TEST admin 2','Win one Game', 3, 50);
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('TEST user 3','Win one Game', 1, 10);
