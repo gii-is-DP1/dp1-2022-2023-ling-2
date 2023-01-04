@@ -19,7 +19,20 @@ public class MultiplayerServiceTest {
     @Test
     void shouldFindAll(){
         Collection<Multiplayer> multiplayers =this.multiService.getAllGamesWithUser();
-        assertThat(multiplayers).hasSize(1);
+        assertThat(multiplayers).hasSize(2);
+    }
+
+    @Test
+    void shouldAdvanceRound(){
+        Multiplayer game = multiService.findGame(2);
+
+        assertThat(game.getRound()==1);
+        assertThat(game.getActivePlayer().getId()==1);
+
+        multiService.advanceRound(game);
+
+        assertThat(game.getRound()==2);
+        assertThat(game.getActivePlayer().getId()==2);
     }
 
 

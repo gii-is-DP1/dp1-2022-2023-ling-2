@@ -124,7 +124,7 @@ public class UserServiceTest {
     @Test
     void shouldGetMultiplayerGamesOfUser1(){
         List<Multiplayer> games = userService.getMultiplayerGames("admin");
-        assertThat(games).hasSize(1);
+        assertThat(games).hasSize(3);
         assertThat(games.get(0).getUsers()).hasSize(2);
     }
 

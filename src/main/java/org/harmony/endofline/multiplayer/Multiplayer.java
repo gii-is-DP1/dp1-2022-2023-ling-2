@@ -45,8 +45,12 @@ public class Multiplayer extends Game {
         this.users = new ArrayList<UserGame>();
     }
 
-    public Multiplayer(){
+    public Multiplayer() {
         super(LocalDateTime.now());
+        this.searchDate = LocalDateTime.now();
+        this.isPublic = true;
+        this.inQueue = true;
+        this.users = new ArrayList<UserGame>();
     }
 
     public void addUser(UserGame userGame) {
