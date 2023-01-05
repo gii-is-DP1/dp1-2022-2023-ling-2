@@ -30,8 +30,9 @@
                                 <a href="/gameinvite/${gameId}?friend=${friend.username}"><span class="glyphicon glyphicon-ok" aria-hidden="true"/></a>
                             </td>
                             <td>
-                                <a href="spectateinvite/${gameId}?friend=${friend.username}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a>
+                                <a href="/spectateinvite/${gameId}?friend=${friend.username}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a>
                             </td>
+
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -44,16 +45,20 @@
                     <tr>
                         <th>User invited</th>
                         <th>Type</th>
+                        <th>Cancle</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${invites}" var="invite">
                         <tr>
                             <td>
-                                <span ${invite.receiver}> </span>
+                                <span >${invite.receiver.username} </span>
                             </td>
                             <td>
-                                <span ${invite.type}> </span>
+                                <span >${invite.type} </span>
+                            </td>
+                            <td>
+                                <a href="/invite/delete/${invite.id}/${gameId}"><span class="glyphicon glyphicon-remove warning" aria-hidden="true"/></a>
                             </td>
                         </tr>
                     </c:forEach>

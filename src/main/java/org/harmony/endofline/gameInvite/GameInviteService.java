@@ -26,6 +26,7 @@ public class GameInviteService {
         }
     }
 
+
     public void acceptInvite(Integer id){
         GameInvite invite = this.gameInviteRepository.findById(id).get();
         this.gameInviteRepository.update(true,false,false,invite.getId());
@@ -40,6 +41,13 @@ public class GameInviteService {
     }
 
     @Transactional
+    public void cancelInvite(Integer id){
+        GameInvite invite = this.gameInviteRepository.findById(id).get();
+        this.gameInviteRepository.update(false,false,true,invite.getId());
+    }
+
+
+    @Transactional
     public void sendInvite(Multiplayer game, User sender, User receiver, InviteType type){
         GameInvite newInvite = new GameInvite(game,sender,receiver,type);
         this.gameInviteRepository.save(newInvite);
@@ -49,4 +57,11 @@ public class GameInviteService {
         this.gameInviteRepository.findById(id);
     }
 
+    public List<GameInvite> getByReciever(User user){
+        return this.gameInviteRepository.findByReciever(user.getId());
+    }
+
+    public List<GameInvite> getBySender(User user){
+        return this.gameInviteRepository.findBySender(user.getId());
+    }
 }

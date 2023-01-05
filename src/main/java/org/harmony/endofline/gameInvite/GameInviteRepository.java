@@ -1,6 +1,7 @@
 package org.harmony.endofline.gameInvite;
 
 import org.harmony.endofline.achievement.Achievement;
+import org.harmony.endofline.user.User;
 import org.harmony.endofline.userGame.UserGame;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,5 +19,9 @@ public interface GameInviteRepository extends CrudRepository<GameInvite, Integer
     @Query("UPDATE GameInvite invite SET invite.accepted=:accepted, invite.pending=:pending, invite.canceled=:canceled WHERE invite.id =:id")
     void update(@Param("accepted") Boolean accepted, @Param("pending") Boolean pending, @Param("canceled") Boolean canceled, @Param("id")Integer id);
 
+    @Query("SELECT g FROM GameInvite g WHERE g.receiver.id =:userId AND g.pending = TRUE AND g.canceled = FALSE")
+    List<GameInvite> findByReciever(@Param("userId") Integer userId);
 
+    @Query("SELECT g FROM GameInvite g WHERE g.sender.id =:userId AND g.pending = TRUE AND g.canceled = FALSE")
+    List<GameInvite> findBySender(@Param("userId") Integer userId);
 }

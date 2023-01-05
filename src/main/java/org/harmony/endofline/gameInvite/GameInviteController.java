@@ -58,7 +58,7 @@ public class GameInviteController {
 
         model.put("friends", userService.getFriends(user));
         model.put("gameId", gameId);
-        model.put("invites", userService.getPendingSentInvitations(user));
+        model.put("invites", gameInviteService.getBySender(user));
 
         return "multiplayer/gameInviteCreate";
     }
@@ -70,9 +70,26 @@ public class GameInviteController {
 
         gameInviteService.sendInvite(multiplayerService.getById(gameId),user,userService.findByUsername(friend),InviteType.PLAYER);
 
-        model.put("friends",userService.getFriends(user));
-        model.put("gameId", gameId);
-        model.put("invites", userService.getPendingSentInvitations(user));
-        return "multiplayer/gameInviteCreate";
+        return "redirect:/invitefriend/" + gameId;
+    }
+
+    @GetMapping("/spectateinvite/{gameId}")
+    public String createSpectateInvite(@RequestParam("friend") String friend,@PathVariable("gameId") Integer gameId, Map<String, Object> model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(auth.getName());
+
+        gameInviteService.sendInvite(multiplayerService.getById(gameId),user,userService.findByUsername(friend),InviteType.SPECTATE);
+
+        return "redirect:/invitefriend/" + gameId;
+    }
+
+    @GetMapping("invite/delete/{id}/{gameId}")
+    public String deleteInvite(@PathVariable("id") Integer inviteId,@PathVariable("gameId") Integer gameId){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(auth.getName());
+
+        gameInviteService.cancelInvite(inviteId);
+
+        return "redirect:/invitefriend/" + gameId;
     }
 }
