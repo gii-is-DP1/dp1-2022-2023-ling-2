@@ -48,4 +48,8 @@ public class UserGame extends BaseEntity {
 
     public UserGame() {
     }
+
+    public void reduceEnergy(){
+        this.energy=this.getEnergy()-1;
+    }
 }

@@ -28,6 +28,8 @@ public class Game extends BaseEntity {
     @NotNull
     private GameStatus gameStatus;
 
+    private Integer round;
+
     @ManyToOne
     @JoinColumn(name = "winner_user_id")
     private User winner;

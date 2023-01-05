@@ -68,7 +68,7 @@ public class GameInviteController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
 
-        gameInviteService.sendInvite(multiplayerService.findGame(gameId),user,userService.findByUsername(friend),InviteType.PLAYER);
+        gameInviteService.sendInvite(multiplayerService.getById(gameId),user,userService.findByUsername(friend),InviteType.PLAYER);
 
         model.put("friends",userService.getFriends(user));
         model.put("gameId", gameId);

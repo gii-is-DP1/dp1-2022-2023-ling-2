@@ -24,8 +24,6 @@ public class Multiplayer extends Game {
     @NotNull
     private List<UserGame> users;
 
-    private Integer round;
-
     @OneToOne
     private User activePlayer;
 
