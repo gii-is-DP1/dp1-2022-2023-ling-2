@@ -46,9 +46,23 @@ public class GameInviteController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 
         model.put("invitations", userService.getInvitations(user));
-        model.put("pending_received_invitations", userService.getPendingReceivedInvitations(user));
-        model.put("pending_sent_invitations", userService.getPendingSentInvitations(user));
+        model.put("pending_received_invitations", gameInviteService.getByReciever(user));
+        model.put("pending_sent_invitations", gameInviteService.getBySender(user));
         return VIEWS_USER_INVITATIONS;
+    }
+
+    @GetMapping("/gameinvites/{id}/accept")
+    public String acceptInvite(@PathVariable("id") Integer id){
+
+        gameInviteService.acceptInvite(id);
+        return "redirect:/multiplayer/" + gameInviteService.getGameById(id).getId();
+    }
+
+    @GetMapping("/gameinvites/{id}/decline")
+    public String declineInvite(@PathVariable("id") Integer id){
+
+        gameInviteService.declineInvite(id);
+        return "redirect:/multiplayer/" + gameInviteService.getGameById(id).getId();
     }
 
     @GetMapping("/invitefriend/{id}")
@@ -72,6 +86,8 @@ public class GameInviteController {
 
         return "redirect:/invitefriend/" + gameId;
     }
+
+
 
     @GetMapping("/spectateinvite/{gameId}")
     public String createSpectateInvite(@RequestParam("friend") String friend,@PathVariable("gameId") Integer gameId, Map<String, Object> model){

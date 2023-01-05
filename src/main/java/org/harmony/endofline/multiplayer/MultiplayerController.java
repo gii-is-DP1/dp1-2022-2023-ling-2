@@ -25,13 +25,12 @@ public class MultiplayerController {
 
     private final MultiplayerService multiplayerService;
     private final UserService userService;
-    private final UserGameService userGameService;
+
 
     @Autowired
     public MultiplayerController(MultiplayerService multiplayerService, UserService userService, UserGameService userGameService) {
         this.multiplayerService = multiplayerService;
         this.userService = userService;
-        this.userGameService = userGameService;
     }
 
     @GetMapping("/create")
@@ -58,12 +57,12 @@ public class MultiplayerController {
         if(size > 0) {
             user2 = multiplayerService.getNextGameInQueue().getUsers().get(0).getUser();
             if (size == 1 && !user2.getId().equals(user.getId())) {
-                game = addPlayer2(user);
+                game = multiplayerService.addPlayer2(Boolean.parseBoolean(isPublic),user,multiplayerService.getNextGameInQueue());
             }else{
-                game = addPlayer1(Boolean.parseBoolean(isPublic),user);
+                game = multiplayerService.addPlayer1(Boolean.parseBoolean(isPublic),user);
             }
         }else {
-            game = addPlayer1(Boolean.parseBoolean(isPublic),user);
+            game = multiplayerService.addPlayer1(Boolean.parseBoolean(isPublic),user);
         }
 
         model.put("game", game);
@@ -98,25 +97,6 @@ public class MultiplayerController {
         model.put("cards_left", multiplayerService.getAllCardsInDeck(id, user.getId()).size());
         return VIEWS_MULTIPLAYER_GAME;
     }
-    private Multiplayer addPlayer1(Boolean type, User user){
-        // no game in queue or not elegable
-        Multiplayer game = new Multiplayer(type);
-        game.setIsPublic(true);
-        multiplayerService.save(game);
-        UserGame userGame = new UserGame(user, game, 1, PlayerType.PLAYER,3);
-        userGameService.save(userGame);
-        multiplayerService.addUserGame(game, userGame);
-        userService.addUserGame(user, userGame);
-        return game;
-    }
 
-    private Multiplayer addPlayer2(User user){
-        //Game in Queue exists and is elegable
-        Multiplayer game = multiplayerService.getNextGameInQueue();
-        UserGame userGame = new UserGame(user, game, 2, PlayerType.PLAYER,3);
-        userGameService.save(userGame);
-        multiplayerService.startGame(game.getId());
-        return game;
-    }
 
 }

@@ -9,9 +9,8 @@ import org.harmony.endofline.puzzleCards.PuzzleCards;
 import org.harmony.endofline.singleplayer.InvalidIDException;
 import org.harmony.endofline.singleplayer.Singleplayer;
 import org.harmony.endofline.user.User;
-import org.harmony.endofline.userGame.EnergyAbility;
-import org.harmony.endofline.userGame.UserGame;
-import org.harmony.endofline.userGame.UserGameRepository;
+import org.harmony.endofline.user.UserService;
+import org.harmony.endofline.userGame.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +25,12 @@ public class MultiplayerService {
 
     @Autowired
     private MultiplayerRepository multiplayerRepository;
-
-    @Autowired
-    private UserGameRepository usersGamesRepository;
-
     @Autowired
     private GameCardRepository gameCardRepository;
+    @Autowired
+    private UserGameService userGameService;
+    @Autowired
+    private UserService userService;
 
     @Transactional
     public void save(Multiplayer game) {
@@ -275,5 +274,24 @@ public class MultiplayerService {
 
     public List<GameCard> getAllCardsInDeck(Integer gameId, Integer userId) {
         return multiplayerRepository.findCardsInDeck(gameId, userId);
+    }
+
+    public Multiplayer addPlayer1(Boolean isPublic, User user){
+        // no game in queue or not elegable
+        Multiplayer game = new Multiplayer(isPublic);
+        this.save(game);
+        UserGame userGame = new UserGame(user, game, 1, PlayerType.PLAYER,3);
+        userGameService.save(userGame);
+        this.addUserGame(game, userGame);
+        userService.addUserGame(user, userGame);
+        return game;
+    }
+
+    public Multiplayer addPlayer2(Boolean isPublic, User user, Multiplayer game){
+        //Game in Queue exists and is elegable
+        UserGame userGame = new UserGame(user, game, 2, PlayerType.PLAYER,3);
+        userGameService.save(userGame);
+        this.startGame(game.getId());
+        return game;
     }
 }

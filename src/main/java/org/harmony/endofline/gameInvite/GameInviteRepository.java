@@ -1,6 +1,7 @@
 package org.harmony.endofline.gameInvite;
 
 import org.harmony.endofline.achievement.Achievement;
+import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.userGame.UserGame;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public interface GameInviteRepository extends CrudRepository<GameInvite, Integer> {
 
-    @Query("SELECT g FROM GameInvite g WHERE g.game.id =:gameID AND g.pending = TRUE AND g.canceled = FALSE")
+    @Query("SELECT g FROM GameInvite g WHERE g.game.id =:gameID AND g.pending = TRUE AND g.canceled = FALSE AND g.type = 0")
     List<GameInvite> findAllInvitesOfGame(@Param("gameID") Integer gameID);
 
     @Modifying
@@ -24,4 +25,7 @@ public interface GameInviteRepository extends CrudRepository<GameInvite, Integer
 
     @Query("SELECT g FROM GameInvite g WHERE g.sender.id =:userId AND g.pending = TRUE AND g.canceled = FALSE")
     List<GameInvite> findBySender(@Param("userId") Integer userId);
+
+    @Query("SELECT g.game FROM GameInvite g WHERE g.id =:inviteId")
+    Multiplayer findGameById(@Param("inviteId") Integer inviteId);
 }
