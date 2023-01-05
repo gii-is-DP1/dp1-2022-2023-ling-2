@@ -1018,5 +1018,4 @@ INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,1);
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,2);
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,3);
 
-INSERT INTO board(id,width,height) VALUES (1,5,5);
 

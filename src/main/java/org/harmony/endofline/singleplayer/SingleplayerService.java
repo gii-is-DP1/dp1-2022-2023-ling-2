@@ -1,6 +1,5 @@
 package org.harmony.endofline.singleplayer;
 
-import org.harmony.endofline.board.Board;
 import org.harmony.endofline.card.Card;
 import org.harmony.endofline.card.Side;
 import org.harmony.endofline.gameCard.GameCard;
@@ -209,12 +208,12 @@ public class SingleplayerService {
     }
 
     @Transactional
-    public void getResultIfApplicable(Singleplayer game, List<PuzzleCards> puzzleCards, Board board) {
+    public void getResultIfApplicable(Singleplayer game, List<PuzzleCards> puzzleCards, Integer boardSize) {
         String res = null;
 
         List<GameCard> cardsInHand = game.getGameCards().stream().filter(c -> c.getStatus().equals(Status.HAND)).toList();
         List<GameCard> cardsOnBoard = game.getGameCards().stream().filter(c -> c.getStatus().equals(Status.BOARD)).toList();
-        if(cardsOnBoard.size()+puzzleCards.size() == board.getHeight()* board.getWidth()){
+        if(cardsOnBoard.size()+puzzleCards.size() == boardSize*boardSize){
             game.setGameStatus(GameStatus.FINISHED);
             game.setWinner(game.getUser());
             game.setDateEnded(LocalDateTime.now());

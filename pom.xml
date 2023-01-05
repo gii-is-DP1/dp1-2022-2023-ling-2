@@ -272,7 +272,6 @@
                 <configuration>
                     <packages>
                         <param>org.harmony.endofline.achievement</param>
-                        <param>org.harmony.endofline.board</param>
                         <param>org.harmony.endofline.card</param>
                         <param>org.harmony.endofline.deck</param>
                         <param>org.harmony.endofline.deckCard</param>

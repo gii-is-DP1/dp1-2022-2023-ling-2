@@ -1,6 +1,5 @@
 package org.harmony.endofline.singleplayer;
 
-import org.harmony.endofline.board.BoardService;
 import org.harmony.endofline.deck.DeckService;
 import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.puzzle.Difficulty;
@@ -29,15 +28,13 @@ public class SingleplayerController {
     private static final String VIEWS_SINGLEPLAYER_BOARD = "singleplayer/SingleplayerBoard";
     private final SingleplayerService singleplayerService;
     private final UserService userService;
-    private final BoardService boardService;
     private final PuzzleService puzzleService;
     private final DeckService deckService;
 
     @Autowired
-    public SingleplayerController(SingleplayerService singleplayerService, UserService userService, BoardService boardService, PuzzleService puzzleService, DeckService deckService) {
+    public SingleplayerController(SingleplayerService singleplayerService, UserService userService, PuzzleService puzzleService, DeckService deckService) {
         this.singleplayerService = singleplayerService;
         this.userService = userService;
-        this.boardService = boardService;
         this.puzzleService = puzzleService;
         this.deckService = deckService;
     }
@@ -75,9 +72,8 @@ public class SingleplayerController {
             if (!singleplayerService.isGameFromUser(id, user))
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 
-            singleplayerService.getResultIfApplicable(singleplayerService.findByID(id), puzzleService.getPuzzleCards(game.getPuzzle().getId()), boardService.findById(1).get());
+            singleplayerService.getResultIfApplicable(singleplayerService.findByID(id), puzzleService.getPuzzleCards(game.getPuzzle().getId()), 5);
             model.put("game", game);
-            model.put("board", boardService.findById(1).get());
             model.put("puzzleCards", puzzleService.getPuzzleCards(game.getPuzzle().getId()));
             model.put("gameCards", singleplayerService.getAllCardsInBoard(id));
             model.put("handCards", singleplayerService.getAllCardsInHand(id));

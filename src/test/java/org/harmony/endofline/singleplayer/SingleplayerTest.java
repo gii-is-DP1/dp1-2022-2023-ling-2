@@ -1,6 +1,5 @@
 package org.harmony.endofline.singleplayer;
 
-import org.harmony.endofline.board.BoardService;
 import org.harmony.endofline.configuration.SecurityConfiguration;
 import org.harmony.endofline.deck.DeckService;
 import org.harmony.endofline.puzzle.PuzzleService;
@@ -35,8 +34,6 @@ public class SingleplayerTest {
 
     @MockBean
     SingleplayerService singleService;
-    @MockBean
-    BoardService boardService;
     @MockBean
     PuzzleService puzzleService;
     @MockBean

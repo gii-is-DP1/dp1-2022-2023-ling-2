@@ -28,8 +28,10 @@
         </div>
     </c:forEach>
 </div>
+
 <script>
-    function getExitPositions(lastPlacedCard, boardDimensions) {
+    let side = "${side}";
+    function getExitPositions(lastPlacedCard) {
         // Calculates the necessary entry position and coordinates for the next card based on the card's exits
         let res = {};
         let sidesRotated = getRotatedSides(lastPlacedCard, lastPlacedCard["rotation"]);
@@ -38,16 +40,16 @@
             if(side==="EXIT"){
                 switch (i){
                     case 0:
-                        res.down = [parseInt(lastPlacedCard["x"]), (parseInt(lastPlacedCard["y"])-1+boardDimensions)%boardDimensions];
+                        res.down = [parseInt(lastPlacedCard["x"]), (parseInt(lastPlacedCard["y"])-1+side)%side];
                         break;
                     case 1:
-                        res.left = [(parseInt(lastPlacedCard["x"])+1+boardDimensions)%boardDimensions, parseInt(lastPlacedCard["y"])];
+                        res.left = [(parseInt(lastPlacedCard["x"])+1+side)%side, parseInt(lastPlacedCard["y"])];
                         break;
                     case 2:
-                        res.up = [parseInt(lastPlacedCard["x"]), (parseInt(lastPlacedCard["y"])+1+boardDimensions)%boardDimensions];
+                        res.up = [parseInt(lastPlacedCard["x"]), (parseInt(lastPlacedCard["y"])+1+side)%side];
                         break;
                     case 3:
-                        res.right = [(parseInt(lastPlacedCard["x"])-1+boardDimensions)%boardDimensions, parseInt(lastPlacedCard["y"])];
+                        res.right = [(parseInt(lastPlacedCard["x"])-1+side)%side, parseInt(lastPlacedCard["y"])];
                         break;
                 }
             }
@@ -80,14 +82,14 @@
         let cardEntryForExitMap = {};
 
         if(!usingEnergy) {
-            cardEntryForExitMap = getExitPositions(lastPlacedCard, 5);
+            cardEntryForExitMap = getExitPositions(lastPlacedCard, side);
             for(let [key, value] of Object.entries(cardEntryForExitMap)){
                 requiredEntriesForExit[key] = [value];
             }
         }
         else{
             for(let [key, card] of Object.entries(cardsOnBoard)){
-                cardEntryForExitMap = getExitPositions(card, 5);
+                cardEntryForExitMap = getExitPositions(card, side);
                 for(let [key, value] of Object.entries(cardEntryForExitMap)){
                     if(requiredEntriesForExit[key]!==undefined)
                         requiredEntriesForExit[key].push(value);
@@ -168,8 +170,8 @@
     }
 
     function cleanHighLightedCardSlots(){
-        for(let row=0; row<5; row++){
-            for(let col=0; col<5; col++){
+        for(let row=0; row<side; row++){
+            for(let col=0; col<side; col++){
                 if(document.getElementById("cardslot-"+row+"-"+col)!==null)
                     document.getElementById("cardslot-"+row+"-"+col).setAttribute("class", "btn card-slot disabled-card-slot")
             }
