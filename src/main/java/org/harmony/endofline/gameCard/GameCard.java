@@ -52,6 +52,8 @@ public class GameCard extends BaseEntity {
     @UpdateTimestamp
     private LocalDateTime updated;
 
+    private Integer round;
+
     public GameCard(Card card, User user, Status status, Integer x, Integer y, Integer rotation) {
         this.card = card;
         this.user = user;

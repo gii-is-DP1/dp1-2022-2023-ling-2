@@ -1,15 +1,18 @@
 package org.harmony.endofline.multiplayer;
 
+import org.harmony.endofline.singleplayer.InvalidIDException;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
 import org.harmony.endofline.userGame.PlayerType;
 import org.harmony.endofline.userGame.UserGame;
 import org.harmony.endofline.userGame.UserGameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 
@@ -83,7 +86,16 @@ public class MultiplayerController {
 
     @GetMapping("/{id}")
     public String getGame(@PathVariable("id") Integer id, Map<String, Object> model){
-        model.put("game", multiplayerService.getById(id));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Multiplayer game = multiplayerService.getById(id);
+        User user = userService.findByUsername(auth.getName());
+        if (!multiplayerService.checkUserInGame(user, game))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+
+        model.put("game", game);
+        model.put("gameCards", multiplayerService.getAllCardsInBoard(id));
+        model.put("handCards", multiplayerService.getAllCardsInHand(id, user.getId()));
+        model.put("cards_left", multiplayerService.getAllCardsInDeck(id, user.getId()).size());
         return VIEWS_MULTIPLAYER_GAME;
     }
     private Multiplayer addPlayer1(Boolean type, User user){

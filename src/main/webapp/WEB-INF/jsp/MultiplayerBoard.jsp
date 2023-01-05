@@ -1,19 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet"  href="/webjars/bootstrap/css/bootstrap.min.css" />
-    <script src="/webjars/jquery/jquery.min.js"></script>
-    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-    <title>Multiplayer game</title>
-</head>
-<body>
-    <h2>Game:</h2>
-    <div>
-        <c:out value="${game}"></c:out>
+<%@ taglib prefix="endofline" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<endofline:layout pageName="multiplayer_game">
+    <div class="center">
+        <endofline:board side="7" gameCards="${gameCards}"/>
+        <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${game.energy}"/>
     </div>
-</body>
-</html>
+</endofline:layout>
