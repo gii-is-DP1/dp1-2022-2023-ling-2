@@ -46,30 +46,33 @@ public class MultiplayerController {
 
 
 
-        int size;
-        if(multiplayerService.getNextGameInQueue() == null){
-            size = 0;
-        }else{
-            size = multiplayerService.getNextGameInQueue().getUsers().size();
-        }
-        User user2;
-        Multiplayer game;
-        if(size > 0) {
-            user2 = multiplayerService.getNextGameInQueue().getUsers().get(0).getUser();
-            if (size == 1 && !user2.getId().equals(user.getId())) {
-                game = multiplayerService.addPlayer2(Boolean.parseBoolean(isPublic),user,multiplayerService.getNextGameInQueue());
-            }else{
-                game = multiplayerService.addPlayer1(Boolean.parseBoolean(isPublic),user);
-            }
-        }else {
-            game = multiplayerService.addPlayer1(Boolean.parseBoolean(isPublic),user);
-        }
-
-        model.put("game", game);
 
         if(Boolean.parseBoolean(isPublic)) {
+            int size;
+            if(multiplayerService.getNextGameInQueue() == null){
+                size = 0;
+            }else{
+                size = multiplayerService.getNextGameInQueue().getUsers().size();
+            }
+            User user2;
+            Multiplayer game;
+            if(size > 0) {
+                user2 = multiplayerService.getNextGameInQueue().getUsers().get(0).getUser();
+                if (size == 1 && !user2.getId().equals(user.getId())) {
+                    game = multiplayerService.addPlayer2(Boolean.parseBoolean(isPublic),user,multiplayerService.getNextGameInQueue());
+                }else{
+                    game = multiplayerService.addPlayer1(Boolean.parseBoolean(isPublic),user);
+                }
+            }else {
+                game = multiplayerService.addPlayer1(Boolean.parseBoolean(isPublic),user);
+            }
+            model.put("game", game);
+
             return "redirect:/multiplayer/queue/" + game.getId();
         }else{
+            Multiplayer game = multiplayerService.addPlayer1(Boolean.parseBoolean(isPublic),user);
+            model.put("game", game);
+
             return "redirect:/invitefriend/" + game.getId();
         }
     }

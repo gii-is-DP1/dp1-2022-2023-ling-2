@@ -26,6 +26,12 @@ public interface GameInviteRepository extends CrudRepository<GameInvite, Integer
     @Query("SELECT g FROM GameInvite g WHERE g.sender.id =:userId AND g.pending = TRUE AND g.canceled = FALSE")
     List<GameInvite> findBySender(@Param("userId") Integer userId);
 
+    @Query("SELECT g FROM GameInvite g WHERE g.receiver.id =:userId AND g.pending = TRUE AND g.canceled = FALSE AND g.game.id =:gameId")
+    List<GameInvite> findByRecieverandId(@Param("userId") Integer userId,@Param("gameId")Integer gameId);
+
+    @Query("SELECT g FROM GameInvite g WHERE g.sender.id =:userId AND g.pending = TRUE AND g.canceled = FALSE AND g.game.id =:gameId")
+    List<GameInvite> findBySenderandId(@Param("userId") Integer userId, @Param("gameId")Integer gameId);
+
     @Query("SELECT g.game FROM GameInvite g WHERE g.id =:inviteId")
     Multiplayer findGameById(@Param("inviteId") Integer inviteId);
 }

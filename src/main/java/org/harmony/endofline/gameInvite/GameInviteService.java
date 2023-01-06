@@ -59,8 +59,6 @@ public class GameInviteService {
     public void sendInvite(Multiplayer game, User sender, User receiver, InviteType type){
         GameInvite newInvite = new GameInvite(game,sender,receiver,type);
         this.gameInviteRepository.save(newInvite);
-        this.multiplayerService.addPlayer1(false,sender);
-
     }
 
     public void findById(Integer id){
@@ -73,6 +71,14 @@ public class GameInviteService {
 
     public List<GameInvite> getBySender(User user){
         return this.gameInviteRepository.findBySender(user.getId());
+    }
+
+    public List<GameInvite> getByRecieverandId(User user, Integer gameId){
+        return this.gameInviteRepository.findByRecieverandId(user.getId(), gameId);
+    }
+
+    public List<GameInvite> getBySenderandId(User user, Integer gameId){
+        return this.gameInviteRepository.findBySenderandId(user.getId(), gameId);
     }
 
     public Multiplayer getGameById(Integer id){

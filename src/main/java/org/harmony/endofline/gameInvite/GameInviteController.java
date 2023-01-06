@@ -72,7 +72,7 @@ public class GameInviteController {
 
         model.put("friends", userService.getFriends(user));
         model.put("gameId", gameId);
-        model.put("invites", gameInviteService.getBySender(user));
+        model.put("invites", gameInviteService.getBySenderandId(user, gameId));
 
         return "multiplayer/gameInviteCreate";
     }
