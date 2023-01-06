@@ -68,6 +68,47 @@ public class MultiplayerService {
         }
     }
 
+
+
+    public boolean checkUserInGame(User user, Multiplayer game) {
+        return game.getUsers().stream().map(UserGame::getUser).anyMatch(u -> u.equals(user));
+    }
+
+    public List<GameCard> getAllCardsInBoard(Integer gameId) {
+        return multiplayerRepository.findCardsInBoard(gameId);
+    }
+
+    public List<GameCard> getAllCardsInHand(Integer gameId, Integer userId) {
+        return multiplayerRepository.findCardsInHand(gameId, userId);
+    }
+
+    public List<GameCard> getAllCardsInDeck(Integer gameId, Integer userId) {
+        return multiplayerRepository.findCardsInDeck(gameId, userId);
+    }
+
+    public GameCard getLastPlacedCard(Integer gameId, Integer userId){
+        return gameCardRepository.findByUserId(gameId, userId).get(0);
+    }
+
+    public Multiplayer addPlayer1(Boolean isPublic, User user){
+        // no game in queue or not elegable
+        Multiplayer game = new Multiplayer(isPublic);
+        this.save(game);
+        UserGame userGame = new UserGame(user, game, 1, PlayerType.PLAYER,3);
+        userGameService.save(userGame);
+        this.addUserGame(game, userGame);
+        userService.addUserGame(user, userGame);
+        return game;
+    }
+
+    public Multiplayer addPlayer2(Boolean isPublic, User user, Multiplayer game){
+        //Game in Queue exists and is elegable
+        UserGame userGame = new UserGame(user, game, 2, PlayerType.PLAYER,3);
+        userGameService.save(userGame);
+        this.startGame(game.getId());
+        return game;
+    }
+
     @Transactional
     public void startGame(Integer id){
         Multiplayer game = multiplayerRepository.findById(id).get();
@@ -188,7 +229,7 @@ public class MultiplayerService {
     }
 
     private List<List<Integer>> getValidPositions(Multiplayer game, Integer userId, List<GameCard> cardsOnBoard, GameCard cardToMove, Integer rotation, Boolean backInTime) {
-        GameCard lastCard = gameCardRepository.findByUserId(game.getId(), userId).get(0);
+        GameCard lastCard = getLastPlacedCard(game.getId(), userId);
         List<GameCard> userCardsOnBoard = cardsOnBoard.stream().filter(c -> c.getUser().getId().equals(userId)).toList();
 
         var requiredEntriesForExit = calculateEntriesForExits(userCardsOnBoard, backInTime, lastCard);
@@ -282,40 +323,5 @@ public class MultiplayerService {
             }
         }
         return res;
-    }
-
-    public boolean checkUserInGame(User user, Multiplayer game) {
-        return game.getUsers().stream().map(UserGame::getUser).anyMatch(u -> u.equals(user));
-    }
-
-    public List<GameCard> getAllCardsInBoard(Integer gameId) {
-        return multiplayerRepository.findCardsInBoard(gameId);
-    }
-
-    public List<GameCard> getAllCardsInHand(Integer gameId, Integer userId) {
-        return multiplayerRepository.findCardsInHand(gameId, userId);
-    }
-
-    public List<GameCard> getAllCardsInDeck(Integer gameId, Integer userId) {
-        return multiplayerRepository.findCardsInDeck(gameId, userId);
-    }
-
-    public Multiplayer addPlayer1(Boolean isPublic, User user){
-        // no game in queue or not elegable
-        Multiplayer game = new Multiplayer(isPublic);
-        this.save(game);
-        UserGame userGame = new UserGame(user, game, 1, PlayerType.PLAYER,3);
-        userGameService.save(userGame);
-        this.addUserGame(game, userGame);
-        userService.addUserGame(user, userGame);
-        return game;
-    }
-
-    public Multiplayer addPlayer2(Boolean isPublic, User user, Multiplayer game){
-        //Game in Queue exists and is elegable
-        UserGame userGame = new UserGame(user, game, 2, PlayerType.PLAYER,3);
-        userGameService.save(userGame);
-        this.startGame(game.getId());
-        return game;
     }
 }
