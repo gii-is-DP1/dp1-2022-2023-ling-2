@@ -22,6 +22,9 @@
                             <td>
                                 <a href="/u/${req.receiver.username}">${req.receiver.username}</>
                             </td>
+                            <td>
+                                <span> ${req.type}</span>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>

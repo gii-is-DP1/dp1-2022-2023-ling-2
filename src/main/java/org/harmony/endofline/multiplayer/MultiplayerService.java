@@ -105,8 +105,17 @@ public class MultiplayerService {
         //Game in Queue exists and is elegable
         UserGame userGame = new UserGame(user, game, 2, PlayerType.PLAYER,3);
         userGameService.save(userGame);
+        this.addUserGame(game, userGame);
+        userService.addUserGame(user, userGame);
         this.startGame(game.getId());
         return game;
+    }
+
+    public void addSpectator(User user, Multiplayer game){
+        UserGame userGame = new UserGame(user, game, null, PlayerType.SPECTATOR,0);
+        userGameService.save(userGame);
+        this.addUserGame(game, userGame);
+        userService.addUserGame(user, userGame);
     }
 
     @Transactional

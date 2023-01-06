@@ -37,8 +37,10 @@ public class GameInviteService {
         this.gameInviteRepository.update(true,false,false,invite.getId());
         if(invite.type == InviteType.PLAYER) {
             this.setAllPendingCanceled(invite.game.getId());
+            this.multiplayerService.addPlayer2(false,invite.getReceiver(),invite.game);
+        }else{
+            this.multiplayerService.addSpectator(invite.getReceiver(),invite.game);
         }
-        this.multiplayerService.addPlayer2(false,invite.getReceiver(),invite.game);
 
     }
 
