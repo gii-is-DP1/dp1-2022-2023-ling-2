@@ -33,13 +33,13 @@ public class MultiplayerServiceTest {
     void shouldAdvanceRound(){
         Multiplayer game = this.multiService.getById(2);
 
-        assertThat(game.getRound()==1);
-        assertThat(game.getActivePlayer().getId()==1);
+        assertEquals(1, game.getRound());
+        assertEquals(1, game.getActivePlayer().getId());
 
         this.multiService.advanceRound(game);
 
-        assertThat(game.getRound()==2);
-        assertThat(game.getActivePlayer().getId()==2);
+        assertEquals(2, game.getRound());
+        assertEquals(1, game.getActivePlayer().getId());
     }
 
     @Test
@@ -61,10 +61,26 @@ public class MultiplayerServiceTest {
     }
 
     @Test
+    void shouldNotPlaceFirstCardOfUser1OnUser2Turn() throws InvalidIDException {
+        Integer userId = 1;
+        Integer gameId = 3;
+        Integer cardToMove = 19;
+        Integer rotation = 0;
+        Integer x = 2;
+        Integer y = 2;
+        boolean energyUsed = false;
+        List<GameCard> cardsOnBoard = multiService.getAllCardsInBoard(gameId);
+        multiService.moveCard(gameId, userId, cardsOnBoard, cardToMove, rotation, x, y, energyUsed, 0);
+
+        List<GameCard> newCardsOnBoard = multiService.getAllCardsInBoard(gameId);
+        assertEquals(newCardsOnBoard.size(), 2);
+    }
+
+    @Test
     void shouldNotPlaceFirstCardOfUser1() throws InvalidIDException {
         Integer userId = 2;
-        Integer gameId = 2;
-        Integer cardToMove = 15;
+        Integer gameId = 3;
+        Integer cardToMove = 19;
         Integer rotation = 0;
         Integer x = 2;
         Integer y = 2;
