@@ -93,13 +93,13 @@ public class MultiplayerService {
     public User getNextRoundFirstPlayer(Multiplayer game) {
         User playerOne = game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getUser();
         User playerTwo = game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().orElse(null).getUser();
-        List<GameCard> playerOneCards = gameCardRepository.findByUserId(game.getId(), playerOne.getId());
-        List<GameCard> playerTwoCards = gameCardRepository.findByUserId(game.getId(), playerTwo.getId());
+        List<GameCard> playerOneCards = gameCardRepository.findByUserIdAndRound(game.getId(), playerOne.getId(), game.getRound());
+        List<GameCard> playerTwoCards = gameCardRepository.findByUserIdAndRound(game.getId(), playerTwo.getId(), game.getRound());
 
         List<Integer> gameCardsComparison = IntStream.range(0, Math.min(playerOneCards.size(), playerTwoCards.size()))
             .boxed()
-            .map(i -> playerOneCards.get(i).getCard().getInitiative() < playerOneCards.get(i).getCard().getInitiative() ? 1 :
-                (playerOneCards.get(i).getCard().getInitiative() > playerOneCards.get(i).getCard().getInitiative() ? 2 : 0))
+            .map(i -> playerOneCards.get(i).getCard().getInitiative() < playerTwoCards.get(i).getCard().getInitiative() ? 1 :
+                (playerOneCards.get(i).getCard().getInitiative() > playerTwoCards.get(i).getCard().getInitiative() ? 2 : 0))
             .toList();
 
         switch (gameCardsComparison.stream().filter(e -> e!=0).findFirst().orElse(0)){
