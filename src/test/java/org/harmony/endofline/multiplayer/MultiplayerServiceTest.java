@@ -68,7 +68,7 @@ public class MultiplayerServiceTest {
     }
 
     @Test
-    void shouldPlaceFirstCardOfUser1() throws InvalidIDException {
+    void shouldPlaceFirstCardOfUser1NoEnergyNoTurnFinish() throws InvalidIDException {
         Integer userId = 1;
         Integer gameId = 2;
         Integer cardToMove = 16;
@@ -83,6 +83,57 @@ public class MultiplayerServiceTest {
         assertEquals(newCardsOnBoard.size(), 3);
         assertEquals(newCardsOnBoard.get(2).getX(), 2);
         assertEquals(newCardsOnBoard.get(2).getY(), 2);
+
+        Multiplayer game = this.multiService.getById(2);
+        User playerOne = game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getUser();
+        assertEquals(1, game.getRound());
+        assertEquals(playerOne.getId(), game.getActivePlayer().getId());
+    }
+
+    @Test
+    void shouldPlaceFirstCardOfUser2EnergyTurnFinish() throws InvalidIDException {
+        Integer userId = 2;
+        Integer gameId = 5;
+        Integer cardToMove = 26;
+        Integer rotation = 0;
+        Integer x = 4;
+        Integer y = 2;
+        boolean energyUsed = true;
+        List<GameCard> cardsOnBoard = multiService.getAllCardsInBoard(gameId);
+        multiService.moveCard(gameId, userId, cardsOnBoard, cardToMove, rotation, x, y, energyUsed, 3);
+
+        // Even though we used the energy, its only turn 1 so it should not work
+        List<GameCard> newCardsOnBoard = multiService.getAllCardsInBoard(gameId);
+        assertEquals(newCardsOnBoard.size(), 4);
+
+        Multiplayer game = this.multiService.getById(5);
+        User playerOne = game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getUser();
+        assertEquals(4, game.getRound());
+        assertEquals(playerOne.getId(), game.getActivePlayer().getId());
+        assertEquals(2, game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getEnergy());
+    }
+
+    @Test
+    void shouldNotPlaceFirstCardOfUser1EnergyNoTurnFinish() throws InvalidIDException {
+        Integer userId = 1;
+        Integer gameId = 2;
+        Integer cardToMove = 16;
+        Integer rotation = 0;
+        Integer x = 2;
+        Integer y = 2;
+        boolean energyUsed = true;
+        List<GameCard> cardsOnBoard = multiService.getAllCardsInBoard(gameId);
+        multiService.moveCard(gameId, userId, cardsOnBoard, cardToMove, rotation, x, y, energyUsed, 3);
+
+        // Even though we used the energy, its only turn 1 so it should not work
+        List<GameCard> newCardsOnBoard = multiService.getAllCardsInBoard(gameId);
+        assertEquals(newCardsOnBoard.size(), 2);
+
+        Multiplayer game = this.multiService.getById(2);
+        User playerOne = game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getUser();
+        assertEquals(1, game.getRound());
+        assertEquals(playerOne.getId(), game.getActivePlayer().getId());
+        assertEquals(3, game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getEnergy());
     }
 
     @Test
