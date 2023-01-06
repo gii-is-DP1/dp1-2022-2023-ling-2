@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MultiplayerServiceTest {
     @Autowired
     protected MultiplayerService multiService;
-/*
+
     @Test
     void shouldFindAll(){
         Collection<Multiplayer> multiplayers =this.multiService.getAllGamesWithUser();
@@ -24,7 +24,7 @@ public class MultiplayerServiceTest {
 
     @Test
     void shouldAdvanceRound(){
-        Multiplayer game = this.multiService.findGame(2);
+        Multiplayer game = this.multiService.getById(2);
 
         assertThat(game.getRound()==1);
         assertThat(game.getActivePlayer().getId()==1);
@@ -34,10 +34,6 @@ public class MultiplayerServiceTest {
         assertThat(game.getRound()==2);
         assertThat(game.getActivePlayer().getId()==2);
     }
-
-
-
- */
 
 
 
