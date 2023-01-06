@@ -26,7 +26,7 @@ public class MultiplayerServiceTest {
     @Test
     void shouldFindAll(){
         Collection<Multiplayer> multiplayers =this.multiService.getAllGamesWithUser();
-        assertThat(multiplayers).hasSize(5);
+        assertThat(multiplayers).hasSize(6);
     }
 
     @Test
@@ -91,7 +91,7 @@ public class MultiplayerServiceTest {
     }
 
     @Test
-    void shouldPlaceFirstCardOfUser2EnergyTurnFinish() throws InvalidIDException {
+    void shouldPlaceFirstCardOfUser2BreakTurnFinishRoundFinish() throws InvalidIDException {
         Integer userId = 2;
         Integer gameId = 5;
         Integer cardToMove = 26;
@@ -114,7 +114,30 @@ public class MultiplayerServiceTest {
     }
 
     @Test
-    void shouldNotPlaceFirstCardOfUser1EnergyNoTurnFinish() throws InvalidIDException {
+    void shouldPlaceSecondCardOfUser2BoostNoTurnFinishNoRoundFinish() throws InvalidIDException {
+        Integer userId = 2;
+        Integer gameId = 6;
+        Integer cardToMove = 31;
+        Integer rotation = 0;
+        Integer x = 4;
+        Integer y = 1;
+        boolean energyUsed = false;
+        List<GameCard> cardsOnBoard = multiService.getAllCardsInBoard(gameId);
+        multiService.moveCard(gameId, userId, cardsOnBoard, cardToMove, rotation, x, y, energyUsed, 0);
+
+        // Even though we used the energy, its only turn 1 so it should not work
+        List<GameCard> newCardsOnBoard = multiService.getAllCardsInBoard(gameId);
+        assertEquals(newCardsOnBoard.size(), 5);
+
+        Multiplayer game = this.multiService.getById(6);
+        User playerTwo = game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().orElse(null).getUser();
+        assertEquals(3, game.getRound());
+        assertEquals(playerTwo.getId(), game.getActivePlayer().getId());
+        assertEquals(2, game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getEnergy());
+    }
+
+    @Test
+    void shouldNotPlaceFirstCardOfUser1BreakNoTurnFinish() throws InvalidIDException {
         Integer userId = 1;
         Integer gameId = 2;
         Integer cardToMove = 16;
