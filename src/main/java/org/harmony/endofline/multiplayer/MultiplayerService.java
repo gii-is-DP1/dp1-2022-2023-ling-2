@@ -154,10 +154,10 @@ public class MultiplayerService {
 
         EnergyAbility abilityUsed = null;
         switch (abilityUsedOrdinal){
-            case 1: abilityUsed = EnergyAbility.BACK_IN_TIME;
-            case 2: abilityUsed = EnergyAbility.BOOST;
-            case 3: abilityUsed = EnergyAbility.BREAK;
-            default: abilityUsed = EnergyAbility.NONE;
+            case 1: abilityUsed = EnergyAbility.BACK_IN_TIME; break;
+            case 2: abilityUsed = EnergyAbility.BOOST; break;
+            case 3: abilityUsed = EnergyAbility.BREAK; break;
+            default: abilityUsed = EnergyAbility.NONE; break;
         }
 
         // Can't move a null card, card needs to be in hand, energy has to be available or not used and it's the user's turn
