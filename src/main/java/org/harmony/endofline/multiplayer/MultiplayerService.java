@@ -5,9 +5,7 @@ import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.gameCard.GameCardRepository;
 import org.harmony.endofline.gameCard.Status;
 import org.harmony.endofline.model.GameStatus;
-import org.harmony.endofline.puzzleCards.PuzzleCards;
 import org.harmony.endofline.singleplayer.InvalidIDException;
-import org.harmony.endofline.singleplayer.Singleplayer;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
 import org.harmony.endofline.userGame.*;
@@ -118,9 +116,9 @@ public class MultiplayerService {
     }
 
     @Transactional
-    public boolean isTurnFinished(Multiplayer game, User user) {
-        var cardsPlacedOnRoundByUser = gameCardRepository.findByUserIdAndRound(game.getId(), user.getId(), game.getRound());
-        switch (game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(user.getId())).findFirst().get().getAbilityUsed()) {
+    public boolean isTurnFinished(Multiplayer game, Integer userId) {
+        var cardsPlacedOnRoundByUser = gameCardRepository.findByUserIdAndRound(game.getId(), userId, game.getRound());
+        switch (game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().getAbilityUsed()) {
             case BOOST -> {
                 return cardsPlacedOnRoundByUser.size() >= 3;
             }
@@ -131,6 +129,16 @@ public class MultiplayerService {
                 return cardsPlacedOnRoundByUser.size() >= 2;
             }
         }
+    }
+
+    @Transactional
+    public boolean isRoundFinished(Multiplayer game){
+        //TODO
+        return false;
+    }
+
+    private boolean isUserTurn(Multiplayer game, Integer userId) {
+        return game.getActivePlayer().getId().equals(userId);
     }
 
 
@@ -149,8 +157,8 @@ public class MultiplayerService {
             default: abilityUsed = EnergyAbility.NONE;
         }
 
-        // Can't move a null card, card needs to be in hand, energy has to be available or not used
-        if (cardToMove!=null && cardToMove.getStatus().equals(Status.HAND) && (!energyUsed || isEnergyAvailable(game, userId)))
+        // Can't move a null card, card needs to be in hand, energy has to be available or not used and it's the user's turn
+        if (cardToMove!=null && cardToMove.getStatus().equals(Status.HAND) && (!energyUsed || isEnergyAvailable(game, userId)) && isUserTurn(game, userId))
             validPositions = getValidPositions(game, userId, cardsOnBoard, cardToMove, rotation, abilityUsed.equals(EnergyAbility.BACK_IN_TIME));
 
         if (validPositions.contains(futurePosition)) {
@@ -158,9 +166,19 @@ public class MultiplayerService {
             cardToMove.setY(y);
             cardToMove.setRotation(rotation);
             cardToMove.setStatus(Status.BOARD);
-            if(energyUsed && isEnergyAvailable(game, userId))
+            cardToMove.setRound(game.getRound());
+            if(energyUsed && isEnergyAvailable(game, userId)) {
                 game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().reduceEnergy();
-                game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().setAbilityUsed(abilityUsed );
+                game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().setAbilityUsed(abilityUsed);
+            }
+
+            // Turn and round advancement
+            if (isTurnFinished(game, userId)) {
+                if (isRoundFinished(game))
+                    advanceRound(game);
+                else
+                    finishTurn(game);
+            }
         }
     }
 
