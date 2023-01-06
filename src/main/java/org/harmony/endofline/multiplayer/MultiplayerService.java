@@ -133,8 +133,11 @@ public class MultiplayerService {
 
     @Transactional
     public boolean isRoundFinished(Multiplayer game){
-        //TODO
-        return false;
+        User playerOne = game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getUser();
+        User playerTwo = game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().orElse(null).getUser();
+        var cardsPlacedOnRoundByUserOne = gameCardRepository.findByUserIdAndRound(game.getId(), playerOne.getId(), game.getRound());
+        var cardsPlacedOnRoundByUserTwo = gameCardRepository.findByUserIdAndRound(game.getId(), playerTwo.getId(), game.getRound());
+        return cardsPlacedOnRoundByUserOne.size() > 0 && cardsPlacedOnRoundByUserTwo.size() > 0;
     }
 
     private boolean isUserTurn(Multiplayer game, Integer userId) {
