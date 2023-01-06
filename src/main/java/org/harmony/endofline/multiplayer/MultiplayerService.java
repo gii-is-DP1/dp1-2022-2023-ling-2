@@ -112,9 +112,9 @@ public class MultiplayerService {
     }
 
     @Transactional
-    public boolean isEnergyAvailable(Multiplayer game, User user){
-        List<GameCard> cardsPlacedOnRoundByUser = gameCardRepository.findByUserIdAndRound(game.getId(), user.getId(), game.getRound());
-        return game.getRound() >= 3 && cardsPlacedOnRoundByUser.size() == 0 && game.getUsers().stream().filter(ug -> ug.getUser().equals(user)).findFirst().get().getEnergy() > 0;
+    public boolean isEnergyAvailable(Multiplayer game, Integer userId){
+        List<GameCard> cardsPlacedOnRoundByUser = gameCardRepository.findByUserIdAndRound(game.getId(), userId, game.getRound());
+        return game.getRound() >= 3 && cardsPlacedOnRoundByUser.size() == 0 && game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().getEnergy() > 0;
     }
 
     @Transactional
@@ -135,7 +135,7 @@ public class MultiplayerService {
 
 
     @Transactional
-    public void moveCard(Integer gameId, User user, List<GameCard> cardsOnBoard, Integer cardToMoveId, Integer rotation, Integer x, Integer y, boolean energyUsed, Integer abilityUsedOrdinal) throws InvalidIDException {
+    public void moveCard(Integer gameId, Integer userId, List<GameCard> cardsOnBoard, Integer cardToMoveId, Integer rotation, Integer x, Integer y, boolean energyUsed, Integer abilityUsedOrdinal) throws InvalidIDException {
         List<Integer> futurePosition = List.of(x, y);
         List<List<Integer>> validPositions = new ArrayList<>();
         Multiplayer game = getById(gameId);
@@ -149,23 +149,24 @@ public class MultiplayerService {
             default: abilityUsed = EnergyAbility.NONE;
         }
 
-        if (cardToMove!=null && cardToMove.getStatus().equals(Status.HAND) && (!energyUsed || isEnergyAvailable(game, user)))
-            validPositions = getValidPositions(game, user, cardsOnBoard, cardToMove, rotation, abilityUsed.equals(EnergyAbility.BACK_IN_TIME));
+        // Can't move a null card, card needs to be in hand, energy has to be available or not used
+        if (cardToMove!=null && cardToMove.getStatus().equals(Status.HAND) && (!energyUsed || isEnergyAvailable(game, userId)))
+            validPositions = getValidPositions(game, userId, cardsOnBoard, cardToMove, rotation, abilityUsed.equals(EnergyAbility.BACK_IN_TIME));
 
         if (validPositions.contains(futurePosition)) {
             cardToMove.setX(x);
             cardToMove.setY(y);
             cardToMove.setRotation(rotation);
             cardToMove.setStatus(Status.BOARD);
-            if(energyUsed && isEnergyAvailable(game, user))
-                game.getUsers().stream().filter(ug -> ug.getUser().equals(user)).findFirst().get().reduceEnergy();
-                game.getUsers().stream().filter(ug -> ug.getUser().equals(user)).findFirst().get().setAbilityUsed(abilityUsed );
+            if(energyUsed && isEnergyAvailable(game, userId))
+                game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().reduceEnergy();
+                game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().setAbilityUsed(abilityUsed );
         }
     }
 
-    private List<List<Integer>> getValidPositions(Multiplayer game, User user, List<GameCard> cardsOnBoard, GameCard cardToMove, Integer rotation, Boolean backInTime) {
-        GameCard lastCard = gameCardRepository.findByUserId(user.getId(), game.getId()).get(0);
-        List<GameCard> userCardsOnBoard = cardsOnBoard.stream().filter(c -> c.getUser().equals(user)).toList();
+    private List<List<Integer>> getValidPositions(Multiplayer game, Integer userId, List<GameCard> cardsOnBoard, GameCard cardToMove, Integer rotation, Boolean backInTime) {
+        GameCard lastCard = gameCardRepository.findByUserId(game.getId(), userId).get(0);
+        List<GameCard> userCardsOnBoard = cardsOnBoard.stream().filter(c -> c.getUser().getId().equals(userId)).toList();
 
         var requiredEntriesForExit = calculateEntriesForExits(userCardsOnBoard, backInTime, lastCard);
 
