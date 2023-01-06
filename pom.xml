@@ -152,13 +152,6 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <!-- use version 2.1.0 or higher -->
-            <version>2.1.0</version>
-            <scope>test</scope>
-        </dependency>
         <!-- validation
         <dependency>
                 <groupId>org.hibernate</groupId>
@@ -239,6 +232,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.23.1</version>
         </dependency>
     </dependencies>
 
