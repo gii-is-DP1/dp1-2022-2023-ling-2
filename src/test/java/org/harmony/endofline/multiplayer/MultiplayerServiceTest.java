@@ -68,6 +68,11 @@ public class MultiplayerServiceTest {
     }
 
     @Test
+    void LastPlacedCardIs30OnGame6ForUser2(){
+        assertEquals(30, multiService.getLastPlacedCard(6, 2).getId());
+    }
+
+    @Test
     void shouldPlaceFirstCardOfUser1NoEnergyNoTurnFinish() throws InvalidIDException {
         Integer userId = 1;
         Integer gameId = 2;
