@@ -43,6 +43,18 @@ public class MultiplayerServiceTest {
     }
 
     @Test
+    void roundShouldBeFinished(){
+        Multiplayer game = this.multiService.getById(4);
+        assertEquals(true, multiService.isRoundFinished(game));
+    }
+
+    @Test
+    void roundShouldNotBeFinished(){
+        Multiplayer game = this.multiService.getById(1);
+        assertEquals(false, multiService.isRoundFinished(game));
+    }
+
+    @Test
     void shouldPlaceFirstCardOfUser1() throws InvalidIDException {
         Integer userId = 1;
         Integer gameId = 2;
@@ -91,5 +103,7 @@ public class MultiplayerServiceTest {
         List<GameCard> newCardsOnBoard = multiService.getAllCardsInBoard(gameId);
         assertEquals(newCardsOnBoard.size(), 2);
     }
+
+
 
 }
