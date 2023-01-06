@@ -26,7 +26,7 @@ public class MultiplayerServiceTest {
     @Test
     void shouldFindAll(){
         Collection<Multiplayer> multiplayers =this.multiService.getAllGamesWithUser();
-        assertThat(multiplayers).hasSize(4);
+        assertThat(multiplayers).hasSize(5);
     }
 
     @Test
