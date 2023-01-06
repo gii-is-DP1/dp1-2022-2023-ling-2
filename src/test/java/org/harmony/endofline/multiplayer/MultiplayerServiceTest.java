@@ -1,5 +1,10 @@
 package org.harmony.endofline.multiplayer;
 
+import org.harmony.endofline.gameCard.GameCard;
+import org.harmony.endofline.singleplayer.InvalidIDException;
+import org.harmony.endofline.user.User;
+import org.harmony.endofline.userGame.EnergyAbility;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -7,8 +12,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -35,6 +42,38 @@ public class MultiplayerServiceTest {
         assertThat(game.getActivePlayer().getId()==2);
     }
 
+    @Test
+    void shouldPlaceFirstCardOfUser1() throws InvalidIDException {
+        Integer userId = 1;
+        Integer gameId = 2;
+        Integer cardToMove = 16;
+        Integer rotation = 0;
+        Integer x = 2;
+        Integer y = 2;
+        boolean energyUsed = false;
+        List<GameCard> cardsOnBoard = multiService.getAllCardsInBoard(gameId);
+        multiService.moveCard(gameId, userId, cardsOnBoard, cardToMove, rotation, x, y, energyUsed, 0);
 
+        List<GameCard> newCardsOnBoard = multiService.getAllCardsInBoard(gameId);
+        assertEquals(newCardsOnBoard.size(), 3);
+        assertEquals(newCardsOnBoard.get(2).getX(), 2);
+        assertEquals(newCardsOnBoard.get(2).getY(), 2);
+    }
+
+    @Test
+    void shouldNotPlaceFirstCardOfUser1() throws InvalidIDException {
+        Integer userId = 2;
+        Integer gameId = 2;
+        Integer cardToMove = 15;
+        Integer rotation = 0;
+        Integer x = 2;
+        Integer y = 2;
+        boolean energyUsed = false;
+        List<GameCard> cardsOnBoard = multiService.getAllCardsInBoard(gameId);
+        multiService.moveCard(gameId, userId, cardsOnBoard, cardToMove, rotation, x, y, energyUsed, 0);
+
+        List<GameCard> newCardsOnBoard = multiService.getAllCardsInBoard(gameId);
+        assertEquals(newCardsOnBoard.size(), 2);
+    }
 
 }
