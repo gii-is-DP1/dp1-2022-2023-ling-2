@@ -21,4 +21,8 @@ public class CardService {
         return cardRepository.findAll();
     }
 
+    public Card getInitialCard() throws DataAccessException {
+        return cardRepository.findById(1);
+    }
+
 }

@@ -1,6 +1,7 @@
 package org.harmony.endofline.singleplayer;
 
 import org.harmony.endofline.card.Card;
+import org.harmony.endofline.card.CardService;
 import org.harmony.endofline.card.Side;
 import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.gameCard.GameCardRepository;
@@ -26,6 +27,8 @@ public class SingleplayerService {
     private PuzzleRepository puzzleRepository;
     @Autowired
     private GameCardRepository gameCardRepository;
+    @Autowired
+    private CardService cardService;
     private Random random = new Random();
 
     @Transactional
@@ -60,6 +63,14 @@ public class SingleplayerService {
         game.setGameCards(deckCards.stream()
             .map(card -> gameCardRepository.save(new GameCard(card, game.getUser(), Status.DECK, null, null, 0)))
             .collect(Collectors.toList()));
+        game.gameCards.add(gameCardRepository.save(new GameCard(
+            cardService.getInitialCard(),
+            game.getUser(),
+            Status.BOARD,
+            2,
+            2,
+            0
+        )));
     }
 
     public void addCardToGame(Singleplayer game, GameCard gameCard) {
