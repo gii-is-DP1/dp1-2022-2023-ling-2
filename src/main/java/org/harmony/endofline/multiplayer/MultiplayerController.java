@@ -1,10 +1,7 @@
 package org.harmony.endofline.multiplayer;
 
-import org.harmony.endofline.singleplayer.InvalidIDException;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
-import org.harmony.endofline.userGame.PlayerType;
-import org.harmony.endofline.userGame.UserGame;
 import org.harmony.endofline.userGame.UserGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,13 +37,8 @@ public class MultiplayerController {
 
     @PostMapping("/create")
     public String createGame(@RequestParam("isPublic") String isPublic, Map<String, Object> model){
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
-
-
-
-
         if(Boolean.parseBoolean(isPublic)) {
             int size;
             if(multiplayerService.getNextGameInQueue() == null){
@@ -76,6 +68,7 @@ public class MultiplayerController {
             return "redirect:/invitefriend/" + game.getId();
         }
     }
+
     @GetMapping("/queue/{id}")
     public String queueStatus(@PathVariable("id") Integer id, Map<String, Object> model){
         Boolean ready = multiplayerService.checkGameReady(id);
@@ -95,8 +88,11 @@ public class MultiplayerController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 
         model.put("game", game);
-        model.put("gameCards", multiplayerService.getAllCardsInBoard(id));
+        model.put("cardsOnBoard", multiplayerService.getAllCardsInBoard(id));
+        model.put("userCardsOnBoard", multiplayerService.getAllUserCardByGame(game.getId(), user.getId()));
         model.put("handCards", multiplayerService.getAllCardsInHand(id, user.getId()));
+        model.put("lastPlacedCard", multiplayerService.getLastPlacedCard(game.getId(), user.getId()));
+        model.put("userGameRelation", game.getUsers().stream().filter(ug -> ug.getUser().equals(user)).findFirst().get());
         model.put("cards_left", multiplayerService.getAllCardsInDeck(id, user.getId()).size());
         return VIEWS_MULTIPLAYER_GAME;
     }

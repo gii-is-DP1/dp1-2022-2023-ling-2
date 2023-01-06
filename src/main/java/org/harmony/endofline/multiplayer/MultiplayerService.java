@@ -86,10 +86,19 @@ public class MultiplayerService {
         return multiplayerRepository.findCardsInDeck(gameId, userId);
     }
 
+    private List<GameCard> getCardsByUserIdAndRound(Multiplayer game, Integer userId) {
+        return gameCardRepository.findByUserIdAndRound(game.getId(), userId, game.getRound());
+    }
+
     public GameCard getLastPlacedCard(Integer gameId, Integer userId){
         return gameCardRepository.findByUserId(gameId, userId).get(0);
     }
 
+    public List<GameCard> getAllUserCardByGame(Integer gameId, Integer userId){
+        return gameCardRepository.findByUserId(gameId, userId);
+    }
+
+    @Transactional
     public Multiplayer addPlayer1(Boolean isPublic, User user){
         // no game in queue or not elegable
         Multiplayer game = new Multiplayer(isPublic);
@@ -101,6 +110,7 @@ public class MultiplayerService {
         return game;
     }
 
+    @Transactional
     public Multiplayer addPlayer2(Boolean isPublic, User user, Multiplayer game){
         //Game in Queue exists and is elegable
         UserGame userGame = new UserGame(user, game, 2, PlayerType.PLAYER,3);
@@ -143,8 +153,8 @@ public class MultiplayerService {
     public User getNextRoundFirstPlayer(Multiplayer game) {
         User playerOne = game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getUser();
         User playerTwo = game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().orElse(null).getUser();
-        List<GameCard> playerOneCards = gameCardRepository.findByUserIdAndRound(game.getId(), playerOne.getId(), game.getRound());
-        List<GameCard> playerTwoCards = gameCardRepository.findByUserIdAndRound(game.getId(), playerTwo.getId(), game.getRound());
+        List<GameCard> playerOneCards = getCardsByUserIdAndRound(game, playerOne.getId());
+        List<GameCard> playerTwoCards = getCardsByUserIdAndRound(game, playerTwo.getId());
 
         List<Integer> gameCardsComparison = IntStream.range(0, Math.min(playerOneCards.size(), playerTwoCards.size()))
             .boxed()
@@ -161,13 +171,13 @@ public class MultiplayerService {
 
     @Transactional
     public boolean isEnergyAvailable(Multiplayer game, Integer userId){
-        List<GameCard> cardsPlacedOnRoundByUser = gameCardRepository.findByUserIdAndRound(game.getId(), userId, game.getRound());
+        List<GameCard> cardsPlacedOnRoundByUser = getCardsByUserIdAndRound(game, userId);
         return game.getRound() >= 3 && cardsPlacedOnRoundByUser.size() == 0 && game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().getEnergy() > 0;
     }
 
     @Transactional
     public boolean isTurnFinished(Multiplayer game, Integer userId) {
-        var cardsPlacedOnRoundByUser = gameCardRepository.findByUserIdAndRound(game.getId(), userId, game.getRound());
+        var cardsPlacedOnRoundByUser = getCardsByUserIdAndRound(game, userId);
         switch (game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().getAbilityUsed()) {
             case BOOST -> {
                 return cardsPlacedOnRoundByUser.size() >= 3;
@@ -185,8 +195,8 @@ public class MultiplayerService {
     public boolean isRoundFinished(Multiplayer game){
         User playerOne = game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getUser();
         User playerTwo = game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().orElse(null).getUser();
-        var cardsPlacedOnRoundByUserOne = gameCardRepository.findByUserIdAndRound(game.getId(), playerOne.getId(), game.getRound());
-        var cardsPlacedOnRoundByUserTwo = gameCardRepository.findByUserIdAndRound(game.getId(), playerTwo.getId(), game.getRound());
+        var cardsPlacedOnRoundByUserOne = getCardsByUserIdAndRound(game, playerOne.getId());
+        var cardsPlacedOnRoundByUserTwo = getCardsByUserIdAndRound(game, playerTwo.getId());
         return cardsPlacedOnRoundByUserOne.size() > 0 && cardsPlacedOnRoundByUserTwo.size() > 0;
     }
 
@@ -223,7 +233,7 @@ public class MultiplayerService {
             if(energyUsed && isEnergyAvailable(game, userId)) {
                 game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().reduceEnergy();
                 game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().setAbilityUsed(abilityUsed);
-            } else if (gameCardRepository.findByUserIdAndRound(game.getId(), userId, game.getRound()).size()==1){
+            } else if (getCardsByUserIdAndRound(game, userId).size()==1){
                 game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().setAbilityUsed(abilityUsed);
             }
 
@@ -264,7 +274,7 @@ public class MultiplayerService {
     }
 
     private static Map<String, List<List<Integer>>> calculateEntriesForExits(List<GameCard> userCardsOnBoard, Boolean backInTime, GameCard lastCard) {
-        // TODO normalize board dimesions
+        // TODO normalize board dimensions
         Map<String, List<List<Integer>>> requiredEntriesForExit = new HashMap<>();
 
         if (lastCard ==null){

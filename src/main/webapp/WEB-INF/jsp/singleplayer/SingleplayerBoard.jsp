@@ -63,7 +63,7 @@
         };
     }
 
-    let cardsOnBoard = [
+    let userCardsOnBoard = [
         <c:forEach items="${gameCards}" var="card">
             {
                 "x": "${card.x}",
@@ -102,6 +102,17 @@
             },
         </c:forEach>
     ];
+
+    let cardsOnBoard = [
+        <c:forEach items="${gameCards}" var="card">
+        {
+            "x": "${card.x}",
+            "y": "${card.y}"
+        },
+        </c:forEach>
+    ];
+
+    cardsOnBoard = cardsOnBoard.concat(puzzleCards);
 
     let energyLeft = ${game.energy};
 </script>
