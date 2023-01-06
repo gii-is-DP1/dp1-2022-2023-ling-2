@@ -20,7 +20,7 @@ import java.util.Map;
 @Controller
 public class MultiplayerController {
 
-    private static final String VIEWS_MULTIPLAYER_GAME = "MultiplayerBoard";
+    private static final String VIEWS_MULTIPLAYER_GAME = "multiplayer/MultiplayerBoard";
     private static final String VIEWS_MULTIPLAYER_CREATE_FORM = "multiplayer/gameSearch";
 
     private final MultiplayerService multiplayerService;
