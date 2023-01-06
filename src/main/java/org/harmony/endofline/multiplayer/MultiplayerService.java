@@ -173,7 +173,7 @@ public class MultiplayerService {
             if(energyUsed && isEnergyAvailable(game, userId)) {
                 game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().reduceEnergy();
                 game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().setAbilityUsed(abilityUsed);
-            } else if (game.getRound()==1){
+            } else if (gameCardRepository.findByUserIdAndRound(game.getId(), userId, game.getRound()).size()==1){
                 game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().setAbilityUsed(abilityUsed);
             }
 
