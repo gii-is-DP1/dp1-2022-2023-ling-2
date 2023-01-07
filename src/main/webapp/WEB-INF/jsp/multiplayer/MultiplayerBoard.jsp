@@ -6,14 +6,23 @@
 
 <endofline:layout pageName="multiplayer_game">
     <div class="center">
-        <endofline:board side="7" gameCards="${gameCards}"/>
+        <endofline:board side="7" gameCards="${cardsOnBoard}"/>
         <div id="hand" class="center">
-            <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${game.energy}"/>
+            <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${userGameRelation.energy}"/>
         </div>
     </div>
 </endofline:layout>
 <script>
-    let lastPlacedCard = "${lastPlacedCard}";
+    let lastPlacedCard = {
+        "x": "${lastPlacedCard.x}",
+        "y": "${lastPlacedCard.y}",
+        "rotation": "${lastPlacedCard.rotation}",
+        "status": "${lastPlacedCard.status}",
+        "up" : "${lastPlacedCard.card.up}",
+        "down" : "${lastPlacedCard.card.down}",
+        "left" : "${lastPlacedCard.card.left}",
+        "right" : "${lastPlacedCard.card.right}"
+    };
 
     let userCardsOnBoard = [
         <c:forEach items="${userCardsOnBoard}" var="card">
@@ -54,6 +63,6 @@
         },
         </c:forEach>
     ];
-
+    console.log(cardsInHand)
     let energyLeft = ${userGameRelation.energy};
 </script>

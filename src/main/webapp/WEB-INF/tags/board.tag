@@ -35,6 +35,7 @@
     function getExitPositions(lastPlacedCard) {
         // Calculates the necessary entry position and coordinates for the next card based on the card's exits
         let res = {};
+        console.log(lastPlacedCard)
         let sidesRotated = getRotatedSides(lastPlacedCard, lastPlacedCard["rotation"]);
         for(let i=0; i<sidesRotated.length; i++){
             let side = sidesRotated.at(i);
@@ -61,6 +62,7 @@
     function getRotatedSides(card, rotation) {
         let sidesRotated;
         rotation = parseInt(rotation)
+        console.log(rotation)
         switch (rotation){
             case 0:
                 sidesRotated = [card["up"], card["right"], card["down"], card["left"]];
