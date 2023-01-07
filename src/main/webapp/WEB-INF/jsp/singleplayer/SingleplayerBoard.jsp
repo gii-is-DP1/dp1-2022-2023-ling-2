@@ -115,4 +115,6 @@
     cardsOnBoard = cardsOnBoard.concat(puzzleCards);
 
     let energyLeft = ${game.energy};
+
+    let gameType="singleplayer"
 </script>

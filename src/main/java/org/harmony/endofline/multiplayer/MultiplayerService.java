@@ -132,6 +132,8 @@ public class MultiplayerService {
         Multiplayer game = multiplayerRepository.findById(id).get();
         game.setGameStatus(GameStatus.STARTED);
         game.setDateStarted(LocalDateTime.now());
+        game.setActivePlayer(game.getUsers().stream().filter(ug -> ug.getPlayer()==1).map(ug -> ug.getUser()).findFirst().get());
+        game.setRound(0);
     }
 
     @Transactional
@@ -232,7 +234,7 @@ public class MultiplayerService {
             if(energyUsed && isEnergyAvailable(game, userId)) {
                 game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().reduceEnergy();
                 game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().setAbilityUsed(abilityUsed);
-            } else if (getCardsByUserIdAndRound(game, userId).size()==1){
+            } else if (getCardsByUserIdAndRound(game, userId).size() == 1){
                 game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().setAbilityUsed(abilityUsed);
             }
 

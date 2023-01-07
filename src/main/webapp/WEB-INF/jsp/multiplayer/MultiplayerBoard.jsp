@@ -63,6 +63,8 @@
         },
         </c:forEach>
     ];
-    console.log(cardsInHand)
+
     let energyLeft = ${userGameRelation.energy};
+
+    let gameType="multiplayer"
 </script>

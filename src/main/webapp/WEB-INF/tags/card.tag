@@ -40,7 +40,13 @@
         } else {
             selectedRotation = 0;
         }
-        const uri = window.location.href+"/place?gcid="+selectedHandCardId+"&rotation="+selectedRotation+"&x="+x+"&y="+y+"&energy="+usingEnergy;
+
+        let uri
+        switch (gameType){
+            case "singleplayer": uri = window.location.href+"/place?gcid="+selectedHandCardId+"&rotation="+selectedRotation+"&x="+x+"&y="+y+"&energy="+usingEnergy;
+            case "multiplayer": uri = window.location.href+"/place?gcid="+selectedHandCardId+"&rotation="+selectedRotation+"&x="+x+"&y="+y+"&energy="+usingEnergy+"&ability=0";
+        }
+
         document.getElementById("place-card").setAttribute("action", uri);
         document.getElementById("place-card").submit();
     }

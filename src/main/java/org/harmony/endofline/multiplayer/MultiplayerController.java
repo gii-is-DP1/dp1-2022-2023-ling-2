@@ -1,6 +1,8 @@
 package org.harmony.endofline.multiplayer;
 
 import org.harmony.endofline.deck.DeckService;
+import org.harmony.endofline.gameCard.GameCard;
+import org.harmony.endofline.singleplayer.InvalidIDException;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
 import org.harmony.endofline.userGame.UserGameService;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/multiplayer")
@@ -55,7 +58,6 @@ public class MultiplayerController {
                 multiplayerService.addUserToGameInQueue(isGamePublic, game, user);
                 multiplayerService.addInitialCards(game, deckService.getDeckCards(deckService.findByID(1)));
                 multiplayerService.drawCardsFromDeck(game);
-                multiplayerService.startGame(game.getId());
             }
             return "redirect:/multiplayer/queue/" + game.getId();
 
@@ -69,6 +71,8 @@ public class MultiplayerController {
     public String queueStatus(@PathVariable("id") Integer id, Map<String, Object> model){
         Boolean ready = multiplayerService.checkGameReady(id);
         if(ready){
+            Multiplayer game = multiplayerService.getById(id);
+            multiplayerService.startGame(game.getId());
             return "redirect:/multiplayer/" + id;
         }else{
             return "multiplayer/gameQueuePublic";
@@ -93,5 +97,24 @@ public class MultiplayerController {
         return VIEWS_MULTIPLAYER_GAME;
     }
 
+    @PostMapping("/{id}/place")
+    public String placeCard(@PathVariable("id") Integer id, @RequestParam("gcid") Integer gameCardId, @RequestParam("rotation") Integer rotation, @RequestParam("x") Integer x, @RequestParam("y") Integer y, @RequestParam("energy") Boolean energyUsed, @RequestParam("ability") Integer abilityOrdinal){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            User user = userService.findByUsername(auth.getName());
+            Multiplayer game = multiplayerService.getById(id);
+            if (!multiplayerService.checkUserInGame(user, game))
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+
+            List<GameCard> boardCards = multiplayerService.getAllCardsInBoard(id);
+
+            abilityOrdinal = abilityOrdinal==null ? 0 : abilityOrdinal;
+            multiplayerService.moveCard(id, user.getId(), boardCards, gameCardId, rotation, x, y, energyUsed, abilityOrdinal);
+
+            return "redirect:/multiplayer/"+id;
+        }catch (InvalidIDException e){
+            return "welcome";
+        }
+    }
 
 }
