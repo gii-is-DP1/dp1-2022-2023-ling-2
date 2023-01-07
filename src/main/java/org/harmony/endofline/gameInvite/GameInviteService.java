@@ -3,7 +3,6 @@ package org.harmony.endofline.gameInvite;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.user.User;
-import org.harmony.endofline.userGame.UserGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +36,7 @@ public class GameInviteService {
         this.gameInviteRepository.update(true,false,false,invite.getId());
         if(invite.type == InviteType.PLAYER) {
             this.setAllPendingCanceled(invite.game.getId());
-            this.multiplayerService.addPlayer2(false,invite.getReceiver(),invite.game);
+            this.multiplayerService.addUserToGameInQueue(false,invite.game, invite.getReceiver());
         }else{
             this.multiplayerService.addSpectator(invite.getReceiver(),invite.game);
         }

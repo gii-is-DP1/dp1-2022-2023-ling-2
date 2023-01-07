@@ -1,5 +1,7 @@
 package org.harmony.endofline.multiplayer;
 
+import org.harmony.endofline.card.Card;
+import org.harmony.endofline.card.CardService;
 import org.harmony.endofline.card.Side;
 import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.gameCard.GameCardRepository;
@@ -29,6 +31,8 @@ public class MultiplayerService {
     private UserGameService userGameService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CardService cardService;
 
     @Transactional
     public void save(Multiplayer game) {
@@ -49,11 +53,7 @@ public class MultiplayerService {
     }
 
     public Multiplayer getNextGameInQueue(){
-        if(multiplayerRepository.findSearching().size() > 0) {
-            return multiplayerRepository.findSearching().get(0);
-        }else{
-            return null;
-        }
+        return multiplayerRepository.findSearching().size() > 0 ? multiplayerRepository.findSearching().get(0) : null;
     }
     public List<Multiplayer> getAllGameInQueue(){
         return multiplayerRepository.findSearching();
@@ -99,7 +99,7 @@ public class MultiplayerService {
     }
 
     @Transactional
-    public Multiplayer addPlayer1(Boolean isPublic, User user){
+    public Multiplayer createNewGame(Boolean isPublic, User user){
         // no game in queue or not elegable
         Multiplayer game = new Multiplayer(isPublic);
         this.save(game);
@@ -111,13 +111,12 @@ public class MultiplayerService {
     }
 
     @Transactional
-    public Multiplayer addPlayer2(Boolean isPublic, User user, Multiplayer game){
+    public Multiplayer addUserToGameInQueue(Boolean isPublic, Multiplayer game, User user){
         //Game in Queue exists and is elegable
         UserGame userGame = new UserGame(user, game, 2, PlayerType.PLAYER,3);
         userGameService.save(userGame);
         this.addUserGame(game, userGame);
         userService.addUserGame(user, userGame);
-        this.startGame(game.getId());
         return game;
     }
 
@@ -146,6 +145,7 @@ public class MultiplayerService {
         User nextPlayer = getNextRoundFirstPlayer(game);
         game.setRound(game.getRound()+1);
         game.setActivePlayer(nextPlayer);
+        drawCardsFromDeck(game);
     }
 
     @Transactional
@@ -341,5 +341,50 @@ public class MultiplayerService {
             }
         }
         return res;
+    }
+
+    @Transactional
+    public void addInitialCards(Multiplayer game, List<Card> deckCards) {
+        for(User user: game.getUsers().stream().filter(ug -> ug.getRole().equals(PlayerType.PLAYER)).map(ug -> ug.getUser()).toList()){
+            game.getGameCards().addAll(
+                deckCards.stream()
+                .map(card -> gameCardRepository.save(new GameCard(card, user, Status.DECK, null, null, 0)))
+                .collect(Collectors.toList()));
+        }
+
+        User playerOne = game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getUser();
+        User playerTwo = game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().orElse(null).getUser();
+        game.gameCards.add(gameCardRepository.save(new GameCard(
+            cardService.getInitialCard(),
+            playerOne,
+            Status.BOARD,
+            2,
+            3,
+            0
+        )));
+        game.gameCards.add(gameCardRepository.save(new GameCard(
+            cardService.getInitialCard(),
+            playerTwo,
+            Status.BOARD,
+            4,
+            3,
+            0
+        )));
+    }
+
+    @Transactional
+    public void drawCardsFromDeck(Multiplayer game) {
+        for(User user: game.getUsers().stream().filter(ug -> ug.getRole().equals(PlayerType.PLAYER)).map(ug -> ug.getUser()).toList()){
+            Integer cardsInHand = game.getGameCards().stream().filter(c -> c.getStatus().equals(Status.HAND) && c.getUser().equals(user)).toList().size();
+            Integer cardsInDeck = game.getGameCards().stream().filter(c -> c.getStatus().equals(Status.DECK) && c.getUser().equals(user)).toList().size();
+            if(cardsInHand < 5 && cardsInDeck > 0){
+                int cardsToDraw = 5 - cardsInHand;
+                if(cardsInDeck < cardsToDraw)
+                    cardsToDraw = cardsInDeck;
+                Collections.shuffle(game.getGameCards());
+                game.getGameCards().stream().filter(c -> c.getStatus().equals(Status.DECK) && c.getUser().equals(user)).limit(cardsToDraw).forEach(c -> c.setStatus(Status.HAND));
+            }
+
+        }
     }
 }
