@@ -133,7 +133,6 @@ public class MultiplayerService {
         Multiplayer game = multiplayerRepository.findById(id).get();
         game.setGameStatus(GameStatus.STARTED);
         game.setDateStarted(LocalDateTime.now());
-        multiplayerRepository.save(game);
     }
 
     @Transactional
