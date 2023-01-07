@@ -51,18 +51,25 @@ public class GameInviteController {
         return VIEWS_USER_INVITATIONS;
     }
 
-    @GetMapping("/gameinvites/{id}/accept")
+    @GetMapping("gameinvites/{id}/accept")
     public String acceptInvite(@PathVariable("id") Integer id){
+
 
         gameInviteService.acceptInvite(id);
         return "redirect:/multiplayer/" + gameInviteService.getGameById(id).getId();
+
     }
 
-    @GetMapping("/gameinvites/{id}/decline")
+
+    @GetMapping("gameinvites/{id}/decline")
     public String declineInvite(@PathVariable("id") Integer id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
 
         gameInviteService.declineInvite(id);
-        return "redirect:/multiplayer/" + gameInviteService.getGameById(id).getId();
+        return "redirect:/u/" + authenticatedUser.getUsername() +"/invitations";
+
+
     }
 
     @GetMapping("/invitefriend/{id}")

@@ -1,5 +1,6 @@
 package org.harmony.endofline.gameInvite;
 
+import org.harmony.endofline.deck.DeckService;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.user.User;
@@ -16,10 +17,14 @@ public class GameInviteService {
 
     private final MultiplayerService multiplayerService;
 
+    private final DeckService deckService;
+
     @Autowired
-    public GameInviteService(GameInviteRepository gameInviteRepository, MultiplayerService multiplayerService){
+    public GameInviteService(GameInviteRepository gameInviteRepository, MultiplayerService multiplayerService, DeckService deckService){
         this.gameInviteRepository = gameInviteRepository;
         this.multiplayerService = multiplayerService;
+        this.deckService = deckService;
+
     }
 
     @Transactional
@@ -37,6 +42,10 @@ public class GameInviteService {
         if(invite.type == InviteType.PLAYER) {
             this.setAllPendingCanceled(invite.game.getId());
             this.multiplayerService.addUserToGameInQueue(false,invite.game, invite.getReceiver());
+            multiplayerService.addInitialCards(invite.game, deckService.getDeckCards(deckService.findByID(1)));
+            multiplayerService.drawCardsFromDeck(invite.game);
+            multiplayerService.startGame(invite.game.getId());
+
         }else{
             this.multiplayerService.addSpectator(invite.getReceiver(),invite.game);
         }
