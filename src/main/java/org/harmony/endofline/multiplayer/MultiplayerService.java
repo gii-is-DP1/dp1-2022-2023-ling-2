@@ -389,4 +389,41 @@ public class MultiplayerService {
 
         }
     }
+
+    @Transactional
+    public void setResultIfApplicable(Multiplayer game) {
+        List<GameCard> cardsOnBoard = multiplayerRepository.findCardsInBoard(game.getId());
+        if(cardsOnBoard.size() == 7*7){
+            game.setGameStatus(GameStatus.FINISHED);
+            game.setWinner(null);
+            game.setDateEnded(LocalDateTime.now());
+        } else { // Find which users have legal moves and determine the result from there
+            List<User> usersWithMoves = new ArrayList<>();
+            for(UserGame userGame: game.getUsers().stream().filter(ug -> ug.getRole().equals(PlayerType.PLAYER)).toList()){
+                List<GameCard> userCardsOnBoard = gameCardRepository.findByUserId(game.getId(), userGame.getUser().getId());
+                List<List<Integer>> availablePositions = null;
+                Map<String, List<List<Integer>>> requiredEntriesForExit = calculateEntriesForExits(userCardsOnBoard, userGame.getEnergy()>0,
+                    getLastPlacedCard(game.getId(), userGame.getUser().getId()));
+                availablePositions = getAllAvailablePositions(game, cardsOnBoard, requiredEntriesForExit);
+                if(availablePositions.size()!=0){
+                    usersWithMoves.add(userGame.getUser());
+                }
+            }
+            switch (usersWithMoves.size()){
+                case 0 -> {
+                    game.setGameStatus(GameStatus.FINISHED);
+                    game.setDateEnded(LocalDateTime.now());
+                    game.setWinner(null);
+                }
+                case 1 -> {
+                    game.setGameStatus(GameStatus.FINISHED);
+                    game.setDateEnded(LocalDateTime.now());
+                    game.setWinner(usersWithMoves.get(0));
+                }
+                default -> {
+                    ;
+                }
+            }
+        }
+    }
 }

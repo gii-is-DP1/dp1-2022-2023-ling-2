@@ -111,6 +111,7 @@ public class MultiplayerController {
 
             abilityOrdinal = abilityOrdinal==null ? 0 : abilityOrdinal;
             multiplayerService.moveCard(id, user.getId(), boardCards, gameCardId, rotation, x, y, energyUsed, abilityOrdinal);
+            multiplayerService.setResultIfApplicable(game);
 
             return "redirect:/multiplayer/"+id;
         }catch (InvalidIDException e){
