@@ -77,11 +77,18 @@ public class GameInviteController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
 
-        model.put("friends", userService.getFriends(user));
-        model.put("gameId", gameId);
-        model.put("invites", gameInviteService.getBySenderandId(user, gameId));
+        Boolean ready = multiplayerService.checkGameReady(gameId);
+        if(ready){
+            Multiplayer game = multiplayerService.getById(gameId);
+            return "redirect:/multiplayer/" + gameId;
+        }else{
+            model.put("friends", userService.getFriends(user));
+            model.put("gameId", gameId);
+            model.put("invites", gameInviteService.getBySenderandId(user, gameId));
 
-        return "multiplayer/gameInviteCreate";
+            return "multiplayer/gameInviteCreate";
+        }
+
     }
 
     @GetMapping("/gameinvite/{gameId}")
