@@ -8,12 +8,14 @@ import org.harmony.endofline.user.UserService;
 import org.harmony.endofline.userGame.UserGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -118,5 +120,16 @@ public class MultiplayerController {
             return "welcome";
         }
     }
+
+
+
+    @RequestMapping(value = "/info/queueStatus/{id}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    public String checkPublicGameIsReady(@PathVariable("id") Integer id) {
+        Boolean response = this.multiplayerService.checkGameReady(id);
+        return response.toString();
+    }
+
+
 
 }

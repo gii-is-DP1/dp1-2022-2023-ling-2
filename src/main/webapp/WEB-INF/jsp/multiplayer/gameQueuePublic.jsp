@@ -16,7 +16,7 @@
 
     function fetchQueueStatus(){
         const id = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
-        fetch('http://localhost:8080/multiplayerREST/queueStatus/${id}', {
+        fetch('http://localhost:8080/multiplayer/info/queueStatus/${id}?mediaType=json', {
             method: 'GET'
         })
             .then(response => response.text())
