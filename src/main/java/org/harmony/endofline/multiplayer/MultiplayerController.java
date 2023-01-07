@@ -93,6 +93,7 @@ public class MultiplayerController {
         model.put("handCards", multiplayerService.getAllCardsInHand(id, user.getId()));
         model.put("lastPlacedCard", multiplayerService.getLastPlacedCard(game.getId(), user.getId()));
         model.put("userGameRelation", game.getUsers().stream().filter(ug -> ug.getUser().equals(user)).findFirst().get());
+        model.put("isPlayerActive", game.getActivePlayer().equals(user));
         model.put("cards_left", multiplayerService.getAllCardsInDeck(id, user.getId()).size());
         return VIEWS_MULTIPLAYER_GAME;
     }

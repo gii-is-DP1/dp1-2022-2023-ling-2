@@ -66,5 +66,16 @@
 
     let energyLeft = ${userGameRelation.energy};
 
+    let isPlayerActive = "${isPlayerActive}" === "true" ? true : false
+
+    console.log("${isPlayerActive}")
     let gameType="multiplayer"
+
+    function refreshPageIfPlayerInactive(){
+        if(!isPlayerActive){
+            setTimeout(() => {location.reload()}, 5000)
+        }
+    }
+
+    refreshPageIfPlayerInactive()
 </script>
