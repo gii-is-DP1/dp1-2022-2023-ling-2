@@ -6,10 +6,35 @@
 
 <endofline:layout pageName="multiplayer_game">
     <div class="center">
+        <h1 id="title">Multiplayer</h1>
+        <c:if test="${game.gameStatus.toString().equals('FINISHED')}">
+            <script>
+                document.getElementById("title").setAttribute("style", "display: none !important;");
+                document.getElementById("hand").setAttribute("style", "display: none !important;");
+            </script>
+            <c:choose>
+                <c:when test="${game.winner==player}">
+                    <div class="center text-success">
+                        <h1>You won!</h1>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="center text-danger">
+                        <h1>You lost</h1>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+            <div class="center-horizontal">
+                <a href="/multiplayer/create" class="btn btn-primary margins-small">Play again</a>
+                <a href="/" class="btn btn-primary margins-small">Go back</a>
+            </div>
+        </c:if>
         <endofline:board side="7" gameCards="${cardsOnBoard}"/>
-        <div id="hand" class="center">
-            <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${userGameRelation.energy}"/>
-        </div>
+        <c:if test="${!game.gameStatus.toString().equals('FINISHED')}">
+            <div id="hand" class="center">
+                <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${game.energy}"/>
+            </div>
+        </c:if>
     </div>
 </endofline:layout>
 <script>
