@@ -46,6 +46,7 @@
                         <th>User invited</th>
                         <th>Type</th>
                         <th>Cancle</th>
+                        <th>Accepted</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -60,12 +61,20 @@
                             <td>
                                 <a href="/invite/delete/${invite.id}/${gameId}"><span class="glyphicon glyphicon-remove warning" aria-hidden="true"/></a>
                             </td>
+                            <td>
+                                <span >${invite.accepted}</span>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
+                <!--TODO: only clickable when game is ready-->
+                <form:form action="/multiplayer/startGame/${gameId}" method="GET">
+                    <input type="submit" value="Start Game" class="btn btn-warning margins-small"/>
+                </form:form>
         </div>
     </div>
+
 </endofline:layout>
 
 <script>
@@ -82,7 +91,7 @@
 
     function checkIfReady(text){
         if(text.toLowerCase() === "true"){
-            location.reload();
+            //location.reload();
         }
     }
 

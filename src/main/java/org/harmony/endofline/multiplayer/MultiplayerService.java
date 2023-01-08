@@ -68,6 +68,15 @@ public class MultiplayerService {
         }
     }
 
+    public Boolean checkGameStarted(Integer id){
+        Multiplayer game = multiplayerRepository.findById(id).get();
+        if(game.getGameStatus().equals(GameStatus.STARTED)) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 
 
     public boolean checkUserInGame(User user, Multiplayer game) {

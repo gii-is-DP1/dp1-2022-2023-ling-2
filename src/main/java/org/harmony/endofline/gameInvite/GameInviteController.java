@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
@@ -53,11 +50,18 @@ public class GameInviteController {
 
     @GetMapping("gameinvites/{id}/accept")
     public String acceptInvite(@PathVariable("id") Integer id){
-
-
         gameInviteService.acceptInvite(id);
-        return "redirect:/multiplayer/" + gameInviteService.getGameById(id).getId();
 
+        Integer gameId = gameInviteService.getGameById(id).getId();
+
+        Boolean started = multiplayerService.checkGameStarted(gameId);
+        Boolean ready = multiplayerService.checkGameReady(gameId);
+        if(started&&ready){
+            Multiplayer game = multiplayerService.getById(gameId);
+            return "redirect:/multiplayer/" + gameId;
+        }else {
+            return "redirect:/multiplayer/pregamelobby/" + gameInviteService.getGameById(id).getId();
+        }
     }
 
 
@@ -77,11 +81,12 @@ public class GameInviteController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
 
+/*        uncommented because we dont want immediate redirect to game
         Boolean ready = multiplayerService.checkGameReady(gameId);
         if(ready){
             Multiplayer game = multiplayerService.getById(gameId);
             return "redirect:/multiplayer/" + gameId;
-        }else{
+        }else*/{
             model.put("friends", userService.getFriends(user));
             model.put("gameId", gameId);
             model.put("invites", gameInviteService.getBySenderandId(user, gameId));

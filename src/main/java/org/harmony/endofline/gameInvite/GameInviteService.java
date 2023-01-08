@@ -44,7 +44,6 @@ public class GameInviteService {
             this.multiplayerService.addUserToGameInQueue(false,invite.game, invite.getReceiver());
             multiplayerService.addInitialCards(invite.game, deckService.getDeckCards(deckService.findByID(1)));
             multiplayerService.drawCardsFromDeck(invite.game);
-            multiplayerService.startGame(invite.game.getId());
 
         }else{
             this.multiplayerService.addSpectator(invite.getReceiver(),invite.game);
