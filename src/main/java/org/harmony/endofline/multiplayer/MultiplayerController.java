@@ -96,6 +96,8 @@ public class MultiplayerController {
         model.put("userGameRelation", game.getUsers().stream().filter(ug -> ug.getUser().equals(user)).findFirst().get());
         model.put("isPlayerActive", game.getActivePlayer().equals(user));
         model.put("player", user);
+        model.put("player1Id", game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().get().getUser().getId());
+        model.put("player2Id", game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().get().getUser().getId());
         model.put("cards_left", multiplayerService.getAllCardsInDeck(id, user.getId()).size());
         return VIEWS_MULTIPLAYER_GAME;
     }

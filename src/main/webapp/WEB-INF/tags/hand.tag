@@ -9,6 +9,8 @@
               description="Cards in the hand of the player" %>
 <%@ attribute name="energyLeft" required="true" rtexprvalue="true" type="java.lang.Integer"
               description="Energy left from the player" %>
+<%@ attribute name="playerNo" required="true" rtexprvalue="true" type="java.lang.Integer"
+              description="Player id for coloring their cards" %>
 
 <div class="hand">
     <endofline:energy energyLeft="${energyLeft}"/>
@@ -16,7 +18,7 @@
     <c:forEach var="n" begin="0" end="${num - 1}">
         <c:choose>
             <c:when test="${handCards != null && handCards.size() > n}">
-                <endofline:card handCard="${handCards.get(n)}"/>
+                <endofline:card handCard="${handCards.get(n)}" playerNo="${playerNo}"/>
             </c:when>
             <c:otherwise>
                 <endofline:card/>
@@ -29,19 +31,25 @@
     let selectedHandCardId = null;
     let selectedHandCard = null;
 
+    function isCardSelected(handCardId){
+        return selectedHandCardId==handCardId
+    }
+
     function clicked(handCardId) {
-        if (selectedHandCardId==null){
-            document.getElementById("handcard" + handCardId).style.backgroundColor = "lightgrey";
-            selectedHandCardId=handCardId;
-        } else if(selectedHandCardId==handCardId) {
-            document.getElementById("handcard" + handCardId).style.backgroundColor = "white";
-            selectedHandCardId=null;
-        } else {
-            document.getElementById("handcard" + handCardId).style.backgroundColor = "lightgrey";
-            document.getElementById("handcard" + selectedHandCardId).style.backgroundColor = "white";
-            selectedHandCardId=handCardId;
+        if(isPlayerActive){
+            if (selectedHandCardId==null){
+                document.getElementById("handcard" + handCardId).setAttribute("class", "hand-card rotated-card-"+getCardRotation(handCardId, 0)+" player-${playerNo}-selected");
+                selectedHandCardId=handCardId;
+            } else if(selectedHandCardId==handCardId) {
+                document.getElementById("handcard" + handCardId).setAttribute("class", "hand-card rotated-card-"+getCardRotation(handCardId, 0)+" player-${playerNo}");
+                selectedHandCardId=null;
+            } else {
+                document.getElementById("handcard" + handCardId).setAttribute("class", "hand-card rotated-card-"+getCardRotation(handCardId, 0)+" player-${playerNo}-selected");
+                document.getElementById("handcard" + selectedHandCardId).setAttribute("class", "hand-card rotated-card-"+getCardRotation(selectedHandCardId, 0)+" player-${playerNo}");
+                selectedHandCardId=handCardId;
+            }
+            updateSelectedCard();
         }
-        updateSelectedCard();
     }
 
     function updateSelectedCard() {

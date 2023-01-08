@@ -13,6 +13,8 @@
               description="Column number of an empty card slot in the board" %>
 <%@ attribute name="row" required="false" rtexprvalue="true" type="java.lang.Integer"
               description="Column number of an empty card slot in the board" %>
+<%@ attribute name="playerNo" required="false" rtexprvalue="true" type="java.lang.Integer"
+              description="Player id for coloring their cards" %>
 
 
 <div class="card">
@@ -20,11 +22,12 @@
         <img src="<spring:url value="/resources/images/cards/${puzzleCard.card.id}.svg" />" alt="A card" />
     </c:if>
     <c:if test="${gameCard != null}">
-        <img class="rotated-card-${gameCard.rotation}" src="<spring:url value="/resources/images/cards/${gameCard.card.id}.svg" />" alt="A card" />
+        <img class="rotated-card-${gameCard.rotation} player-${playerNo}"
+             src="<spring:url value="/resources/images/cards/${gameCard.card.id}.svg" />" alt="A card" />
     </c:if>
     <c:if test="${handCard != null}">
-        <img class="rotated-card-0 hand-card" id="handcard${handCard.id}" src="<spring:url value="/resources/images/cards/${handCard.card.id}.svg" />" alt="A card" onclick="clicked('${handCard.id}')">
-        <span class="rotate-button glyphicon glyphicon-repeat" onclick="rotateHandCard('${handCard.id}', '${handCard.rotation}')"></span>
+        <img class="rotated-card-0 hand-card player-${playerNo}" id="handcard${handCard.id}" src="<spring:url value="/resources/images/cards/${handCard.card.id}.svg" />" alt="A card" onclick="clicked('${handCard.id}')">
+        <span class="rotate-button glyphicon glyphicon-repeat" onclick="rotateHandCard('${handCard.id}', '${handCard.rotation}', '${playerNo}')"></span>
     </c:if>
     <c:if test="${col !=null && row!=null}">
         <span class="btn card-slot disabled-card-slot" id="cardslot-${row}-${col}" onclick="getPlaceCardURI('${row}', '${col}')"></span>
@@ -51,14 +54,21 @@
         document.getElementById("place-card").submit();
     }
 
-    function rotateHandCard(handCardId, initialRotation){
+    function getCardRotation(handCardId, initialRotation){
         if(cardRotation[handCardId]){
-            cardRotation[handCardId] = (cardRotation[handCardId]+1)%4;
+            return cardRotation[handCardId];
         } else{
-            cardRotation[handCardId] = (initialRotation+1)%4;
+            return initialRotation;
         }
-        cardsInHand.find(e => e.id==handCardId).rotation=cardRotation[handCardId]
-        updateSelectedCard()
-        document.getElementById("handcard" + handCardId).setAttribute("class", "rotated-card-"+cardRotation[handCardId]);
+    }
+
+    function rotateHandCard(handCardId, initialRotation, playerNo){
+        if(isPlayerActive){
+            cardRotation[handCardId] = (getCardRotation(handCardId, initialRotation)+1)%4;
+            cardsInHand.find(e => e.id==handCardId).rotation=cardRotation[handCardId]
+            updateSelectedCard()
+            let colorClass = isCardSelected(handCardId) ? "player-"+playerNo+"-selected" : "player-"+playerNo
+            document.getElementById("handcard" + handCardId).setAttribute("class", "hand-card rotated-card-"+cardRotation[handCardId]+" "+colorClass);
+        }
     }
 </script>

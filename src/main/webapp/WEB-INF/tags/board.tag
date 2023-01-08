@@ -7,6 +7,8 @@
               description="Cards in the board from the puzzle" %>
 <%@ attribute name="gameCards" required="true" rtexprvalue="true" type="java.util.List"
               description="Cards in the board from the game" %>
+<%@ attribute name="player1Id" required="true" rtexprvalue="true" type="java.lang.Integer"
+              description="Player 1 id for coloring cards" %>
 
 
 <div class="board">
@@ -18,7 +20,8 @@
                         <endofline:card puzzleCard="${puzzleCards.stream().filter(c -> c.getX() == row && c.getY() == col).findFirst().orElse(null)}"/>
                     </c:when>
                     <c:when test="${gameCards != null && gameCards.stream().filter(c -> c.getX() == row && c.getY() == col).findFirst().orElse(null) != null}">
-                        <endofline:card gameCard="${gameCards.stream().filter(c -> c.getX() == row && c.getY() == col).findFirst().orElse(null)}"/>
+                        <c:set value="${gameCards.stream().filter(c -> c.getX() == row && c.getY() == col).findFirst().orElse(null)}" var="card"/>
+                        <endofline:card gameCard="${card}" playerNo="${card.user.id==player1Id ? 1 : 2}"/>
                     </c:when>
                     <c:otherwise>
                         <endofline:card col="${col}" row="${row}"/>
