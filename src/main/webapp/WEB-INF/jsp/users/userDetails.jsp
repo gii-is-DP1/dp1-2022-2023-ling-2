@@ -83,10 +83,10 @@
                             </c:choose>
                         </td>
                         <td>
-                            <c:out value="${singl.gameStatus}"/>
+                            <c:out value="${mult.gameStatus}"/>
                         </td>
                         <td>
-                            <c:out value="${singl.winner.username}"/>
+                            <c:out value="${mult.winner.username}"/>
                         </td>
                     </tr>
                 </c:forEach>
