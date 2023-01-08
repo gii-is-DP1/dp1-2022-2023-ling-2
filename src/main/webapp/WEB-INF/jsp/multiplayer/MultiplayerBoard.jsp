@@ -32,7 +32,7 @@
         <endofline:board side="7" gameCards="${cardsOnBoard}"/>
         <c:if test="${!game.gameStatus.toString().equals('FINISHED')}">
             <div id="hand" class="center">
-                <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${game.energy}"/>
+                <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${userGameRelation.energy}"/>
             </div>
         </c:if>
     </div>
