@@ -74,10 +74,10 @@ public class GameCard extends BaseEntity {
             Side side = sidesRotated.get(i);
             if(side.equals(Side.EXIT)){
                 switch (i){
-                    case 0 -> res.put("down", List.of(x, (y-1+5)%boardDimensions));
-                    case 1 -> res.put("left", List.of((x+1+5)%boardDimensions, y));
-                    case 2 -> res.put("up", List.of(x, (y+1+5)%boardDimensions));
-                    case 3 -> res.put("right", List.of((x-1+5)%boardDimensions, y));
+                    case 0 -> res.put("down", List.of(x, (y-1+boardDimensions)%boardDimensions));
+                    case 1 -> res.put("left", List.of((x+1+boardDimensions)%boardDimensions, y));
+                    case 2 -> res.put("up", List.of(x, (y+1+boardDimensions)%boardDimensions));
+                    case 3 -> res.put("right", List.of((x-1+boardDimensions)%boardDimensions, y));
                 }
             }
         }

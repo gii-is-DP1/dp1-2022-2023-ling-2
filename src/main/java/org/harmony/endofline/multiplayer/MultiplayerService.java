@@ -287,26 +287,22 @@ public class MultiplayerService {
         // TODO normalize board dimensions
         Map<String, List<List<Integer>>> requiredEntriesForExit = new HashMap<>();
 
-        if (lastCard ==null){
-            requiredEntriesForExit.put("down", List.of(List.of((5-1)/2, (5-1)/2-1)));
-        } else {
-            if(!backInTime) {
-                Map<String, List<Integer>> cardEntryForExitMap = lastCard.getExitPositions(5);
-                for(Map.Entry<String, List<Integer>> item: cardEntryForExitMap.entrySet()){
-                    requiredEntriesForExit.put(item.getKey(), List.of(item.getValue()));
-                }
+        if(!backInTime) {
+            Map<String, List<Integer>> cardEntryForExitMap = lastCard.getExitPositions(7);
+            for(Map.Entry<String, List<Integer>> item: cardEntryForExitMap.entrySet()){
+                requiredEntriesForExit.put(item.getKey(), List.of(item.getValue()));
             }
-            else{
-                for(GameCard card: userCardsOnBoard){
-                    Map<String, List<Integer>> cardEntryForExitMap = card.getExitPositions(5);
-                    for(Map.Entry<String, List<Integer>> item: cardEntryForExitMap.entrySet()){
-                        if(requiredEntriesForExit.containsKey(item.getKey()))
-                            requiredEntriesForExit.get(item.getKey()).add(item.getValue());
-                        else {
-                            List<List<Integer>> value = new ArrayList<>();
-                            value.add(item.getValue());
-                            requiredEntriesForExit.put(item.getKey(), value);
-                        }
+        }
+        else{
+            for(GameCard card: userCardsOnBoard){
+                Map<String, List<Integer>> cardEntryForExitMap = card.getExitPositions(7);
+                for(Map.Entry<String, List<Integer>> item: cardEntryForExitMap.entrySet()){
+                    if(requiredEntriesForExit.containsKey(item.getKey()))
+                        requiredEntriesForExit.get(item.getKey()).add(item.getValue());
+                    else {
+                        List<List<Integer>> value = new ArrayList<>();
+                        value.add(item.getValue());
+                        requiredEntriesForExit.put(item.getKey(), value);
                     }
                 }
             }
