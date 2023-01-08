@@ -40,10 +40,10 @@
                             </c:choose>
                         </td>
                         <td>
-                            <c:out value="${singl.gameStatus}"/>
+                            <c:out value="${multi.gameStatus}"/>
                         </td>
                         <td>
-                            <c:out value="${singl.winner.username}"/>
+                            <c:out value="${multi.winner.username}"/>
                         </td>
                         <td>
                             <c:forEach items="${multi.users}" var="userGame">
@@ -90,10 +90,10 @@
                             <c:out value="${single.puzzle.difficulty}"/>
                         </td>
                         <td>
-                            <c:out value="${singl.gameStatus}"/>
+                            <c:out value="${single.gameStatus}"/>
                         </td>
                         <td>
-                            <c:out value="${singl.winner.username}"/>
+                            <c:out value="${single.winner.username}"/>
                         </td>
                         <td>
                             <a href="/u/${single.user.username}">${single.user.username}</>

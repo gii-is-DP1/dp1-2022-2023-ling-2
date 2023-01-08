@@ -2,6 +2,7 @@ package org.harmony.endofline.multiplayer;
 
 import org.harmony.endofline.deck.DeckService;
 import org.harmony.endofline.gameCard.GameCard;
+import org.harmony.endofline.model.GameStatus;
 import org.harmony.endofline.singleplayer.InvalidIDException;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
@@ -24,6 +25,7 @@ public class MultiplayerController {
 
     private static final String VIEWS_MULTIPLAYER_GAME = "multiplayer/MultiplayerBoard";
     private static final String VIEWS_MULTIPLAYER_CREATE_FORM = "multiplayer/gameSearch";
+    private static final String VIEWS_PREGAME = "multiplayer/pregame";
 
     private final MultiplayerService multiplayerService;
     private final UserService userService;
@@ -65,6 +67,24 @@ public class MultiplayerController {
         }else{
             game = multiplayerService.createNewGame(Boolean.parseBoolean(isPublic),user);
             return "redirect:/invitefriend/" + game.getId();
+        }
+    }
+
+    @GetMapping("/startGame/{gameId}")
+    public String startGame(@PathVariable("gameId") Integer id, Map<String, Object> model) {
+        Multiplayer game = multiplayerService.getById(id);
+        multiplayerService.startGame(id);
+        return "redirect:/multiplayer/" + game.getId();
+    }
+
+    @GetMapping("/pregamelobby/{gameId}")
+    public String showLobby(@PathVariable("gameId") Integer id, Map<String, Object> model) {
+        Multiplayer game = multiplayerService.getById(id);
+
+        if (multiplayerService.checkGameStarted(id)) {
+            return "redirect:/multiplayer/" + id;
+        } else {
+            return VIEWS_PREGAME;
         }
     }
 
@@ -132,6 +152,13 @@ public class MultiplayerController {
         return response.toString();
     }
 
+
+    @RequestMapping(value = "/info/queueStarted/{id}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    public String checkGameIsStarted(@PathVariable("id") Integer id) {
+        Boolean response = this.multiplayerService.checkGameStarted(id);
+        return response.toString();
+    }
 
 
 }
