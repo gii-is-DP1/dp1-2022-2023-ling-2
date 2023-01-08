@@ -13,6 +13,11 @@
                 document.getElementById("hand").setAttribute("style", "display: none !important;");
             </script>
             <c:choose>
+                <c:when test="${game.winner==null}">
+                    <div class="center text-warning">
+                        <h1>It's a Tie!</h1>
+                    </div>
+                </c:when>
                 <c:when test="${game.winner==player}">
                     <div class="center text-success">
                         <h1>You won!</h1>
