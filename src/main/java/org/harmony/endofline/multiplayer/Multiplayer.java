@@ -3,16 +3,17 @@ package org.harmony.endofline.multiplayer;
 import lombok.Getter;
 import lombok.Setter;
 import org.harmony.endofline.model.Game;
-import org.harmony.endofline.model.GameStatus;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.userGame.UserGame;
-import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -51,8 +52,5 @@ public class Multiplayer extends Game {
     public void addUser(UserGame userGame) {
         this.users.add(userGame);
     }
-
-    // TODO many to many relation with line cards (Association class)
-    // TODO many to many relation with Users
 
 }
