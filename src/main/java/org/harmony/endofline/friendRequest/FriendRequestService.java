@@ -40,16 +40,14 @@ public class FriendRequestService {
 
     @Transactional
     public void acceptRequest(FriendRequest fr) {
-        fr.setPending(false);
-        fr.setAccepted(true);
+        fr.setState(FriendRequestState.ACCEPTED);
         fr.sender.addFriend(fr.receiver);
         fr.receiver.addFriend(fr.sender);
     }
 
     @Transactional
     public void rejectRequest(FriendRequest fr) {
-        fr.setPending(false);
-        fr.setAccepted(false);
+        fr.setState(FriendRequestState.REJECTED);
     }
 
     public FriendRequest findRequestByUsers(User sender, User receiver) {

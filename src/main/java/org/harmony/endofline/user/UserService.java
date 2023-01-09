@@ -3,6 +3,7 @@ package org.harmony.endofline.user;
 import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.achievement.AchievementRepository;
 import org.harmony.endofline.friendRequest.FriendRequest;
+import org.harmony.endofline.friendRequest.FriendRequestState;
 import org.harmony.endofline.gameInvite.GameInvite;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.singleplayer.Singleplayer;
@@ -101,11 +102,11 @@ public class UserService {
     }
 
     public List<FriendRequest> getPendingReceivedRequests(User user) {
-        return user.getReceivedRequests().stream().filter(e -> e.getPending()).collect(Collectors.toList());
+        return user.getReceivedRequests().stream().filter(e -> e.getState().equals(FriendRequestState.PENDING)).collect(Collectors.toList());
     }
 
     public Object getPendingSentRequests(User user) {
-        return user.getSentRequests().stream().filter(e -> e.getPending()).collect(Collectors.toList());
+        return user.getSentRequests().stream().filter(e -> e.getState().equals(FriendRequestState.PENDING)).collect(Collectors.toList());
     }
 
     public List<GameInvite> getPendingReceivedInvitations(User user) {
