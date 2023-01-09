@@ -86,7 +86,7 @@
                             <c:out value="${mult.gameStatus}"/>
                         </td>
                         <td>
-                            <c:out value="${mult.winner.username}"/>
+                            <a href="/u/${mult.winner.username}">${mult.winner.username}</>
                         </td>
                     </tr>
                 </c:forEach>

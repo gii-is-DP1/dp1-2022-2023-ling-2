@@ -43,7 +43,7 @@
                             <c:out value="${multi.gameStatus}"/>
                         </td>
                         <td>
-                            <c:out value="${multi.winner.username}"/>
+                            <a href="/u/${multi.winner.username}">${multi.winner.username}</>
                         </td>
                         <td>
                             <c:forEach items="${multi.users}" var="userGame">
@@ -93,7 +93,7 @@
                             <c:out value="${single.gameStatus}"/>
                         </td>
                         <td>
-                            <c:out value="${single.winner.username}"/>
+                            <a href="/u/${single.winner.username}">${single.winner.username}</>
                         </td>
                         <td>
                             <a href="/u/${single.user.username}">${single.user.username}</>
