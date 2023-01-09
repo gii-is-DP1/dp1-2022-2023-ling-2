@@ -7,6 +7,19 @@
 <endofline:layout pageName="multiplayer_game">
     <div class="center">
         <h1 id="title">Multiplayer</h1>
+        <c:choose>
+            <c:when test="${player1Id!=player.id}">
+                <div class="center text-info">
+                <h3>You're playing against ${player1Username}</h3>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="center text-info">
+                <h3>You're playing against ${player2Username}</h3>
+                </div>
+            </c:otherwise>
+        </c:choose>
+
         <c:if test="${!game.gameStatus.toString().equals('FINISHED')}">
         <c:choose>
             <c:when test="${isPlayerActive==true}">

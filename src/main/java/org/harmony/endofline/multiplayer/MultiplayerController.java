@@ -2,7 +2,6 @@ package org.harmony.endofline.multiplayer;
 
 import org.harmony.endofline.deck.DeckService;
 import org.harmony.endofline.gameCard.GameCard;
-import org.harmony.endofline.model.GameStatus;
 import org.harmony.endofline.singleplayer.InvalidIDException;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
@@ -118,6 +117,8 @@ public class MultiplayerController {
         model.put("player", user);
         model.put("player1Id", game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().get().getUser().getId());
         model.put("player2Id", game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().get().getUser().getId());
+        model.put("player1Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().get().getUser().getUsername());
+        model.put("player2Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().get().getUser().getUsername());
         model.put("cards_left", multiplayerService.getAllCardsInDeck(id, user.getId()).size());
         return VIEWS_MULTIPLAYER_GAME;
     }
