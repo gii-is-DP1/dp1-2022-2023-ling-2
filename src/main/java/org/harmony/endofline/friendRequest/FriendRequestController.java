@@ -47,7 +47,7 @@ public class FriendRequestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User receiver = userService.findByUsername(auth.getName());
 
-        friendRequestService.IsReceiverOfRequest(receiver, fr);
+        friendRequestService.isReceiverOfRequest(receiver, fr);
 
         friendRequestService.acceptRequest(fr);
 
@@ -61,7 +61,7 @@ public class FriendRequestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User receiver = userService.findByUsername(auth.getName());
 
-        friendRequestService.IsReceiverOfRequest(receiver, fr);
+        friendRequestService.isReceiverOfRequest(receiver, fr);
 
         friendRequestService.rejectRequest(fr);
 

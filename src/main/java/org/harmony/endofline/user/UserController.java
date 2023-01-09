@@ -101,7 +101,7 @@ public class UserController {
 
         mav.addObject("show_fr_button", !user.getUsername().equals(authenticatedUser.getUsername()));
 
-        FriendRequest fr = friendRequestService.findRequestByUsers(authenticatedUser, user);
+        FriendRequest fr = friendRequestService.findByUsers(authenticatedUser, user);
         mav.addObject("friend_request", fr);
         mav.addObject("fr_status", userService.getFriendStatus(authenticatedUser, user, fr));
 
