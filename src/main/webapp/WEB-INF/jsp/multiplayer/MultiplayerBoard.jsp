@@ -7,6 +7,20 @@
 <endofline:layout pageName="multiplayer_game">
     <div class="center">
         <h1 id="title">Multiplayer</h1>
+        <c:if test="${!game.gameStatus.toString().equals('FINISHED')}">
+        <c:choose>
+            <c:when test="${isPlayerActive==true}">
+                <div class="center text-success">
+                    <h1>It is your turn</h1>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="center text-danger">
+                    <h1>Your opponent's turn</h1>
+                </div>
+            </c:otherwise>
+        </c:choose>
+        </c:if>
         <c:if test="${game.gameStatus.toString().equals('FINISHED')}">
             <script>
                 document.getElementById("title").setAttribute("style", "display: none !important;");
@@ -102,7 +116,7 @@
 
     function refreshPageIfPlayerInactive(){
         if(!isPlayerActive){
-            setTimeout(() => {location.reload()}, 5000)
+            setTimeout(() => {location.reload()}, 2000)
         }
     }
 
