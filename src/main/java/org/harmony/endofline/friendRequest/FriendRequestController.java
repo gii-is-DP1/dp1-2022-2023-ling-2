@@ -25,25 +25,23 @@ public class FriendRequestController {
     }
 
     @PostMapping("/send/{username}")
-    public String SendRequest(@PathVariable("username") String username){
+    public String SendRequest(@PathVariable("username") String username) throws InvalidFriendRequestException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User sender = userService.findByUsername(auth.getName());
 
         User receiver = userService.findByUsername(username);
 
-        if (sender.equals(receiver))
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Cannot send a friend request to yourself");
-
-        if (friendRequestService.findRequestByUsers(sender, receiver)!=null)
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Ongoing friend request with this user");
-
-        friendRequestService.newRequest(sender, receiver);
+        try {
+            friendRequestService.newRequest(sender, receiver);
+        } catch (InvalidFriendRequestException e) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage());
+        }
 
         return "redirect:/u/{username}";
     }
 
     @GetMapping("/{id}/accept")
-    public String AcceptRequest(@PathVariable("id") Integer friendRequestId) throws ResponseStatusException {
+    public String AcceptRequest(@PathVariable("id") Integer friendRequestId) throws InvalidFriendRequestException {
         FriendRequest fr = friendRequestService.findById(friendRequestId);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -57,7 +55,7 @@ public class FriendRequestController {
     }
 
     @GetMapping("/{id}/reject")
-    public String RejectRequest(@PathVariable("id") Integer friendRequestId) throws ResponseStatusException{
+    public String RejectRequest(@PathVariable("id") Integer friendRequestId) throws InvalidFriendRequestException {
         FriendRequest fr = friendRequestService.findById(friendRequestId);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

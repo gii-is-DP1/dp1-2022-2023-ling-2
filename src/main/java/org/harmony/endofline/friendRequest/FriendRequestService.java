@@ -2,9 +2,7 @@ package org.harmony.endofline.friendRequest;
 
 import org.harmony.endofline.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 
@@ -19,21 +17,27 @@ public class FriendRequestService {
     }
 
     @Transactional
-    public void newRequest(User sender, User receiver){
+    public void newRequest(User sender, User receiver) throws InvalidFriendRequestException {
+        if (sender.equals(receiver))
+            throw new InvalidFriendRequestException("Cannot send a friend request to yourself");
+        if (sender.getFriends().contains(receiver))
+            throw new InvalidFriendRequestException("You are already friends with this user");
+        if (friendRequestRepository.findPendingPair(sender, receiver)!=null)
+            throw new InvalidFriendRequestException("Ongoing friend request with this user");
         FriendRequest request = new FriendRequest(sender, receiver);
         friendRequestRepository.save(request);
     }
 
-    public void IsReceiverOfRequest(User user, FriendRequest friendRequest){
+    public void IsReceiverOfRequest(User user, FriendRequest friendRequest) throws InvalidFriendRequestException {
          boolean isReceiver = friendRequest.getReceiver().getId().equals(user.getId());
          if(!isReceiver)
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not the receiver of this request");
+            throw new InvalidFriendRequestException("You are not the receiver of this request");
     }
 
-    public FriendRequest findById(Integer friendRequestId) throws ResponseStatusException{
+    public FriendRequest findById(Integer friendRequestId) throws InvalidFriendRequestException {
         FriendRequest res = friendRequestRepository.findById(friendRequestId).orElse(null);
         if (res==null)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Friend Request not found");
+            throw new InvalidFriendRequestException("Friend request not found");
         else
             return res;
     }
