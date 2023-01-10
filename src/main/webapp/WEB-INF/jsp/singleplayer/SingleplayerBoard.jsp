@@ -7,7 +7,7 @@
 
 <endofline:layout pageName="singleplayer_game">
     <div class="center">
-            <h1 id="title"><i class="glyphicon glyphicon-question-sign" onclick="showRules()"></i> Singleplayer</h1>
+            <h1 id="title" style="position: relative"><i class="glyphicon glyphicon-question-sign help-icon" onclick="showRules()"></i> Singleplayer</h1>
         <!-- Modal -->
         <div id="rules" class="modal">
             <div class="modal-content">
@@ -27,7 +27,6 @@
                 </div>
             </div>
         </div>
-
         <c:if test="${game.gameStatus.toString().equals('FINISHED')}">
             <script>
                 document.getElementById("title").setAttribute("style", "display: none !important;");
