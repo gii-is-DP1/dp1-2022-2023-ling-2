@@ -6,7 +6,29 @@
 
 <endofline:layout pageName="multiplayer_game">
     <div class="center">
-        <h1 id="title">Multiplayer: <b><a href="/u/${player1Username}" target="_blank">${player1Username}</a></b> vs. <b><a href="/u/${player2Username}" target="_blank">${player2Username}</a></b></h1>
+        <h1 id="title" style="position: relative"><i class="glyphicon glyphicon-question-sign help-icon" onclick="showRules()"></i> Multiplayer:
+            <b><a href="/u/${player1Username}" target="_blank">${player1Username}</a></b> vs. <b><a href="/u/${player2Username}" target="_blank">${player2Username}</a></b></h1>
+
+        <!-- Modal -->
+        <div id="rules" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1>End of Line - Multiplayer Rules</h1>
+                </div>
+                <div class="modal-body">
+                    <p>In multiplayer mode, your objective is to lay down all 25 line cards on the board, or make it impossible for your opponent to do so.</p>
+                    <p>If your line reaches the edge of the board, it will continue through the opposite side.</p>
+                    <p>Cards can be rotated by clicking the <i class="glyphicon glyphicon-repeat"></i> button in the corner.
+                        The places where a card can be placed will be highlighted. </p>
+                    <p>Your <b>Energy Card</b> (leftmost in your hand) can be used starting from your third turn. This will enable you to
+                     do stuff you're not usually able to. Click on the Energy Card for more details.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="hideRules()">Close</button>
+                </div>
+            </div>
+        </div>
+
         <c:if test="${!game.gameStatus.toString().equals('FINISHED')}">
         <c:if test="${userGameRelation.role.toString().equals('PLAYER')}">
             <c:choose>
@@ -54,6 +76,8 @@
     </div>
 </endofline:layout>
 <script>
+
+
     let lastPlacedCard = {
         "x": "${lastPlacedCard.x}",
         "y": "${lastPlacedCard.y}",
@@ -106,6 +130,8 @@
         </c:forEach>
     ];
 
+    let rulesDisplayed = false
+
     let energyLeft = ${userGameRelation.energy};
 
     let isPlayerActive = "${isPlayerActive}" === "true" ? true : false
@@ -114,11 +140,20 @@
 
     let currentRound="${game.round}"
 
-    function refreshPageIfPlayerInactive(){
-        if(!isPlayerActive){
-            setTimeout(() => {location.reload()}, 2000)
-        }
+    function showRules() {
+        rulesDisplayed = true
+        document.getElementById('rules').style.display = "block"
     }
 
-    refreshPageIfPlayerInactive()
+    function hideRules() {
+        rulesDisplayed = false
+        document.getElementById('rules').style.display = "none"
+    }
+
+    function refreshPageIfPlayerInactive(){
+        if(!isPlayerActive){
+            setTimeout(() => {rulesDisplayed? null : location.reload()}, 2000)
+        }
+    }
+    setInterval(refreshPageIfPlayerInactive, 2000)
 </script>
