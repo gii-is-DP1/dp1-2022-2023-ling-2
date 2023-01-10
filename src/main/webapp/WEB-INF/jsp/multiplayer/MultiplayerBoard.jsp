@@ -6,33 +6,22 @@
 
 <endofline:layout pageName="multiplayer_game">
     <div class="center">
-        <h1 id="title">Multiplayer</h1>
-        <c:choose>
-            <c:when test="${player1Id!=player.id}">
-                <div class="center text-info">
-                <h3>You're playing against ${player1Username}</h3>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <div class="center text-info">
-                <h3>You're playing against ${player2Username}</h3>
-                </div>
-            </c:otherwise>
-        </c:choose>
-
+        <h1 id="title">Multiplayer: <b><a href="/u/${player1Username}">${player1Username}</a></b> vs. <b><a href="/u/${player2Username}">${player2Username}</a></b></h1>
         <c:if test="${!game.gameStatus.toString().equals('FINISHED')}">
-        <c:choose>
-            <c:when test="${isPlayerActive==true}">
-                <div class="center text-success">
-                    <h1>It is your turn</h1>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <div class="center text-danger">
-                    <h1>Your opponent's turn</h1>
-                </div>
-            </c:otherwise>
-        </c:choose>
+        <c:if test="${userGameRelation.role.toString().equals('PLAYER')}">
+            <c:choose>
+                <c:when test="${isPlayerActive==true}">
+                    <div class="center text-success">
+                        <h1>It is your turn</h1>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="center text-danger">
+                        <h1>Your opponent's turn</h1>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </c:if>
         </c:if>
         <c:if test="${game.gameStatus.toString().equals('FINISHED')}">
             <script>
@@ -45,14 +34,9 @@
                         <h1>It's a Tie!</h1>
                     </div>
                 </c:when>
-                <c:when test="${game.winner==player}">
-                    <div class="center text-success">
-                        <h1>You won!</h1>
-                    </div>
-                </c:when>
                 <c:otherwise>
-                    <div class="center text-danger">
-                        <h1>You lost</h1>
+                    <div class="center text-success">
+                        <h1>The winner of the game is: <b><a href="/u/${game.winner.username}">${game.winner.username}</a></b></h1>
                     </div>
                 </c:otherwise>
             </c:choose>
