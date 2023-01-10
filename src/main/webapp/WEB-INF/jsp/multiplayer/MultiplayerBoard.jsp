@@ -6,7 +6,7 @@
 
 <endofline:layout pageName="multiplayer_game">
     <div class="center">
-        <h1 id="title">Multiplayer: <b><a href="/u/${player1Username}">${player1Username}</a></b> vs. <b><a href="/u/${player2Username}">${player2Username}</a></b></h1>
+        <h1 id="title">Multiplayer: <b><a href="/u/${player1Username}" target="_blank">${player1Username}</a></b> vs. <b><a href="/u/${player2Username}" target="_blank">${player2Username}</a></b></h1>
         <c:if test="${!game.gameStatus.toString().equals('FINISHED')}">
         <c:if test="${userGameRelation.role.toString().equals('PLAYER')}">
             <c:choose>
@@ -36,7 +36,7 @@
                 </c:when>
                 <c:otherwise>
                     <div class="center text-success">
-                        <h1>The winner of the game is: <b><a href="/u/${game.winner.username}">${game.winner.username}</a></b></h1>
+                        <h1>The winner of the game is: <b><a href="/u/${game.winner.username}" target="_blank">${game.winner.username}</a></b></h1>
                     </div>
                 </c:otherwise>
             </c:choose>
