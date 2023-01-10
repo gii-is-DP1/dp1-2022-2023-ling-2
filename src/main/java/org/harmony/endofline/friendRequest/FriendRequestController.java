@@ -25,7 +25,7 @@ public class FriendRequestController {
     }
 
     @PostMapping("/send/{username}")
-    public String SendRequest(@PathVariable("username") String username) throws InvalidFriendRequestException {
+    public String sendRequest(@PathVariable("username") String username) throws InvalidFriendRequestException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User sender = userService.findByUsername(auth.getName());
 
@@ -41,7 +41,7 @@ public class FriendRequestController {
     }
 
     @GetMapping("/{id}/accept")
-    public String AcceptRequest(@PathVariable("id") Integer friendRequestId) throws InvalidFriendRequestException {
+    public String acceptRequest(@PathVariable("id") Integer friendRequestId) throws InvalidFriendRequestException {
         FriendRequest fr = friendRequestService.findById(friendRequestId);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -55,7 +55,7 @@ public class FriendRequestController {
     }
 
     @GetMapping("/{id}/reject")
-    public String RejectRequest(@PathVariable("id") Integer friendRequestId) throws InvalidFriendRequestException {
+    public String rejectRequest(@PathVariable("id") Integer friendRequestId) throws InvalidFriendRequestException {
         FriendRequest fr = friendRequestService.findById(friendRequestId);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
