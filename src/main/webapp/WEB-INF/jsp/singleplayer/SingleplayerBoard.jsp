@@ -7,7 +7,27 @@
 
 <endofline:layout pageName="singleplayer_game">
     <div class="center">
-        <h1 id="title">Singleplayer</h1>
+            <h1 id="title"><i class="glyphicon glyphicon-question-sign" onclick="showRules()"></i> Singleplayer</h1>
+        <!-- Modal -->
+        <div id="rules" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1>End of Line - Singleplayer Rules</h1>
+                </div>
+                <div class="modal-body">
+                    <p>In singleplayer mode, your objective is to lay down all 25 line cards on the board.</p>
+                    <p>If your line reaches the edge of the board, it will continue through the opposite side.</p>
+                    <p>Cards can be rotated by clicking the <i class="glyphicon glyphicon-repeat"></i> button in the corner.
+                    The places where a card can be placed will be highlighted. </p>
+                    <p>Some cards have more than one exit point. If you click on the <b>Energy Card</b> (the one leftmost in your hand)
+                    you will be able to "go back" to an exit point further up the line.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="hideRules()">Close</button>
+                </div>
+            </div>
+        </div>
+
         <c:if test="${game.gameStatus.toString().equals('FINISHED')}">
             <script>
                 document.getElementById("title").setAttribute("style", "display: none !important;");
@@ -39,7 +59,15 @@
     </div>
 </endofline:layout>
 <script>
-    let lastPlacedCard = {
+    function hideRules() {
+        document.getElementById('rules').style.display = "none"
+}
+
+function showRules() {
+        document.getElementById('rules').style.display = "block"
+}
+
+let lastPlacedCard = {
         "x": "2",
         "y": "2",
         "rotation": "0",
