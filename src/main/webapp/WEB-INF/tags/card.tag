@@ -47,7 +47,7 @@
         let uri
         switch (gameType){
             case "singleplayer": uri = window.location.href+"/place?gcid="+selectedHandCardId+"&rotation="+selectedRotation+"&x="+x+"&y="+y+"&energy="+usingEnergy;
-            case "multiplayer": uri = window.location.href+"/place?gcid="+selectedHandCardId+"&rotation="+selectedRotation+"&x="+x+"&y="+y+"&energy="+usingEnergy+"&ability=0";
+            case "multiplayer": uri = window.location.href+"/place?gcid="+selectedHandCardId+"&rotation="+selectedRotation+"&x="+x+"&y="+y+"&energy="+usingEnergy+"&ability="+abilityUsed;
         }
 
         document.getElementById("place-card").setAttribute("action", uri);

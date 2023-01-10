@@ -142,7 +142,7 @@ public class MultiplayerService {
         game.setGameStatus(GameStatus.STARTED);
         game.setDateStarted(LocalDateTime.now());
         game.setActivePlayer(game.getUsers().stream().filter(ug -> ug.getPlayer()==1).map(ug -> ug.getUser()).findFirst().get());
-        game.setRound(0);
+        game.setRound(1);
     }
 
     @Transactional
