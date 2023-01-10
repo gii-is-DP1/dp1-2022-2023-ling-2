@@ -411,7 +411,7 @@ public class MultiplayerService {
             for(UserGame userGame: game.getUsers().stream().filter(ug -> ug.getRole().equals(PlayerType.PLAYER)).toList()){
                 List<GameCard> userCardsOnBoard = gameCardRepository.findByUserId(game.getId(), userGame.getUser().getId());
                 List<List<Integer>> availablePositions = null;
-                Map<String, List<List<Integer>>> requiredEntriesForExit = calculateEntriesForExits(userCardsOnBoard, userGame.getEnergy()>0,
+                Map<String, List<List<Integer>>> requiredEntriesForExit = calculateEntriesForExits(userCardsOnBoard, isEnergyAvailable(game, userGame.getUser().getId()),
                     getLastPlacedCard(game.getId(), userGame.getUser().getId()));
                 availablePositions = getAllAvailablePositions(game, cardsOnBoard, requiredEntriesForExit);
                 if(availablePositions.size()!=0){
