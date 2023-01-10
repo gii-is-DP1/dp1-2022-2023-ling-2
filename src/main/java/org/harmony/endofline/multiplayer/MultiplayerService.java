@@ -214,7 +214,6 @@ public class MultiplayerService {
         return game.getActivePlayer().getId().equals(userId);
     }
 
-
     @Transactional
     public void moveCard(Integer gameId, Integer userId, List<GameCard> cardsOnBoard, Integer cardToMoveId, Integer rotation, Integer x, Integer y, boolean energyUsed, Integer abilityUsedOrdinal) throws InvalidIDException {
         List<Integer> futurePosition = List.of(x, y);
@@ -235,17 +234,16 @@ public class MultiplayerService {
             validPositions = getValidPositions(game, userId, cardsOnBoard, cardToMove, rotation, abilityUsed.equals(EnergyAbility.BACK_IN_TIME));
 
         if (validPositions.contains(futurePosition)) {
+            if(energyUsed && isEnergyAvailable(game, userId))
+                useEnergy(game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get(), abilityUsed);
+            else if (getCardsByUserIdAndRound(game, userId).size() == 0)
+                game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().setAbilityUsed(abilityUsed);
+
             cardToMove.setX(x);
             cardToMove.setY(y);
             cardToMove.setRotation(rotation);
             cardToMove.setStatus(Status.BOARD);
             cardToMove.setRound(game.getRound());
-            if(energyUsed && isEnergyAvailable(game, userId)) {
-                game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().reduceEnergy();
-                game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().setAbilityUsed(abilityUsed);
-            } else if (getCardsByUserIdAndRound(game, userId).size() == 1){
-                game.getUsers().stream().filter(ug -> ug.getUser().getId().equals(userId)).findFirst().get().setAbilityUsed(abilityUsed);
-            }
 
             // Turn and round advancement
             if (isTurnFinished(game, userId)) {
@@ -255,6 +253,12 @@ public class MultiplayerService {
                     finishTurn(game);
             }
         }
+    }
+
+    @Transactional
+    public void useEnergy(UserGame userGame, EnergyAbility abilityUsed) {
+        userGame.setEnergy(userGame.getEnergy()-1);
+        userGame.setAbilityUsed(abilityUsed);
     }
 
     private List<List<Integer>> getValidPositions(Multiplayer game, Integer userId, List<GameCard> cardsOnBoard, GameCard cardToMove, Integer rotation, Boolean backInTime) {
