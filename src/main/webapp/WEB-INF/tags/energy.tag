@@ -37,6 +37,8 @@
     function chooseEnergyAbility(abilityNumber) {
         document.getElementById('choose-energy-ability').style.display = "none"
         abilityUsed=abilityNumber
+        if(selectedHandCard!=null)
+            updateHighlightedCardSlots();
     }
 
     function toggleEnergyUsage(playerNo){
@@ -52,9 +54,9 @@
             else {
                 document.getElementById("energy-card").setAttribute("class", "card energy "+colorClass+" rotated-card-"+(4-(energyLeft+1))%4)
                 abilityUsed=0
+                if(selectedHandCard!=null)
+                    updateHighlightedCardSlots();
             }
-            if(selectedHandCard!=null)
-                updateHighlightedCardSlots();
         }
     }
 </script>

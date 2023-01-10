@@ -30,10 +30,10 @@
                 <a href="/" class="btn btn-primary margins-small">Go back</a>
             </div>
         </c:if>
-        <endofline:board side="5" gameCards="${gameCards}" puzzleCards="${puzzleCards}"/>
+        <endofline:board side="5" gameCards="${gameCards}" puzzleCards="${puzzleCards}" player1Id="${game.user.id}"/>
         <c:if test="${!game.gameStatus.toString().equals('FINISHED')}">
             <div id="hand" class="center">
-                <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${game.energy}"/>
+                <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${game.energy}" playerNo="1"/>
             </div>
         </c:if>
     </div>
@@ -115,6 +115,8 @@
     cardsOnBoard = cardsOnBoard.concat(puzzleCards);
 
     let energyLeft = ${game.energy};
+
+    let isPlayerActive=true
 
     let gameType="singleplayer"
 </script>

@@ -85,7 +85,7 @@
         let requiredEntriesForExit = {};
         let cardEntryForExitMap = {};
 
-        if(!usingEnergy) {
+        if(abilityUsed!=1) {
             cardEntryForExitMap = getExitPositions(lastPlacedCard);
             for(let [key, value] of Object.entries(cardEntryForExitMap)){
                 requiredEntriesForExit[key] = [value];
