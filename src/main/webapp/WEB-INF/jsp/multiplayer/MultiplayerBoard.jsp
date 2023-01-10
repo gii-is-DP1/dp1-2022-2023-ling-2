@@ -75,7 +75,8 @@
             "up" : "${card.card.up}",
             "down" : "${card.card.down}",
             "left" : "${card.card.left}",
-            "right" : "${card.card.right}"
+            "right" : "${card.card.right}",
+            "round" : "${card.round}"
         },
         </c:forEach>
     ];
@@ -110,6 +111,8 @@
     let isPlayerActive = "${isPlayerActive}" === "true" ? true : false
 
     let gameType="multiplayer"
+
+    let currentRound="${game.round}"
 
     function refreshPageIfPlayerInactive(){
         if(!isPlayerActive){

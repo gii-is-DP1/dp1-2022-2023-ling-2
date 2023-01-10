@@ -13,7 +13,7 @@
               description="Player id for coloring their cards" %>
 
 <div class="hand">
-    <endofline:energy energyLeft="${energyLeft}"/>
+    <endofline:energy energyLeft="${energyLeft}" playerNo="${playerNo}"/>
     <endofline:deck left="${cards_left}"/>
     <c:forEach var="n" begin="0" end="${num - 1}">
         <c:choose>
