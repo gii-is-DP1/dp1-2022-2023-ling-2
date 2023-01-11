@@ -1,0 +1,155 @@
+.energy {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: right;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  margin: 1em;
+  width: 50%;
+  aspect-ratio: 1 / 1;
+}
+
+.row {
+  flex-grow: 1;
+  display: flex;
+}
+
+.card {
+  position: relative;
+  flex-grow: 1;
+  border: darkgrey solid 2px;
+  border-radius: 10px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  margin: 0.2em;
+}
+
+.energy-card {
+  cursor: pointer;
+}
+
+.card img {
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.card-slot {
+  display:block;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.deck {
+  flex-grow: 1;
+  border: darkgrey solid 2px;
+  border-radius: 10px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  margin: 0.2em;
+  background-color: darkgrey;
+  position: relative;
+}
+
+.deck p {
+  display: block;
+  font-size: 170%;
+  font-weight: bold;
+  color: #f1f1f1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hand {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  height: 15%;
+}
+
+.hand-card{
+  cursor: pointer;
+}
+
+.rotate-button{
+  position: absolute;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 10px;
+  left: 5%;
+  top: 5%
+}
+
+.rotate-button:hover{
+  background: darkgrey;
+}
+
+.rotated-card-0 {
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+
+.rotated-card-1 {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.rotated-card-2 {
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.rotated-card-3 {
+  -webkit-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+
+.rotated-energy-0 {
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.rotated-energy-1 {
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+
+.rotated-energy-2 {
+  -webkit-transform: rotate(225deg);
+  transform: rotate(225deg);
+}
+
+.disabled-card-slot{
+  pointer-events: none;
+}
+
+.enabled-card-slot{
+  cursor: pointer;
+  background: darkgrey;
+}
+
+.player-1{
+  background-color: lightblue;
+}
+
+.player-1-selected{
+  background-color: cornflowerblue;
+}
+
+.player-2{
+  background-color: pink;
+}
+
+.player-2-selected{
+  background-color: deeppink;
+}

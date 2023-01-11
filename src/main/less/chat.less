@@ -1,0 +1,86 @@
+@import "colors.less";
+
+.chat-box {
+  position: absolute;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  height: 42.3em;
+  min-width: 20em;
+  padding: .1em;
+  background: #FFF;
+  border-radius: 4px;
+  border: darkgrey solid 2px;
+  margin-top: 5px;
+  flex-grow: 1;
+  min-height: 0;
+  top: 18%;
+  left: 80%;
+}
+
+.messages-box {
+  display: flex;
+  justify-content: safe end;
+  flex-direction: column;
+  border: darkgrey solid 1px;
+  border-radius: 4px;
+  padding: .1em;
+  height: 90%;
+  width: 100%;
+  background: whitesmoke;
+  overflow: auto;
+  min-height: 0px;
+}
+
+.msg {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: left;
+  margin: .3em 1em;
+  height: 25px;
+  flex-shrink: 0;
+}
+
+.input-holder {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  background: lightgray;
+  border: lightgray solid 1px;
+  border-radius: 4px;
+  height: 10%;
+}
+
+.control {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.chat-input {
+  height: 50%;
+  background: whitesmoke;
+  width: 70%;
+  border-radius: 5px;
+  margin: auto;
+  border: none;
+  padding: 0 0.5em 0 0.5em;
+  transition: all 0.7s;
+  color: black;
+}
+
+.chat-btn {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  width: 20%;
+  height: 50%;
+  margin: auto;
+  background: dimgrey;
+  border: none;
+  text-align: center;
+  color: #FFF;
+  border-radius: 4px;
+}
