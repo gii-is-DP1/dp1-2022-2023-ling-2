@@ -21,7 +21,7 @@
                     <p>Cards can be rotated by clicking the <i class="glyphicon glyphicon-repeat"></i> button in the corner.
                         The places where a card can be placed will be highlighted. </p>
                     <p>Your <b>Energy Card</b> (leftmost in your hand) can be used starting from your third turn. This will enable you to
-                     do stuff you're not usually able to. Click on the Energy Card for more details.</p>
+                        do stuff you're not usually able to. Click on the Energy Card for more details.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="hideRules()">Close</button>
@@ -30,20 +30,20 @@
         </div>
 
         <c:if test="${!game.gameStatus.toString().equals('FINISHED')}">
-        <c:if test="${userGameRelation.role.toString().equals('PLAYER')}">
-            <c:choose>
-                <c:when test="${isPlayerActive==true}">
-                    <div class="center text-success">
-                        <h1>It is your turn</h1>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <div class="center text-danger">
-                        <h1>Your opponent's turn</h1>
-                    </div>
-                </c:otherwise>
-            </c:choose>
-        </c:if>
+            <c:if test="${userGameRelation.role.toString().equals('PLAYER')}">
+                <c:choose>
+                    <c:when test="${isPlayerActive==true}">
+                        <div class="center text-success">
+                            <h1>It is your turn</h1>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="center text-danger">
+                            <h1>Your opponent's turn</h1>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+            </c:if>
         </c:if>
         <c:if test="${game.gameStatus.toString().equals('FINISHED')}">
             <script>
@@ -74,6 +74,7 @@
             </div>
         </c:if>
     </div>
+    <endofline:chat messages="${messages}" player1Username="${player1Username}" player2Username="${player2Username}"/>
 </endofline:layout>
 <script>
 
@@ -130,7 +131,7 @@
         </c:forEach>
     ];
 
-    let rulesDisplayed = false
+    let canRefresh = true
 
     let energyLeft = ${userGameRelation.energy};
 
@@ -141,18 +142,18 @@
     let currentRound="${game.round}"
 
     function showRules() {
-        rulesDisplayed = true
+        canRefresh = false
         document.getElementById('rules').style.display = "block"
     }
 
     function hideRules() {
-        rulesDisplayed = false
+        canRefresh = true
         document.getElementById('rules').style.display = "none"
     }
 
     function refreshPageIfPlayerInactive(){
         if(!isPlayerActive){
-            setTimeout(() => {rulesDisplayed? null : location.reload()}, 2000)
+            setTimeout(() => {canRefresh? location.reload() : null}, 2000)
         }
     }
     setInterval(refreshPageIfPlayerInactive, 2000)

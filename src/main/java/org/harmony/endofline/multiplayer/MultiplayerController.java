@@ -12,9 +12,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -114,12 +116,13 @@ public class MultiplayerController {
         model.put("lastPlacedCard", multiplayerService.getLastPlacedCard(game.getId(), user.getId()));
         model.put("userGameRelation", game.getUsers().stream().filter(ug -> ug.getUser().equals(user)).findFirst().get());
         model.put("isPlayerActive", game.getActivePlayer().equals(user));
-        model.put("player", user);
+        model.put("user", user);
         model.put("player1Id", game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().get().getUser().getId());
         model.put("player2Id", game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().get().getUser().getId());
         model.put("player1Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().get().getUser().getUsername());
         model.put("player2Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().get().getUser().getUsername());
         model.put("cards_left", multiplayerService.getAllCardsInDeck(id, user.getId()).size());
+        var a = multiplayerService.getAllGameMessages(id);
         model.put("messages", multiplayerService.getAllGameMessages(id));
         return VIEWS_MULTIPLAYER_GAME;
     }
@@ -145,6 +148,20 @@ public class MultiplayerController {
         }
     }
 
+
+    @PostMapping("/{id}")
+    public String postMessage(@PathVariable("id") Integer gameId, @Valid Message message){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(auth.getName());
+        Multiplayer game = multiplayerService.getById(gameId);
+        if (!multiplayerService.checkUserInGame(user, game))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+
+        message.setUser(user);
+        message.setGame(game);
+        multiplayerService.saveMessage(message);
+        return "redirect:/multiplayer/"+gameId;
+    }
 
 
     @RequestMapping(value = "/info/queueStatus/{id}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)

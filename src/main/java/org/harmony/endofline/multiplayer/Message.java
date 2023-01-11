@@ -3,9 +3,12 @@ package org.harmony.endofline.multiplayer;
 import lombok.Getter;
 import lombok.Setter;
 import org.harmony.endofline.model.BaseEntity;
+import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.user.User;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -19,20 +22,20 @@ import java.time.LocalDateTime;
 @Table(name = "messages")
 public class Message extends BaseEntity {
 
-    @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     private User user;
 
-    @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Multiplayer game;
 
-    @NotNull
     @CreationTimestamp
     private LocalDateTime creationDateTime;
 
     @NotNull
-    @Size(min = 1)
+    @Length(min = 1)
     private String content;
+
+    public Message(){
+    }
 
 }

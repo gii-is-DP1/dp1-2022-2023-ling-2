@@ -33,10 +33,18 @@ public class MultiplayerService {
     private UserService userService;
     @Autowired
     private CardService cardService;
+    @Autowired
+    private MessageRepository messageRepository;
 
     @Transactional
     public void save(Multiplayer game) {
         multiplayerRepository.save(game);
+    }
+
+
+    @Transactional
+    public void saveMessage(Message message) {
+        messageRepository.save(message);
     }
 
     @Transactional
@@ -108,7 +116,7 @@ public class MultiplayerService {
     }
 
     public List<Message> getAllGameMessages(Integer gameId) {
-        return multiplayerRepository.findAllGameMessages(gameId);
+        return messageRepository.findAllGameMessages(gameId);
     }
 
     @Transactional

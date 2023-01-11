@@ -936,6 +936,7 @@ INSERT INTO multiplayer_games_game_cards(multiplayer_id, game_cards_id) VALUES (
                                                                                (6, 30),
                                                                                (6, 31),
                                                                                (6, 32);
+INSERT INTO messages(user_id, game_id, creation_date_time, content) VALUES (1, 6, '2022-11-09 10:08:21.139157', 'test message');
 
 -- Achievements
 INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('Winner','Win one Game', 1, 1);
