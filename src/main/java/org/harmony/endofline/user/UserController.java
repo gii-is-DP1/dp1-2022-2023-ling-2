@@ -108,7 +108,7 @@ public class UserController {
         List<Multiplayer> multiplayerGames = userService.getMultiplayerGames(username);
         mav.addObject("multiplayerGames", multiplayerGames);
 
-        mav.addObject("singleplayerGames", user.getSingleplayerGames());
+        mav.addObject("singleplayerGames", userService.getSingleplayerGames(username));
 
         mav.addObject("statistic", user.getStatistic());
 

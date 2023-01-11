@@ -65,8 +65,7 @@ public class SingleplayerServiceTest {
     }
 
     private void shouldHaveLastPlacedCardIdTwo() throws InvalidIDException {
-        Singleplayer game = singleplayerService.findByID(1);
-        assertEquals(game.getLastPlacedCard().getId(), 2);
+        assertEquals(singleplayerService.getLastPlacedCard(1).getId(), 2);
     }
 
     void shouldPlaceCardWithWrapAround() throws InvalidIDException {
@@ -143,8 +142,7 @@ public class SingleplayerServiceTest {
     }
 
     private void shouldNotHaveLastPlacedCardIdTwo() throws InvalidIDException {
-        Singleplayer game = singleplayerService.findByID(1);
-        assertEquals(game.getLastPlacedCard().getId(), 1);
+        assertEquals(singleplayerService.getLastPlacedCard(1).getId(), 1);
     }
 
     void shouldNotPlaceCardWithIncorrectRotation() throws InvalidIDException {

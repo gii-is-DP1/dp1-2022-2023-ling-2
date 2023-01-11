@@ -78,6 +78,7 @@ public class SingleplayerController {
             model.put("gameCards", singleplayerService.getAllCardsInBoard(id));
             model.put("handCards", singleplayerService.getAllCardsInHand(id));
             model.put("cards_left", singleplayerService.getAllCardsInDeck(id).size());
+            model.put("lastPlacedCard", singleplayerService.getLastPlacedCard(id));
             return VIEWS_SINGLEPLAYER_BOARD;
         }catch (InvalidIDException e){
             return "welcome";

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface SingleplayerRepository extends CrudRepository<Singleplayer, Integer> {
     @Override
-    @Query("SELECT s FROM Singleplayer s jOIN FETCH s.user")
+    @Query("SELECT s FROM Singleplayer s jOIN FETCH s.user ORDER BY s.dateStarted DESC")
     List<Singleplayer> findAll();
 
     @Query("SELECT s.gameCards FROM Singleplayer s WHERE s.id=:id")
@@ -27,4 +27,7 @@ public interface SingleplayerRepository extends CrudRepository<Singleplayer, Int
 
     @Query("SELECT s FROM Singleplayer s WHERE s.user=:user AND s.id=:gameId")
     List<Singleplayer> FindUserSingleplayerGame(User user, Integer gameId);
+
+    @Query("SELECT gc FROM Singleplayer s JOIN s.gameCards gc WHERE s.id=:gameId AND gc.status = 0 ORDER BY gc.updated DESC")
+    List<GameCard> findLastPlacedCard(@Param("gameId") Integer gameId);
 }
