@@ -5,8 +5,10 @@ import lombok.Setter;
 import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.user.User;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Getter
 @Setter

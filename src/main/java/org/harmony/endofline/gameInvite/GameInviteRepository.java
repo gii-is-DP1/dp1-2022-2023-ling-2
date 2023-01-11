@@ -1,9 +1,6 @@
 package org.harmony.endofline.gameInvite;
 
-import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.multiplayer.Multiplayer;
-import org.harmony.endofline.user.User;
-import org.harmony.endofline.userGame.UserGame;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

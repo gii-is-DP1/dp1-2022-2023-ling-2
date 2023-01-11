@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.harmony.endofline.card.Card;
 import org.harmony.endofline.deck.Deck;
 import org.harmony.endofline.model.BaseEntity;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;

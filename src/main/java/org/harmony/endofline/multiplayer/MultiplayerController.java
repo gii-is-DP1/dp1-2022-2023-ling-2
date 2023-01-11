@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -45,17 +44,17 @@ public class MultiplayerController {
     }
 
     @PostMapping("/create")
-    public String createGame(@RequestParam("isPublic") String isPublic, Map<String, Object> model){
+    public String createGame(@RequestParam("isPublic") String isPublic, Map<String, Object> model) {
         Multiplayer game;
         boolean isGamePublic = Boolean.parseBoolean(isPublic);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(auth.getName());
 
-        if(isGamePublic) {
+        if (isGamePublic) {
             Multiplayer gameInQueue = multiplayerService.getNextGameInQueue();
 
-            if(gameInQueue==null){
+            if (gameInQueue == null) {
                 game = multiplayerService.createNewGame(isGamePublic, user);
             } else {
                 game = gameInQueue;
@@ -63,10 +62,10 @@ public class MultiplayerController {
                 multiplayerService.addInitialCards(game, deckService.getDeckCards(deckService.findByID(1)));
                 multiplayerService.drawCardsFromDeck(game);
             }
-            return "redirect:/multiplayer/queue/" + game.getId();
+            return "redirect:/multiplayer/pregamelobby/" + game.getId();
 
-        }else{
-            game = multiplayerService.createNewGame(Boolean.parseBoolean(isPublic),user);
+        } else {
+            game = multiplayerService.createNewGame(Boolean.parseBoolean(isPublic), user);
             return "redirect:/invitefriend/" + game.getId();
         }
     }
@@ -81,28 +80,28 @@ public class MultiplayerController {
     @GetMapping("/pregamelobby/{gameId}")
     public String showLobby(@PathVariable("gameId") Integer id, Map<String, Object> model) {
         Multiplayer game = multiplayerService.getById(id);
-
-        if (multiplayerService.checkGameStarted(id)) {
-            return "redirect:/multiplayer/" + id;
+        if (game.getIsPublic()) {
+            Boolean ready = multiplayerService.checkGameReady(id);
+            if (ready) {
+                multiplayerService.startGame(game.getId());
+                return "redirect:/multiplayer/" + id;
+            } else {
+                return VIEWS_PREGAME;
+            }
         } else {
-            return VIEWS_PREGAME;
+            if (multiplayerService.checkGameStarted(id)) {
+                return "redirect:/multiplayer/" + id;
+            } else {
+                model.put("player1Username", game.getUsers().stream().filter(ug -> ug.getPlayer() == 1).findFirst().get().getUser().getUsername());
+                model.put("player2Username", game.getUsers().stream().filter(ug -> ug.getPlayer() == 2).findFirst().get().getUser().getUsername());
+                return VIEWS_PREGAME;
+            }
         }
     }
 
-    @GetMapping("/queue/{id}")
-    public String queueStatus(@PathVariable("id") Integer id, Map<String, Object> model){
-        Boolean ready = multiplayerService.checkGameReady(id);
-        if(ready){
-            Multiplayer game = multiplayerService.getById(id);
-            multiplayerService.startGame(game.getId());
-            return "redirect:/multiplayer/" + id;
-        }else{
-            return "multiplayer/gameQueuePublic";
-        }
-    }
 
     @GetMapping("/{id}")
-    public String getGame(@PathVariable("id") Integer id, Map<String, Object> model){
+    public String getGame(@PathVariable("id") Integer id, Map<String, Object> model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Multiplayer game = multiplayerService.getById(id);
         User user = userService.findByUsername(auth.getName());
@@ -122,13 +121,12 @@ public class MultiplayerController {
         model.put("player1Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().get().getUser().getUsername());
         model.put("player2Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().get().getUser().getUsername());
         model.put("cards_left", multiplayerService.getAllCardsInDeck(id, user.getId()).size());
-        var a = multiplayerService.getAllGameMessages(id);
         model.put("messages", multiplayerService.getAllGameMessages(id));
         return VIEWS_MULTIPLAYER_GAME;
     }
 
     @PostMapping("/{id}/place")
-    public String placeCard(@PathVariable("id") Integer id, @RequestParam("gcid") Integer gameCardId, @RequestParam("rotation") Integer rotation, @RequestParam("x") Integer x, @RequestParam("y") Integer y, @RequestParam("energy") Boolean energyUsed, @RequestParam("ability") Integer abilityOrdinal){
+    public String placeCard(@PathVariable("id") Integer id, @RequestParam("gcid") Integer gameCardId, @RequestParam("rotation") Integer rotation, @RequestParam("x") Integer x, @RequestParam("y") Integer y, @RequestParam("energy") Boolean energyUsed, @RequestParam("ability") Integer abilityOrdinal) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         try {
             User user = userService.findByUsername(auth.getName());
@@ -138,12 +136,12 @@ public class MultiplayerController {
 
             List<GameCard> boardCards = multiplayerService.getAllCardsInBoard(id);
 
-            abilityOrdinal = abilityOrdinal==null ? 0 : abilityOrdinal;
+            abilityOrdinal = abilityOrdinal == null ? 0 : abilityOrdinal;
             multiplayerService.moveCard(id, user.getId(), boardCards, gameCardId, rotation, x, y, energyUsed, abilityOrdinal);
             multiplayerService.setResultIfApplicable(game);
 
-            return "redirect:/multiplayer/"+id;
-        }catch (InvalidIDException e){
+            return "redirect:/multiplayer/" + id;
+        } catch (InvalidIDException e) {
             return "welcome";
         }
     }
