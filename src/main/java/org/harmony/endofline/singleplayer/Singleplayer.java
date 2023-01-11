@@ -2,10 +2,8 @@ package org.harmony.endofline.singleplayer;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.model.Game;
-import org.harmony.endofline.puzzle.Difficulty;
 import org.harmony.endofline.puzzle.Puzzle;
 import org.harmony.endofline.user.User;
 
@@ -14,8 +12,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter

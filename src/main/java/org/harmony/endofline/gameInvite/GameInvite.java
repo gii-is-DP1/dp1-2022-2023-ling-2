@@ -5,9 +5,11 @@ import lombok.Setter;
 import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.user.User;
-import org.harmony.endofline.userGame.UserGame;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Getter
