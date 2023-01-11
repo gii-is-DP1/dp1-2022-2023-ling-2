@@ -28,4 +28,7 @@ public interface MultiplayerRepository extends CrudRepository<Multiplayer, Integ
 
     @Query("SELECT gc FROM Multiplayer m JOIN m.gameCards gc WHERE m.id=:gameId AND gc.user.id=:userId AND gc.status=2")
     List<GameCard> findCardsInDeck(@Param("gameId") Integer gameId, @Param("userId") Integer userId);
+
+    @Query("SELECT DISTINCT m FROM Message m JOIN m.game g WHERE g.id=:gameId ORDER BY m.creationDateTime DESC")
+    List<Message> findAllGameMessages(@Param("gameId") Integer gameId);
 }
