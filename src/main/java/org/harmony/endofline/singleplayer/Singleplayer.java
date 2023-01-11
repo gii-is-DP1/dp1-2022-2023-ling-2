@@ -28,10 +28,6 @@ public class Singleplayer extends Game {
     @JoinColumn(name = "puzzle_id")
     private Puzzle puzzle;
 
-    @OneToOne
-    @JoinColumn(name = "last_placed_card_id")
-    private GameCard lastPlacedCard;
-
     @Min(0)
     @Max(3)
     private Integer energy;

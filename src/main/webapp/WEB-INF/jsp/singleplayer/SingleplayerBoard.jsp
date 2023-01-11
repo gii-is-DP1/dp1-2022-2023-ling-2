@@ -60,35 +60,23 @@
 <script>
     function hideRules() {
         document.getElementById('rules').style.display = "none"
-}
-
-function showRules() {
-        document.getElementById('rules').style.display = "block"
-}
-
-let lastPlacedCard = {
-        "x": "2",
-        "y": "2",
-        "rotation": "0",
-        "status": "0",
-        "up" : "EXIT",
-        "down" : "EMPTY",
-        "left" : "EMPTY",
-        "right" : "EMPTY"
-    };
-    if("${game.lastPlacedCard}"!==""){
-        lastPlacedCard =
-        {
-            "x": "${game.lastPlacedCard.x}",
-            "y": "${game.lastPlacedCard.y}",
-            "rotation": "${game.lastPlacedCard.rotation}",
-            "status": "${game.lastPlacedCard.status}",
-            "up" : "${game.lastPlacedCard.card.up}",
-            "down" : "${game.lastPlacedCard.card.down}",
-            "left" : "${game.lastPlacedCard.card.left}",
-            "right" : "${game.lastPlacedCard.card.right}"
-        };
     }
+
+    function showRules() {
+            document.getElementById('rules').style.display = "block"
+    }
+
+    let lastPlacedCard =
+        {
+            "x": "${lastPlacedCard.x}",
+            "y": "${lastPlacedCard.y}",
+            "rotation": "${lastPlacedCard.rotation}",
+            "status": "${lastPlacedCard.status}",
+            "up" : "${lastPlacedCard.card.up}",
+            "down" : "${lastPlacedCard.card.down}",
+            "left" : "${lastPlacedCard.card.left}",
+            "right" : "${lastPlacedCard.card.right}"
+        };
 
     let userCardsOnBoard = [
         <c:forEach items="${gameCards}" var="card">

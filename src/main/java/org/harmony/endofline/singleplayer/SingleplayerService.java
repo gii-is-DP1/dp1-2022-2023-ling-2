@@ -45,6 +45,10 @@ public class SingleplayerService {
         return singleplayerRepository.findAll();
     }
 
+    public GameCard getLastPlacedCard(Integer gameId) {
+        return singleplayerRepository.findLastPlacedCard(gameId).get(0);
+    }
+
     public Singleplayer findByID(Integer id) throws InvalidIDException {
         Optional<Singleplayer> opt =  singleplayerRepository.findById(id);
         if(opt.isPresent()) {
@@ -101,14 +105,13 @@ public class SingleplayerService {
             cardToMove.setY(y);
             cardToMove.setRotation(rotation);
             cardToMove.setStatus(Status.BOARD);
-            game.setLastPlacedCard(cardToMove);
             if(energyUsed && !game.getEnergy().equals(0))
                 game.setEnergy(game.getEnergy()-1);
         }
     }
 
     private List<List<Integer>> getValidPositions(Singleplayer game, List<GameCard> cardsOnBoard, GameCard cardToMove, Integer rotation, Boolean energyUsed) {
-        GameCard lastCard = game.getLastPlacedCard();
+        GameCard lastCard = getLastPlacedCard(game.getId());
 
         var requiredEntriesForExit = calculateEntriesForExits(cardsOnBoard, energyUsed, lastCard);
 
@@ -230,7 +233,7 @@ public class SingleplayerService {
             game.setDateEnded(LocalDateTime.now());
         } else {
             List<List<Integer>> availablePositions = null;
-            Map<String, List<List<Integer>>> requiredEntriesForExit = calculateEntriesForExits(cardsOnBoard, game.getEnergy()>0, game.getLastPlacedCard());
+            Map<String, List<List<Integer>>> requiredEntriesForExit = calculateEntriesForExits(cardsOnBoard, game.getEnergy()>0, getLastPlacedCard(game.getId()));
             availablePositions = getAllAvailablePositions(game, cardsOnBoard, requiredEntriesForExit);
             if(availablePositions.size()==0){
                 game.setGameStatus(GameStatus.FINISHED);

@@ -822,7 +822,7 @@ INSERT INTO game_card(card_id, user_id, status, rotation, x, y, created, updated
                                                                                             (8, 1, 1, false, null,  null,   '2022-11-09 11:08:21.139157', '2022-11-09 11:08:21.139157'),
                                                                                             (6, 1, 1, false, null,  null,   '2022-11-09 11:08:21.139157', '2022-11-09 11:08:21.139157'),
                                                                                             (6, 1, 2, false, null,  null,   '2022-11-09 11:08:21.139157', '2022-11-09 11:08:21.139157');
-INSERT INTO singleplayer_game(date_ended, date_started, user_id, puzzle_id, last_placed_card_id, energy, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 1, 1, 1, 3, 1);
+INSERT INTO singleplayer_game(date_ended, date_started, user_id, puzzle_id, energy, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 1, 1, 3, 1);
 INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES (1, 1),
                                                                                 (1, 2),
                                                                                 (1, 3),
@@ -836,7 +836,7 @@ INSERT INTO game_card(card_id, user_id, status, rotation, x, y, created, updated
                                                                                              (6, 1, 0, 0, 2, 1, '2022-11-09 11:08:21.139157', '2022-11-09 11:08:21.139157'),
                                                                                              (8, 1, 0, 3, 1, 1, '2022-11-09 11:08:21.139157', '2022-11-09 11:08:21.139157');
 
-INSERT INTO singleplayer_game(date_ended, date_started, user_id, puzzle_id, last_placed_card_id, energy, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 1, 2, 8, 3, 1);
+INSERT INTO singleplayer_game(date_ended, date_started, user_id, puzzle_id, energy, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 1, 2, 3, 1);
 INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES (2, 6),
                                                                                 (2, 7),
                                                                                 (2, 8),
@@ -850,7 +850,7 @@ INSERT INTO game_card(card_id, user_id, status, rotation, x, y, created, updated
                                                                                              (6, 1, 0, 0, 2, 1, '2022-11-09 11:08:21.139157', '2022-11-09 11:08:21.139157'),
                                                                                              (8, 1, 0, 3, 1, 1, '2022-11-09 11:08:21.139157', '2022-11-09 11:08:21.139157');
 
-INSERT INTO singleplayer_game(date_ended, date_started, user_id, puzzle_id, last_placed_card_id, energy, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 1, 2, 8, 0, 1);
+INSERT INTO singleplayer_game(date_ended, date_started, user_id, puzzle_id, energy, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 1, 8, 0, 1);
 INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES (3, 10),
                                                                                 (3, 11),
                                                                                 (3, 12),
