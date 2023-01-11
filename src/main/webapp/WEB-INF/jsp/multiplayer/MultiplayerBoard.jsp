@@ -73,8 +73,9 @@
                 <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${userGameRelation.energy}" playerNo="${handCards.get(0).user.id==player1Id ? 1 : 2}"/>
             </div>
         </c:if>
+        <endofline:chat messages="${messages}" player1Username="${player1Username}" player2Username="${player2Username}"/>
     </div>
-    <endofline:chat messages="${messages}" player1Username="${player1Username}" player2Username="${player2Username}"/>
+
 </endofline:layout>
 <script>
 
