@@ -86,7 +86,17 @@
                             <c:out value="${mult.gameStatus}"/>
                         </td>
                         <td>
-                            <a href="/u/${mult.winner.username}">${mult.winner.username}</>
+                            <c:choose>
+                                <c:when test="${mult.gameStatus.toString()=='STARTED'}">
+                                    <a class="glyphicon glyphicon-play-circle" href="/multiplayer/${mult.id}"></a>
+                                </c:when>
+                                <c:when test="${mult.gameStatus.toString()=='FINISHED' && mult.winner==null}">
+                                    <c:out value="Tie"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="/u/${mult.winner.username}">${mult.winner.username}</>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                     </tr>
                 </c:forEach>
@@ -102,7 +112,7 @@
                     <th>Finish</th>
                     <th>Difficulty</th>
                     <th>Status</th>
-                    <th>Winner</th>
+                    <th>Result</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -130,7 +140,17 @@
                             <c:out value="${singl.gameStatus}"/>
                         </td>
                         <td>
-                            <c:out value="${singl.winner.username}"/>
+                            <c:choose>
+                                <c:when test="${singl.gameStatus.toString()=='STARTED'}">
+                                    <a class="glyphicon glyphicon-play-circle" href="/singleplayer/${singl.id}"></a>
+                                </c:when>
+                                <c:when test="${singl.winner==null}">
+                                    <c:out value="Lose"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:out value="Win"/>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                     </tr>
                 </c:forEach>
