@@ -25,6 +25,7 @@
             <hr>
             <input type="button" class="btn margins-small" onclick="chooseEnergyAbility(3)" value="Break"/>
             <p>&ensp;&ensp; This ability will limit the amount of cards you can place in this turn to 1</p>
+            <button class="btn margins-small" onclick="toggleEnergyUsage('${playerNo}')">Cancel</button>
         </div>
     </div>
 </div>
@@ -53,6 +54,7 @@
             }
             else {
                 document.getElementById("energy-card").setAttribute("class", "card energy "+colorClass+" rotated-card-"+(4-(energyLeft+1))%4)
+                gameType==="multiplayer" ? document.getElementById('choose-energy-ability').style.display = "none" : abilityUsed=1
                 abilityUsed=0
                 if(selectedHandCard!=null)
                     updateHighlightedCardSlots();
