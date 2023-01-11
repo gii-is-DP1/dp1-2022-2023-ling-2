@@ -68,7 +68,7 @@
             </div>
         </c:if>
         <endofline:board side="7" gameCards="${cardsOnBoard}" player1Id="${player1Id}"/>
-        <c:if test="${!game.gameStatus.toString().equals('FINISHED')}">
+        <c:if test="${userGameRelation.role.toString().equals('PLAYER') && !game.gameStatus.toString().equals('FINISHED')}">
             <div id="hand" class="center">
                 <endofline:hand handCards="${handCards}" num="5" cards_left="${cards_left}" energyLeft="${userGameRelation.energy}" playerNo="${handCards.get(0).user.id==player1Id ? 1 : 2}"/>
             </div>
