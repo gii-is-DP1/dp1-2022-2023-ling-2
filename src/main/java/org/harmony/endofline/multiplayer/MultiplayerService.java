@@ -107,6 +107,10 @@ public class MultiplayerService {
         return gameCardRepository.findByUserId(gameId, userId);
     }
 
+    public List<Message> getAllGameMessages(Integer gameId) {
+        return multiplayerRepository.findAllGameMessages(gameId);
+    }
+
     @Transactional
     public Multiplayer createNewGame(Boolean isPublic, User user){
         // no game in queue or not elegable

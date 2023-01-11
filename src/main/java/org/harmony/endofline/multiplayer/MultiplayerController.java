@@ -120,6 +120,7 @@ public class MultiplayerController {
         model.put("player1Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().get().getUser().getUsername());
         model.put("player2Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().get().getUser().getUsername());
         model.put("cards_left", multiplayerService.getAllCardsInDeck(id, user.getId()).size());
+        model.put("messages", multiplayerService.getAllGameMessages(id));
         return VIEWS_MULTIPLAYER_GAME;
     }
 
