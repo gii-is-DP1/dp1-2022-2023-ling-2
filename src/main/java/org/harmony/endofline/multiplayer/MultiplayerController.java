@@ -86,6 +86,7 @@ public class MultiplayerController {
                 multiplayerService.startGame(game.getId());
                 return "redirect:/multiplayer/" + id;
             } else {
+                model.put("game", game);
                 return VIEWS_PREGAME;
             }
         } else {
