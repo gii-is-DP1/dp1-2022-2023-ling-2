@@ -2,6 +2,7 @@ package org.harmony.endofline.multiplayer;
 
 
 import org.harmony.endofline.configuration.SecurityConfiguration;
+import org.harmony.endofline.deck.DeckService;
 import org.harmony.endofline.user.UserService;
 import org.harmony.endofline.userGame.UserGameService;
 import org.junit.jupiter.api.Test;
@@ -37,11 +38,13 @@ public class MultiplayerCreationTest {
     @MockBean
     UserGameService userGameService;
 
+    @MockBean
+    DeckService deckService;
+
     @WithMockUser(value = "spring")
     @Test
     public void multiplayerLoggedIn() throws Exception {
-        mockMvc.perform(post("/multiplayer/create?type=public").with(csrf())).andExpect(status().isOk())
-            .andExpect(model().attributeExists("game"));
+        mockMvc.perform(post("/multiplayer/create?isPublic=true").with(csrf())).andExpect(status().isOk());
     }
 
     @Test
