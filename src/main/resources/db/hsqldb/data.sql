@@ -860,12 +860,12 @@ INSERT INTO singleplayer_game_game_cards(singleplayer_id, game_cards_id) VALUES 
 INSERT INTO singleplayer_game(date_ended, date_started, user_id, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 1, 1);
 
 -- Multiplayer game 1
-INSERT INTO multiplayer_games(date_ended, date_started, is_public, search_date, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 0, '2022-11-09 11:07:21.139157', 0);
+INSERT INTO multiplayer_games(date_ended, date_started, is_public, game_status) VALUES (null, '2022-11-09 11:08:21.139157', 0, 0);
 INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (1, 1, 1, 3, 0);
 INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (2, 1, 2, 3, 0);
 
 -- Multiplayer game 2 (user 1 active)
-INSERT INTO multiplayer_games(date_ended, date_started, is_public, search_date, game_status, active_player_id, round) VALUES (null, '2022-11-09 11:08:21.139157', 0, '2022-11-09 11:07:21.139157', 1, 1, 1);
+INSERT INTO multiplayer_games(date_ended, date_started, is_public, game_status, active_player_id, round) VALUES (null, '2022-11-09 11:08:21.139157', 0, 1, 1, 1);
 INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (1, 2, 1, 3, 0);
 INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (2, 2, 2, 3, 0);
 
@@ -878,7 +878,7 @@ INSERT INTO multiplayer_games_game_cards(multiplayer_id, game_cards_id) VALUES (
                                                                                (2, 16);
 
 -- Multiplayer game 3 (user 2 active)
-INSERT INTO multiplayer_games(date_ended, date_started, is_public, search_date, game_status, active_player_id, round) VALUES (null, '2022-11-09 11:08:21.139157', 0, '2022-11-09 11:07:21.139157', 1, 2, 1);
+INSERT INTO multiplayer_games(date_ended, date_started, is_public, game_status, active_player_id, round) VALUES (null, '2022-11-09 11:08:21.139157', 0, 1, 2, 1);
 INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (1, 3, 1, 3, 0);
 INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (2, 3, 2, 3, 0);
 
@@ -891,7 +891,7 @@ INSERT INTO multiplayer_games_game_cards(multiplayer_id, game_cards_id) VALUES (
                                                                                (3, 19);
 
 -- Multiplayer game 4 (user 2 active, should advance round)
-INSERT INTO multiplayer_games(date_ended, date_started, is_public, search_date, game_status, active_player_id, round) VALUES (null, '2022-11-09 11:08:21.139157', 0, '2022-11-09 11:07:21.139157', 1, 2, 3);
+INSERT INTO multiplayer_games(date_ended, date_started, is_public, game_status, active_player_id, round) VALUES (null, '2022-11-09 11:08:21.139157', 0, 1, 2, 3);
 INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (1, 4, 1, 2, 0);
 INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (2, 4, 2, 2, 0);
 
@@ -906,7 +906,7 @@ INSERT INTO multiplayer_games_game_cards(multiplayer_id, game_cards_id) VALUES (
                                                                                (4, 23);
 
 -- Multiplayer game 5 (user 2 active, should advance round after card is placed)
-INSERT INTO multiplayer_games(date_ended, date_started, is_public, search_date, game_status, active_player_id, round) VALUES (null, '2022-11-09 11:08:21.139157', 0, '2022-11-09 11:07:21.139157', 1, 2, 3);
+INSERT INTO multiplayer_games(date_ended, date_started, is_public, game_status, active_player_id, round) VALUES (null, '2022-11-09 11:08:21.139157', 0, 1, 2, 3);
 INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (1, 5, 1, 2, 0);
 INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (2, 5, 2, 3, 0);
 
@@ -921,7 +921,7 @@ INSERT INTO multiplayer_games_game_cards(multiplayer_id, game_cards_id) VALUES (
                                                                                (5, 27);
 
 -- Multiplayer game 6 (user 2 active, should not advance round after card is placed)
-INSERT INTO multiplayer_games(date_ended, date_started, is_public, search_date, game_status, active_player_id, round) VALUES (null, '2022-11-09 11:08:21.139157', 0, '2022-11-09 11:07:21.139157', 1, 2, 3);
+INSERT INTO multiplayer_games(date_ended, date_started, is_public, game_status, active_player_id, round) VALUES (null, '2022-11-09 11:08:21.139157', 0, 1, 2, 3);
 INSERT INTO usergames(user_id, game_id, player, energy, role) VALUES (1, 6, 1, 2, 0);
 INSERT INTO usergames(user_id, game_id, player, energy, role, ability_used) VALUES (2, 6, 2, 3, 0, 2); -- Boost used
 

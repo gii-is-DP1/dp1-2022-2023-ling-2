@@ -31,20 +31,15 @@ public class Multiplayer extends Game {
     @NotNull
     private Boolean isPublic;
 
-    @NotNull
-    private LocalDateTime searchDate;
-
 
     public Multiplayer(boolean isPublic) {
         super(LocalDateTime.now());
-        this.searchDate = LocalDateTime.now();
         this.isPublic = isPublic;
         this.users = new ArrayList<UserGame>();
     }
 
     public Multiplayer() {
         super(LocalDateTime.now());
-        this.searchDate = LocalDateTime.now();
         this.isPublic = true;
         this.users = new ArrayList<UserGame>();
     }

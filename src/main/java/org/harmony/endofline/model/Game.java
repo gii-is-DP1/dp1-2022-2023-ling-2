@@ -17,7 +17,7 @@ public class Game extends BaseEntity {
 
     @Column(name = "date_started")
     @NotNull
-    private LocalDateTime dateStarted;
+    private LocalDateTime dateCreated;
 
     @Column(name = "date_ended")
     private LocalDateTime dateEnded;
@@ -35,7 +35,7 @@ public class Game extends BaseEntity {
     private User winner;
 
     public Game(LocalDateTime dateStarted){
-        this.dateStarted = dateStarted;
+        this.dateCreated = dateStarted;
         this.dateEnded = null;
         this.gameStatus = GameStatus.CREATED;
     }

@@ -14,10 +14,10 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query("SELECT user FROM User user WHERE user.username=:username")
     User findByUsername(@Param("username") String username);
 
-    @Query("SELECT DISTINCT mult FROM Multiplayer mult JOIN mult.users ug JOIN ug.user u WHERE u.username=:username ORDER BY mult.dateStarted DESC")
+    @Query("SELECT DISTINCT mult FROM Multiplayer mult JOIN mult.users ug JOIN ug.user u WHERE u.username=:username ORDER BY mult.dateCreated DESC")
     List<Multiplayer> findUserMultiplayerGames(String username);
 
-    @Query("SELECT DISTINCT singl FROM Singleplayer singl JOIN singl.user u WHERE u.username=:username ORDER BY singl.dateStarted DESC")
+    @Query("SELECT DISTINCT singl FROM Singleplayer singl JOIN singl.user u WHERE u.username=:username ORDER BY singl.dateCreated DESC")
     List<Singleplayer> findUserSingleplayerGames(String username);
 
     @Query("SELECT user FROM User user WHERE user.email=:email")
