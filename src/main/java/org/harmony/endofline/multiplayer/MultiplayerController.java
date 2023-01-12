@@ -137,7 +137,6 @@ public class MultiplayerController {
 
             List<GameCard> boardCards = multiplayerService.getAllCardsInBoard(id);
 
-            abilityOrdinal = abilityOrdinal == null ? 0 : abilityOrdinal;
             multiplayerService.moveCard(id, user.getId(), boardCards, gameCardId, rotation, x, y, energyUsed, abilityOrdinal);
             multiplayerService.setResultIfApplicable(game);
 
