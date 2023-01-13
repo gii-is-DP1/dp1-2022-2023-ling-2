@@ -3,6 +3,7 @@ package org.harmony.endofline.achievement;
 import org.harmony.endofline.statistic.Statistic;
 import org.harmony.endofline.statistic.StatisticService;
 import org.harmony.endofline.user.User;
+import org.harmony.endofline.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class AchievementService {
     @Autowired
     private AchievementRepository achievementRepository;
     @Autowired
-    private StatisticService statService;
+    private UserService userService;
 
     @Transactional
     public void addAchievement(Achievement achievement) throws InvalidAchievementNameExeption {
@@ -58,7 +59,7 @@ public class AchievementService {
 
     // Achievement checks for User
     private boolean checkMultiplayerCreated(User user, int amount){
-        Integer playerOneGames = Math.toIntExact(user.getMultiplayerGames().stream().filter(ug -> ug.getPlayer() == 1).count());
+        Integer playerOneGames = userService.getMultiplayerGames(user.getUsername()).size();
         return playerOneGames >= amount;
     }
 
