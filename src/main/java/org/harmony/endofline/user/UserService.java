@@ -126,6 +126,9 @@ public class UserService {
 
     public Object getFriendStatus(User authenticatedUser, User user, FriendRequest fr) {
         String res = "";
+        if (fr == null){
+            return "request";
+        }
         if (authenticatedUser.getFriends().contains(user))
             res = "friend";
         else if (fr.getState().equals(FriendRequestState.PENDING) && fr.getSender().equals(authenticatedUser))
