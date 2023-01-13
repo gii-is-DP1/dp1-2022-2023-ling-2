@@ -1,10 +1,12 @@
 package org.harmony.endofline.gameCard;
 
 import org.harmony.endofline.model.Game;
+import org.harmony.endofline.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class GameCardService {
@@ -26,5 +28,9 @@ public class GameCardService {
             newCard.setRotation(new_r);
             gameCardRepository.save(newCard);
         }
+    }
+
+    public List<GameCard> getByUser(User user){
+        return gameCardRepository.findByUserId(user.getId());
     }
 }

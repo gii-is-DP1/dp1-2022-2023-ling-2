@@ -4,6 +4,8 @@ import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.achievement.AchievementRepository;
 import org.harmony.endofline.friendRequest.FriendRequest;
 import org.harmony.endofline.friendRequest.FriendRequestState;
+import org.harmony.endofline.gameCard.GameCard;
+import org.harmony.endofline.gameCard.GameCardService;
 import org.harmony.endofline.gameInvite.GameInvite;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.singleplayer.Singleplayer;
@@ -22,11 +24,14 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final GameCardService gameCardService;
+
     private final AchievementRepository achievementRepository;
     @Autowired
-    public UserService(UserRepository userRepository,AchievementRepository achievementRepository) {
+    public UserService(UserRepository userRepository,AchievementRepository achievementRepository,GameCardService gameCardService) {
         this.userRepository = userRepository;
         this.achievementRepository = achievementRepository;
+        this.gameCardService = gameCardService;
     }
 
     public Optional<User> getUser(String username) {
@@ -40,7 +45,9 @@ public class UserService {
 
     @Transactional
     public void deleteUser(User user) {
-        userRepository.deleteByUsername(user.getUsername());
+        user.setEnabled(false);
+        userRepository.save(user);
+        //serRepository.deleteByUsername(user.getUsername());
     }
 
     public User findByUsername(String username) {

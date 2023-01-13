@@ -12,4 +12,7 @@ public interface GameCardRepository extends CrudRepository<GameCard, Integer> {
 
     @Query("SELECT gc FROM Multiplayer m JOIN m.gameCards gc WHERE m.id = ?1 AND gc.user.id = ?2 AND gc.status = 0 ORDER BY gc.updated DESC")
     List<GameCard> findByUserId(Integer gameId, Integer userId);
+
+    @Query("SELECT gc FROM Multiplayer m JOIN m.gameCards gc WHERE gc.user.id =:userId")
+    List<GameCard> findByUserId(Integer userId);
 }

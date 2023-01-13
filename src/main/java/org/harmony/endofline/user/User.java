@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.friendRequest.FriendRequest;
+import org.harmony.endofline.gameCard.GameCard;
 import org.harmony.endofline.gameInvite.GameInvite;
 import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.singleplayer.Singleplayer;
@@ -45,6 +46,9 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @NotNull
     private Set<Singleplayer> singleplayerGames;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<GameCard> gameCard;
 
     @ManyToMany
     @JoinTable(name = "achievement_user",

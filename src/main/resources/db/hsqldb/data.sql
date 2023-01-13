@@ -812,11 +812,17 @@ INSERT INTO puzzle_cards(puzzle_id,card_id,x,y,rotation) VALUES (139,10,3,1,0);
 INSERT INTO statistics(number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (34, 10, 4, 7, 13);
 INSERT INTO statistics(number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (42, 20, 9, 11, 2);
 INSERT INTO statistics(number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (0, 0, 0, 0, 0);
+INSERT INTO statistics(number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (0, 0, 0, 0, 0);
+INSERT INTO statistics(number_games, number_single_player_wins, number_single_player_losses, number_multi_player_wins, number_multi_player_losses) VALUES (0, 0, 0, 0, 0);
 
 INSERT INTO users(statistics_id, username,password,email,is_admin,enabled) VALUES (1, 'admin','admin','admin@localhost.com',true,true);
 INSERT INTO users(statistics_id, username,password,email,is_admin,enabled) VALUES (2, 'user','user','user@localhost.com',false,true);
 INSERT INTO users(statistics_id, username,password,email,is_admin,enabled) VALUES (3, 'spectator','spectator','spectator@localhost.com',false,true);
+INSERT INTO users(statistics_id, username,password,email,is_admin,enabled) VALUES (4, 'user2','user2','user2@localhost.com',false,true);
+INSERT INTO users(statistics_id, username,password,email,is_admin,enabled) VALUES (5, 'user3','user3','user2@localhost.com',false,true);
 
+INSERT INTO users_FRIENDS(user_id,friends_id) VALUES (2,4);
+INSERT INTO users_FRIENDS(user_id,friends_id) VALUES (2,5);
 -- Game 1
 INSERT INTO game_card(card_id, user_id, status, rotation, x, y, created, updated) VALUES
                                                                                             (3, 1, 0, false, 2,     1,       '2022-11-09 11:08:21.139157', '2022-11-09 11:08:21.139157'),
@@ -949,5 +955,10 @@ INSERT INTO achievements(name,description,condition,condition_amount) VALUES ('G
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,1);
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,2);
 INSERT INTO achievement_user(user_id,achievement_id) VALUES (1,3);
+
+-- Game Invites
+
+INSERT INTO game_invite(status, game_id, receiver_id, sender_id, type) VALUES (0, 4, 1, 2, 0);
+INSERT INTO game_invite(status, game_id, receiver_id, sender_id, type) VALUES (0, 3, 1, 3, 1);
 
 

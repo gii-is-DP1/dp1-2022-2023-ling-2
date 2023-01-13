@@ -1,6 +1,7 @@
 package org.harmony.endofline.gameInvite;
 
 import org.harmony.endofline.deck.DeckService;
+import org.harmony.endofline.model.Game;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.user.User;
@@ -58,9 +59,9 @@ public class GameInviteService {
 
 
     @Transactional
-    public void sendInvite(Multiplayer game, User sender, User receiver, InviteType type){
+    public GameInvite sendInvite(Multiplayer game, User sender, User receiver, InviteType type){
         GameInvite newInvite = new GameInvite(game,sender,receiver,type);
-        this.gameInviteRepository.save(newInvite);
+        return this.gameInviteRepository.save(newInvite);
     }
 
     public List<GameInvite> getByReciever(User user){

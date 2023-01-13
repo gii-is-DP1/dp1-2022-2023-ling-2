@@ -136,7 +136,7 @@
 
     let energyLeft = ${userGameRelation.energy};
 
-    let isPlayerActive = "${isPlayerActive}" === "true" ? true : false
+    isPlayerActive = "${isPlayerActive}" === "true" ? true : false
 
     let gameType="multiplayer"
 

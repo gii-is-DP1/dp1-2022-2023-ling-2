@@ -6,8 +6,7 @@ import org.harmony.endofline.card.Card;
 import org.harmony.endofline.card.Side;
 import org.harmony.endofline.model.BaseEntity;
 import org.harmony.endofline.user.User;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
