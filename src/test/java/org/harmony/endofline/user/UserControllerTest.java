@@ -3,6 +3,7 @@ package org.harmony.endofline.user;
 import org.harmony.endofline.achievement.AchievementService;
 import org.harmony.endofline.configuration.SecurityConfiguration;
 import org.harmony.endofline.friendRequest.FriendRequestService;
+import org.harmony.endofline.gameInvite.GameInviteService;
 import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.singleplayer.SingleplayerService;
 import org.harmony.endofline.statistic.StatisticService;
@@ -56,6 +57,8 @@ public class UserControllerTest {
     MultiplayerService multiService;
     @MockBean
     SingleplayerService singleService;
+    @MockBean
+    GameInviteService gameInviteService;
 
     private User user;
     private User user2;
@@ -92,6 +95,15 @@ public class UserControllerTest {
             .andExpect(model().attribute("user", hasProperty("email", is("user@user.com"))))
             .andExpect(model().attribute("user", hasProperty("password", is("user")))) // TODO: test for password?
             .andExpect(view().name("users/userDetails"));
+    }
+
+    @WithMockUser(value = "spring")
+    @Test
+    void testShowUserWithErrors() throws Exception {
+
+        when(mockMvc.perform(get("/u/{username}", "no_user")))
+            .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
+
     }
 
     @WithMockUser(value = "spring")
@@ -179,7 +191,5 @@ public class UserControllerTest {
             .andExpect(model().attributeExists("friends"))
             .andExpect(view().name("users/friends"));
     }
-
-    //TODO: processDeleteUserForm, getAdminDashboard, removeFriend
 
 }
