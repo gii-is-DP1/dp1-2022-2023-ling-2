@@ -105,7 +105,7 @@
                             <span>${invite.type} </span>
                         </td>
                         <td>
-                            <a href="/gameinvite/delete/${invite.id}/${gameId}"><span
+                            <a href="/gameinvite/delete/${invite.id}/${game.id}"><span
                                     class="glyphicon glyphicon-remove warning" aria-hidden="true"/></a>
                         </td>
                     </tr>
