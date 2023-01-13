@@ -97,11 +97,11 @@ public class MultiplayerService {
     }
 
     public User getPlayer1(Multiplayer game){
-        return multiplayerRepository.finPlayer1(game.getId());
+        return multiplayerRepository.findPlayer1(game.getId());
     }
 
     public User getPlayer2(Multiplayer game){
-        return multiplayerRepository.finPlayer2(game.getId());
+        return multiplayerRepository.findPlayer2(game.getId());
     }
 
     @Transactional

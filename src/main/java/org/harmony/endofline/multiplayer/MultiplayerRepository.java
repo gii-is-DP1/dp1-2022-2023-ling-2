@@ -30,9 +30,9 @@ public interface MultiplayerRepository extends CrudRepository<Multiplayer, Integ
     List<GameCard> findCardsInDeck(@Param("gameId") Integer gameId, @Param("userId") Integer userId);
 
     @Query("SELECT u FROM UserGame ug JOIN ug.user u JOIN ug.game g WHERE g.id=:gameId AND ug.player=1")
-    User finPlayer1(@Param("gameId") Integer gameid);
+    User findPlayer1(@Param("gameId") Integer gameid);
 
     @Query("SELECT u FROM UserGame ug JOIN ug.user u JOIN ug.game g WHERE g.id=:gameId AND ug.player=2")
-    User finPlayer2(@Param("gameId") Integer gameid);
+    User findPlayer2(@Param("gameId") Integer gameid);
 
 }

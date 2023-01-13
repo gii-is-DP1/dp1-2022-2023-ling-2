@@ -44,7 +44,7 @@ public class GameInviteController {
             case 0: inviteType = InviteType.PLAYER; break;
             default: inviteType = InviteType.SPECTATE; break;
         }
-        if(game.getGameStatus().equals(GameStatus.CREATED)){
+        if(game.getGameStatus().equals(GameStatus.CREATED)                          ){
             gameInviteService.deleteAllGameInvitesToReceiver(userService.findByUsername(friend), gameId);
             gameInviteService.sendInvite(multiplayerService.getById(gameId),user,userService.findByUsername(friend),inviteType);
         }
