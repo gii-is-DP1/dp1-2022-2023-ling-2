@@ -8,6 +8,7 @@
 
 <endofline:layout pageName="userDetails">
     <div class="center">
+        <c:if test="${user.enabled}">
         <h2 class="title">${user.username}</h2>
         <p>${user.email}</p>
         <c:if test="${show_fr_button}">
@@ -37,6 +38,7 @@
                 </c:when>
             </c:choose>
         </c:if>
+
         <c:if test="${private_info}">
             <div class="center-horizontal">
                 <form:form action="/u/${user.username}/edit" method="GET">
@@ -217,5 +219,9 @@
             </c:forEach>
             </tbody>
         </table>
+        </c:if>
+            <c:if test="${! user.enabled}">
+                <h2 class="title">User was deleted</h2>
+            </c:if>
     </div>
 </endofline:layout>
