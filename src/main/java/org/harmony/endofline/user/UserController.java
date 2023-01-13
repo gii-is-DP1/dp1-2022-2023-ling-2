@@ -197,6 +197,9 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         this.userService.deleteUser(user);
+        if(authenticatedUser.getIsAdmin()){
+            return "redirect:/dashboard";
+        }
         return "redirect:/logout";
     }
 
