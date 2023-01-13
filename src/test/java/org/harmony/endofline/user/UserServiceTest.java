@@ -118,7 +118,7 @@ public class UserServiceTest {
     @Test
     public void getAllUsersWorks() {
         List<User> users = this.userService.getAllUsers();
-        assertThat(users.size()).isEqualTo(2);
+        assertThat(users.size()).isEqualTo(3);
     }
 
     @Test
