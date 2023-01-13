@@ -2,6 +2,8 @@ package org.harmony.endofline.multiplayer;
 
 import org.harmony.endofline.deck.DeckService;
 import org.harmony.endofline.gameCard.GameCard;
+import org.harmony.endofline.gameInvite.GameInviteService;
+import org.harmony.endofline.model.GameStatus;
 import org.harmony.endofline.singleplayer.InvalidIDException;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
@@ -24,18 +26,20 @@ import java.util.Map;
 public class MultiplayerController {
 
     private static final String VIEWS_MULTIPLAYER_GAME = "multiplayer/MultiplayerBoard";
+    private static final String VIEWS_MULTIPLAYER_PREGAME = "multiplayer/pregame";
     private static final String VIEWS_MULTIPLAYER_CREATE_FORM = "multiplayer/gameSearch";
-    private static final String VIEWS_PREGAME = "multiplayer/pregame";
 
     private final MultiplayerService multiplayerService;
     private final UserService userService;
     private final DeckService deckService;
+    private final GameInviteService gameInviteService;
 
     @Autowired
-    public MultiplayerController(MultiplayerService multiplayerService, UserService userService, UserGameService userGameService, DeckService deckService) {
+    public MultiplayerController(MultiplayerService multiplayerService, UserService userService, UserGameService userGameService, DeckService deckService, GameInviteService gameInviteService) {
         this.multiplayerService = multiplayerService;
         this.userService = userService;
         this.deckService = deckService;
+        this.gameInviteService = gameInviteService;
     }
 
     @GetMapping("/create")
@@ -61,45 +65,26 @@ public class MultiplayerController {
                 multiplayerService.addUserToGameInQueue(isGamePublic, game, user);
                 multiplayerService.addInitialCards(game, deckService.getDeckCards(deckService.findByID(1)));
                 multiplayerService.drawCardsFromDeck(game);
+                multiplayerService.startGame(game.getId());
             }
-            return "redirect:/multiplayer/pregamelobby/" + game.getId();
-
         } else {
             game = multiplayerService.createNewGame(Boolean.parseBoolean(isPublic), user);
-            return "redirect:/invitefriend/" + game.getId();
         }
+        return "redirect:/multiplayer/" + game.getId();
     }
 
     @GetMapping("/startGame/{gameId}")
     public String startGame(@PathVariable("gameId") Integer id, Map<String, Object> model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Multiplayer game = multiplayerService.getById(id);
+        User user = userService.findByUsername(auth.getName());
+
+        if(!multiplayerService.isUserHostOfPrivateGame(user, game))
+            return "redirect:/welcome";
+
         multiplayerService.startGame(id);
         return "redirect:/multiplayer/" + game.getId();
     }
-
-    @GetMapping("/pregamelobby/{gameId}")
-    public String showLobby(@PathVariable("gameId") Integer id, Map<String, Object> model) {
-        Multiplayer game = multiplayerService.getById(id);
-        if (game.getIsPublic()) {
-            Boolean ready = multiplayerService.checkGameReady(id);
-            if (ready) {
-                multiplayerService.startGame(game.getId());
-                return "redirect:/multiplayer/" + id;
-            } else {
-                model.put("game", game);
-                return VIEWS_PREGAME;
-            }
-        } else {
-            if (multiplayerService.checkGameStarted(id)) {
-                return "redirect:/multiplayer/" + id;
-            } else {
-                model.put("player1Username", game.getUsers().stream().filter(ug -> ug.getPlayer() == 1).findFirst().get().getUser().getUsername());
-                model.put("player2Username", game.getUsers().stream().filter(ug -> ug.getPlayer() == 2).findFirst().get().getUser().getUsername());
-                return VIEWS_PREGAME;
-            }
-        }
-    }
-
 
     @GetMapping("/{id}")
     public String getGame(@PathVariable("id") Integer id, Map<String, Object> model) {
@@ -109,21 +94,30 @@ public class MultiplayerController {
         if (!multiplayerService.checkUserInGame(user, game))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 
-        model.put("game", game);
-        model.put("cardsOnBoard", multiplayerService.getAllCardsInBoard(id));
-        model.put("userCardsOnBoard", multiplayerService.getAllUserCardByGame(game.getId(), user.getId()));
-        model.put("handCards", multiplayerService.getAllCardsInHand(id, user.getId()));
-        model.put("lastPlacedCard", multiplayerService.getLastPlacedCard(game.getId(), user.getId()));
-        model.put("userGameRelation", game.getUsers().stream().filter(ug -> ug.getUser().equals(user)).findFirst().get());
-        model.put("isPlayerActive", game.getActivePlayer().equals(user));
-        model.put("user", user);
-        model.put("player1Id", game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().get().getUser().getId());
-        model.put("player2Id", game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().get().getUser().getId());
-        model.put("player1Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().get().getUser().getUsername());
-        model.put("player2Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().get().getUser().getUsername());
-        model.put("cards_left", multiplayerService.getAllCardsInDeck(id, user.getId()).size());
-        model.put("messages", multiplayerService.getAllGameMessages(id));
-        return VIEWS_MULTIPLAYER_GAME;
+        if(game.getGameStatus().equals(GameStatus.CREATED)){
+            model.put("game", game);
+            model.put("friendsNotInvited", gameInviteService.getFriendsNotInvited(user, game.getId()));
+            model.put("friendsInvitedInvites", gameInviteService.getPendingInvitesBySenderAndGame(user, game.getId()));
+            model.put("isHostOfPrivateGame", multiplayerService.isUserHostOfPrivateGame(user, game));
+            model.put("usersRelationToGame", game.getUsers());
+            return VIEWS_MULTIPLAYER_PREGAME;
+        } else {
+            model.put("game", game);
+            model.put("cardsOnBoard", multiplayerService.getAllCardsInBoard(id));
+            model.put("userCardsOnBoard", multiplayerService.getAllUserCardByGame(game.getId(), user.getId()));
+            model.put("handCards", multiplayerService.getAllCardsInHand(id, user.getId()));
+            model.put("lastPlacedCard", multiplayerService.getLastPlacedCard(game.getId(), user.getId()));
+            model.put("userGameRelation", game.getUsers().stream().filter(ug -> ug.getUser().equals(user)).findFirst().get());
+            model.put("isPlayerActive", game.getActivePlayer().equals(user));
+            model.put("user", user);
+            model.put("player1Id", game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().get().getUser().getId());
+            model.put("player2Id", game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().get().getUser().getId());
+            model.put("player1Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().get().getUser().getUsername());
+            model.put("player2Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().get().getUser().getUsername());
+            model.put("cards_left", multiplayerService.getAllCardsInDeck(id, user.getId()).size());
+            model.put("messages", multiplayerService.getAllGameMessages(id));
+            return VIEWS_MULTIPLAYER_GAME;
+        }
     }
 
     @PostMapping("/{id}/place")
@@ -160,22 +154,5 @@ public class MultiplayerController {
         multiplayerService.saveMessage(message);
         return "redirect:/multiplayer/"+gameId;
     }
-
-
-    @RequestMapping(value = "/info/queueStatus/{id}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
-    @ResponseBody
-    public String checkPublicGameIsReady(@PathVariable("id") Integer id) {
-        Boolean response = this.multiplayerService.checkGameReady(id);
-        return response.toString();
-    }
-
-
-    @RequestMapping(value = "/info/queueStarted/{id}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
-    @ResponseBody
-    public String checkGameIsStarted(@PathVariable("id") Integer id) {
-        Boolean response = this.multiplayerService.checkGameStarted(id);
-        return response.toString();
-    }
-
 
 }

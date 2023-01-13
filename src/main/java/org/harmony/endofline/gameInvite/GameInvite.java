@@ -34,13 +34,7 @@ public class GameInvite extends BaseEntity {
     Multiplayer game;
 
     @NotNull
-    Boolean pending;
-
-    @NotNull
-    Boolean canceled;
-
-    @NotNull
-    Boolean accepted;
+    GameInviteStatus status;
 
     @NotNull
     InviteType type;
@@ -49,13 +43,17 @@ public class GameInvite extends BaseEntity {
         this.game = game;
         this.sender = sender;
         this.receiver = receiver;
-        this.pending = true;
-        this.accepted = false;
-        this.canceled = false;
+        this.status = GameInviteStatus.PENDING;
         this.type = type;
     }
 
     public GameInvite() {
 
+    }
+
+    public enum GameInviteStatus {
+        PENDING,
+        ACCEPTED,
+        REJECTED;
     }
 }

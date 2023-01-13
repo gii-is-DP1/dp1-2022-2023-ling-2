@@ -447,4 +447,9 @@ public class MultiplayerService {
             }
         }
     }
+
+    public boolean isUserHostOfPrivateGame(User user, Multiplayer game) {
+        // Game is private and Player 1 is the user
+        return !game.getIsPublic() && game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getUser().equals(user);
+    }
 }

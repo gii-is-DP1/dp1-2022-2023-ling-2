@@ -4,6 +4,7 @@ import org.harmony.endofline.achievement.Achievement;
 import org.harmony.endofline.achievement.AchievementService;
 import org.harmony.endofline.friendRequest.FriendRequest;
 import org.harmony.endofline.friendRequest.FriendRequestService;
+import org.harmony.endofline.gameInvite.GameInviteService;
 import org.harmony.endofline.multiplayer.Multiplayer;
 import org.harmony.endofline.multiplayer.MultiplayerService;
 import org.harmony.endofline.singleplayer.Singleplayer;
@@ -30,6 +31,7 @@ public class UserController {
     private static final String VIEWS_USER_CREATE_UPDATE_FORM = "users/createOrUpdateUserForm";
     private static final String VIEWS_USER_DELETE_FORM = "users/deleteUserForm";
     private static final String VIEWS_USER_FRIENDS = "users/friends";
+    private static final String VIEWS_USER_INVITATIONS = "users/invitations";
     private static final String VIEWS_DASHBOARD = "admin/dashboard";
 
     private final UserService userService;
@@ -38,15 +40,17 @@ public class UserController {
     private final AchievementService achievementService;
     private final StatisticService statisticService;
     private final FriendRequestService friendRequestService;
+    private final GameInviteService gameInviteService;
 
     @Autowired
-    public UserController(UserService us, MultiplayerService multiplayerService, SingleplayerService singleplayerService, AchievementService achievementService, StatisticService statisticService, FriendRequestService friendRequestService) {
+    public UserController(UserService us, MultiplayerService multiplayerService, SingleplayerService singleplayerService, AchievementService achievementService, StatisticService statisticService, FriendRequestService friendRequestService, GameInviteService gameInviteService) {
         this.userService = us;
         this.multiplayerService = multiplayerService;
         this.singleplayerService = singleplayerService;
         this.achievementService = achievementService;
         this.statisticService = statisticService;
         this.friendRequestService = friendRequestService;
+        this.gameInviteService = gameInviteService;
     }
 
     @InitBinder
@@ -242,6 +246,22 @@ public class UserController {
 
         userService.removeFriendFromUser(authenticatedUser, friend);
         return "redirect:/u/"+authenticatedUser.getUsername()+"/friends";
+    }
+
+
+    @GetMapping("/u/{username}/gameinvites")
+    public String getInvitations(@PathVariable String username, Map<String, Object> model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByUsername(auth.getName());
+
+        User user = this.userService.findByUsername(username);
+        if (!user.equals(authenticatedUser))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+
+        model.put("invitations", userService.getInvitations(user));
+        model.put("pending_received_invitations", gameInviteService.getByReciever(user));
+        model.put("pending_sent_invitations", gameInviteService.getBySender(user));
+        return VIEWS_USER_INVITATIONS;
     }
 
 }
