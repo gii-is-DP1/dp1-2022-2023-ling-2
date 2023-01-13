@@ -6,11 +6,10 @@
 
 <endofline:layout pageName="gameSearch">
     <div class="center">
-        <p>Multiplayer search mode</p>
-        <h1>Select the way of searching for the game</h1>
+        <h1>Type of game</h1>
         <div class="center-horizontal">
             <form:form action="/multiplayer/create?isPublic=true" method="POST">
-                <input type="submit" class="btn btn-info margins-small" value="Random Public"/>
+                <input type="submit" class="btn btn-info margins-small" value="Public"/>
             </form:form>
             <form:form action="/multiplayer/create?isPublic=false" method="POST">
                 <input type="submit" class="btn btn-warning margins-small" value="Private"/>

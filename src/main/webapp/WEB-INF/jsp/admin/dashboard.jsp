@@ -25,7 +25,7 @@
                 <c:forEach items="${multi}" var="multi">
                     <tr>
                         <td>
-                            <fmt:parseDate value="${multi.dateStarted}" pattern="yyyy-MM-dd'T'HH:mm" var="formatedDate" type="both"/>
+                            <fmt:parseDate value="${multi.dateCreated}" pattern="yyyy-MM-dd'T'HH:mm" var="formatedDate" type="both"/>
                             <fmt:formatDate pattern="dd/MMM/yyyy HH:mm" value="${formatedDate}"/>
                         </td>
                         <td>
@@ -72,7 +72,7 @@
                 <c:forEach items="${single}" var="single">
                     <tr>
                         <td>
-                            <fmt:parseDate value="${single.dateStarted}" pattern="yyyy-MM-dd'T'HH:mm" var="formatedDate" type="both"/>
+                            <fmt:parseDate value="${single.dateCreated}" pattern="yyyy-MM-dd'T'HH:mm" var="formatedDate" type="both"/>
                             <fmt:formatDate pattern="dd/MMM/yyyy HH:mm" value="${formatedDate}"/>
                         </td>
                         <td>

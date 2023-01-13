@@ -68,7 +68,7 @@
                 <c:forEach items="${multiplayerGames}" var="mult">
                     <tr>
                         <td>
-                            <fmt:parseDate value="${mult.dateStarted}" pattern="yyyy-MM-dd'T'HH:mm" var="formatedDate" type="both"/>
+                            <fmt:parseDate value="${mult.dateCreated}" pattern="yyyy-MM-dd'T'HH:mm" var="formatedDate" type="both"/>
                             <fmt:formatDate pattern="dd/MMM/yyyy HH:mm" value="${formatedDate}"/>
                         </td>
                         <td>
@@ -119,7 +119,7 @@
                 <c:forEach items="${singleplayerGames}" var="singl">
                     <tr>
                         <td>
-                            <fmt:parseDate value="${singl.dateStarted}" pattern="yyyy-MM-dd'T'HH:mm" var="formatedDate" type="both"/>
+                            <fmt:parseDate value="${singl.dateCreated}" pattern="yyyy-MM-dd'T'HH:mm" var="formatedDate" type="both"/>
                             <fmt:formatDate pattern="dd/MMM/yyyy HH:mm" value="${formatedDate}"/>
                         </td>
                         <td>

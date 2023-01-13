@@ -9,58 +9,51 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameInviteService {
 
     private final GameInviteRepository gameInviteRepository;
 
-    private final MultiplayerService multiplayerService;
-
-    private final DeckService deckService;
-
     @Autowired
-    public GameInviteService(GameInviteRepository gameInviteRepository, MultiplayerService multiplayerService, DeckService deckService){
+    public GameInviteService(GameInviteRepository gameInviteRepository){
         this.gameInviteRepository = gameInviteRepository;
-        this.multiplayerService = multiplayerService;
-        this.deckService = deckService;
+    }
 
+    public GameInvite findById(Integer id){
+        return gameInviteRepository.findById(id).orElse(null);
     }
 
     @Transactional
     public void setAllPendingCanceled(Integer gameID){
-        List<GameInvite> pendingInvites = this.gameInviteRepository.findAllInvitesOfGame(gameID);
-        for (GameInvite invite: pendingInvites) {
-            this.gameInviteRepository.update(invite.accepted,invite.pending, true, invite.getId());
+        List<GameInvite> pendingInvites = gameInviteRepository.findAllInvitesOfGame(gameID);
+        for (GameInvite invite: pendingInvites.stream().filter(i -> i.type.equals(InviteType.PLAYER)).toList()) {
+            deleteInvite(invite);
         }
     }
 
     @Transactional
-    public void acceptInvite(Integer id){
-        GameInvite invite = this.gameInviteRepository.findById(id).get();
-        this.gameInviteRepository.update(true,false,false,invite.getId());
-        if(invite.type == InviteType.PLAYER) {
-            this.setAllPendingCanceled(invite.game.getId());
-            this.multiplayerService.addUserToGameInQueue(false,invite.game, invite.getReceiver());
-            multiplayerService.addInitialCards(invite.game, deckService.getDeckCards(deckService.findByID(1)));
-            multiplayerService.drawCardsFromDeck(invite.game);
-
-        }else{
-            this.multiplayerService.addSpectator(invite.getReceiver(),invite.game);
+    public void deleteAllGameInvitesToReceiver(User receiver, Integer gameId) {
+        List<GameInvite> pendingInvites = gameInviteRepository.findByRecieverAndGame(receiver.getId(), gameId);
+        for (GameInvite invite: pendingInvites.stream().filter(i -> i.type.equals(InviteType.PLAYER)).toList()) {
+            deleteInvite(invite);
         }
-
     }
 
     @Transactional
-    public void declineInvite(Integer id){
-        GameInvite invite = this.gameInviteRepository.findById(id).get();
-        this.gameInviteRepository.update(false,false,false,invite.getId());
+    public void acceptInvite(GameInvite invite){
+        invite.setStatus(GameInvite.GameInviteStatus.ACCEPTED);
     }
 
     @Transactional
-    public void cancelInvite(Integer id){
-        GameInvite invite = this.gameInviteRepository.findById(id).get();
-        this.gameInviteRepository.update(false,false,true,invite.getId());
+    public void declineInvite(GameInvite invite){
+        invite.setStatus(GameInvite.GameInviteStatus.REJECTED);
+    }
+
+    @Transactional
+    public void deleteInvite(GameInvite invite){
+        gameInviteRepository.deleteById(invite.getId());
     }
 
 
@@ -68,10 +61,6 @@ public class GameInviteService {
     public void sendInvite(Multiplayer game, User sender, User receiver, InviteType type){
         GameInvite newInvite = new GameInvite(game,sender,receiver,type);
         this.gameInviteRepository.save(newInvite);
-    }
-
-    public void findById(Integer id){
-        this.gameInviteRepository.findById(id);
     }
 
     public List<GameInvite> getByReciever(User user){
@@ -82,15 +71,28 @@ public class GameInviteService {
         return this.gameInviteRepository.findBySender(user.getId());
     }
 
-    public List<GameInvite> getByRecieverandId(User user, Integer gameId){
-        return this.gameInviteRepository.findByRecieverandId(user.getId(), gameId);
+    public Multiplayer getGameByInviteId(Integer id){
+        return this.gameInviteRepository.findGameByInviteId(id);
     }
 
-    public List<GameInvite> getBySenderandId(User user, Integer gameId){
-        return this.gameInviteRepository.findBySenderandId(user.getId(), gameId);
+    public List<User> getFriendsNotInvited(User user, Integer gameId) {
+        List<User> friendsInvited = gameInviteRepository.findFriendsInvited(user.getId(), gameId);
+        List<User> friends = user.getFriends().stream().collect(Collectors.toList());
+
+        friends.removeAll(friendsInvited);
+        return friends;
     }
 
-    public Multiplayer getGameById(Integer id){
-        return this.gameInviteRepository.findGameById(id);
+    public List<GameInvite> getPendingInvitesBySenderAndGame(User user, Integer gameId) {
+        return gameInviteRepository.findBySenderAndGame(user.getId(), gameId);
     }
+
+    public boolean isSenderOfRequest(User user, GameInvite invite) {
+        return invite.getSender().equals(user);
+    }
+
+    public boolean isReceiverOfRequest(User user, GameInvite invite) {
+        return invite.getReceiver().equals(user);
+    }
+
 }

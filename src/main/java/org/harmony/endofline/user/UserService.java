@@ -110,11 +110,11 @@ public class UserService {
     }
 
     public List<GameInvite> getPendingReceivedInvitations(User user) {
-        return user.getReceivedInvitations().stream().filter(e -> e.getPending()).collect(Collectors.toList());
+        return user.getReceivedInvitations().stream().filter(e -> e.getStatus().equals(GameInvite.GameInviteStatus.PENDING)).collect(Collectors.toList());
     }
 
     public List<GameInvite> getPendingSentInvitations(User user) {
-        return user.getSentInvitations().stream().filter(e -> e.getPending()).collect(Collectors.toList());
+        return user.getSentInvitations().stream().filter(e -> e.getStatus().equals(GameInvite.GameInviteStatus.PENDING)).collect(Collectors.toList());
     }
 
     public Object getFriendStatus(User authenticatedUser, User user, FriendRequest fr) {

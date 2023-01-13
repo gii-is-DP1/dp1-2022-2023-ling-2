@@ -187,7 +187,7 @@ public class MultiplayerService {
         switch (gameCardsComparison.stream().filter(e -> e!=0).findFirst().orElse(0)){
             case 1: return playerOne;
             case 2: return playerTwo;
-            default: return game.getActivePlayer();
+            default: return game.getActivePlayer().equals(playerOne) ? playerTwo : playerOne;
         }
     }
 
@@ -446,5 +446,10 @@ public class MultiplayerService {
                 }
             }
         }
+    }
+
+    public boolean isUserHostOfPrivateGame(User user, Multiplayer game) {
+        // Game is private and Player 1 is the user
+        return !game.getIsPublic() && game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getUser().equals(user);
     }
 }

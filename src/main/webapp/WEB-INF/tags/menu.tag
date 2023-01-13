@@ -41,7 +41,7 @@
                         <span class="glyphicon glyphicon-heart-empty"></span>
                         Friends
                     </a></li>
-                    <li><a href="/u/<sec:authentication property="name" />/invitations">
+                    <li><a href="/u/<sec:authentication property="name" />/gameinvites">
                         <span class="glyphicon glyphicon-envelope"></span>
                         Invitations
                     </a></li>

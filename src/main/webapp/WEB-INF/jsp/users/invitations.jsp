@@ -51,10 +51,10 @@
                                 ${req.type}
                             </td>
                             <td>
-                                <a href="/gameinvites/${req.id}/accept"><span class="glyphicon glyphicon-ok warning" aria-hidden="true"/></a>
+                                <a href="/gameinvite/${req.id}/accept"><span class="glyphicon glyphicon-ok warning" aria-hidden="true"/></a>
                             </td>
                             <td>
-                                <a href="/gameinvites/${req.id}/decline"><span class="glyphicon glyphicon-remove warning" aria-hidden="true"/></a>
+                                <a href="/gameinvite/${req.id}/decline"><span class="glyphicon glyphicon-remove warning" aria-hidden="true"/></a>
                             </td>
                         </tr>
                     </c:forEach>
