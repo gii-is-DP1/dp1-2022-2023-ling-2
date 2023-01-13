@@ -128,12 +128,12 @@ public class UserService {
         String res = "";
         if (authenticatedUser.getFriends().contains(user))
             res = "friend";
-        else if (fr==null)
-            res = "request";
-        else if (fr.getSender().equals(authenticatedUser))
+        else if (fr.getState().equals(FriendRequestState.PENDING) && fr.getSender().equals(authenticatedUser))
             res = "pending";
-        else if (fr.getReceiver().equals(authenticatedUser))
+        else if (fr.getState().equals(FriendRequestState.PENDING) && fr.getReceiver().equals(authenticatedUser))
             res = "accept";
+        else
+            res = "request";
 
         return res;
     }
