@@ -7,6 +7,7 @@ import org.harmony.endofline.model.GameStatus;
 import org.harmony.endofline.singleplayer.InvalidIDException;
 import org.harmony.endofline.user.User;
 import org.harmony.endofline.user.UserService;
+import org.harmony.endofline.userGame.PlayerType;
 import org.harmony.endofline.userGame.UserGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -94,6 +95,8 @@ public class MultiplayerController {
         if (!multiplayerService.checkUserInGame(user, game))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 
+        PlayerType playerType = game.getUsers().stream().filter(ug -> ug.getUser().equals(user)).findFirst().get().getRole();
+
         if(game.getGameStatus().equals(GameStatus.CREATED)){
             model.put("game", game);
             model.put("friendsNotInvited", gameInviteService.getFriendsNotInvited(user, game.getId()));
@@ -104,9 +107,6 @@ public class MultiplayerController {
         } else {
             model.put("game", game);
             model.put("cardsOnBoard", multiplayerService.getAllCardsInBoard(id));
-            model.put("userCardsOnBoard", multiplayerService.getAllUserCardByGame(game.getId(), user.getId()));
-            model.put("handCards", multiplayerService.getAllCardsInHand(id, user.getId()));
-            model.put("lastPlacedCard", multiplayerService.getLastPlacedCard(game.getId(), user.getId()));
             model.put("userGameRelation", game.getUsers().stream().filter(ug -> ug.getUser().equals(user)).findFirst().get());
             model.put("isPlayerActive", game.getActivePlayer().equals(user));
             model.put("user", user);
@@ -116,6 +116,11 @@ public class MultiplayerController {
             model.put("player2Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().get().getUser().getUsername());
             model.put("cards_left", multiplayerService.getAllCardsInDeck(id, user.getId()).size());
             model.put("messages", multiplayerService.getAllGameMessages(id));
+            if(playerType.equals(PlayerType.PLAYER)){
+                model.put("userCardsOnBoard", multiplayerService.getAllUserCardByGame(game.getId(), user.getId()));
+                model.put("handCards", multiplayerService.getAllCardsInHand(id, user.getId()));
+                model.put("lastPlacedCard", multiplayerService.getLastPlacedCard(game.getId(), user.getId()));
+            }
             return VIEWS_MULTIPLAYER_GAME;
         }
     }
