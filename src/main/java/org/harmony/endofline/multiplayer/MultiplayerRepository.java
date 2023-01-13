@@ -17,7 +17,7 @@ public interface MultiplayerRepository extends CrudRepository<Multiplayer, Integ
     @Query("SELECT m FROM Multiplayer m WHERE m.gameStatus = 0 AND m.isPublic = TRUE ORDER BY m.dateCreated")
     List<Multiplayer> findSearching();
 
-    @Query("SELECT ug.user FROM UserGame ug JOIN ug.game g WHERE g.id=:gameid AND g.activePlayer<>ug.user")
+    @Query("SELECT ug.user FROM UserGame ug JOIN ug.game g WHERE ug.role = 0 AND g.id=:gameid AND g.activePlayer<>ug.user")
     User getInactivePlayer(@Param("gameid") Integer id);
 
     @Query("SELECT gc FROM Multiplayer m JOIN m.gameCards gc WHERE m.id=:id AND gc.status=0")
@@ -28,4 +28,11 @@ public interface MultiplayerRepository extends CrudRepository<Multiplayer, Integ
 
     @Query("SELECT gc FROM Multiplayer m JOIN m.gameCards gc WHERE m.id=:gameId AND gc.user.id=:userId AND gc.status=2")
     List<GameCard> findCardsInDeck(@Param("gameId") Integer gameId, @Param("userId") Integer userId);
+
+    @Query("SELECT u FROM UserGame ug JOIN ug.user u JOIN ug.game g WHERE g.id=:gameId AND ug.player=1")
+    User finPlayer1(@Param("gameId") Integer gameid);
+
+    @Query("SELECT u FROM UserGame ug JOIN ug.user u JOIN ug.game g WHERE g.id=:gameId AND ug.player=2")
+    User finPlayer2(@Param("gameId") Integer gameid);
+
 }

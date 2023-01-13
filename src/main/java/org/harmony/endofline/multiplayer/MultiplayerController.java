@@ -110,10 +110,10 @@ public class MultiplayerController {
             model.put("userGameRelation", game.getUsers().stream().filter(ug -> ug.getUser().equals(user)).findFirst().get());
             model.put("isPlayerActive", game.getActivePlayer().equals(user));
             model.put("user", user);
-            model.put("player1Id", game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().get().getUser().getId());
-            model.put("player2Id", game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().get().getUser().getId());
-            model.put("player1Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().get().getUser().getUsername());
-            model.put("player2Username", game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().get().getUser().getUsername());
+            model.put("player1Id", multiplayerService.getPlayer1(game).getId());
+            model.put("player2Id", multiplayerService.getPlayer2(game).getId());
+            model.put("player1Username", multiplayerService.getPlayer1(game).getUsername());
+            model.put("player2Username", multiplayerService.getPlayer2(game).getUsername());
             model.put("cards_left", multiplayerService.getAllCardsInDeck(id, user.getId()).size());
             model.put("messages", multiplayerService.getAllGameMessages(id));
             if(playerType.equals(PlayerType.PLAYER)){

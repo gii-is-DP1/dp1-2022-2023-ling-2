@@ -63,29 +63,6 @@ public class MultiplayerService {
     public Multiplayer getNextGameInQueue(){
         return multiplayerRepository.findSearching().size() > 0 ? multiplayerRepository.findSearching().get(0) : null;
     }
-    public List<Multiplayer> getAllGameInQueue(){
-        return multiplayerRepository.findSearching();
-    }
-
-    public Boolean checkGameReady(Integer id){
-        Multiplayer game = multiplayerRepository.findById(id).get();
-        if(game.getUsers().size() == 2) {
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public Boolean checkGameStarted(Integer id){
-        Multiplayer game = multiplayerRepository.findById(id).get();
-        if(game.getGameStatus().equals(GameStatus.STARTED)) {
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-
 
     public boolean checkUserInGame(User user, Multiplayer game) {
         return game.getUsers().stream().map(UserGame::getUser).anyMatch(u -> u.equals(user));
@@ -117,6 +94,14 @@ public class MultiplayerService {
 
     public List<Message> getAllGameMessages(Integer gameId) {
         return messageRepository.findAllGameMessages(gameId);
+    }
+
+    public User getPlayer1(Multiplayer game){
+        return multiplayerRepository.finPlayer1(game.getId());
+    }
+
+    public User getPlayer2(Multiplayer game){
+        return multiplayerRepository.finPlayer2(game.getId());
     }
 
     @Transactional
@@ -173,8 +158,8 @@ public class MultiplayerService {
 
     @Transactional
     public User getNextRoundFirstPlayer(Multiplayer game) {
-        User playerOne = game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getUser();
-        User playerTwo = game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().orElse(null).getUser();
+        User playerOne = getPlayer1(game);
+        User playerTwo = getPlayer2(game);
         List<GameCard> playerOneCards = getCardsByUserIdAndRound(game, playerOne.getId());
         List<GameCard> playerTwoCards = getCardsByUserIdAndRound(game, playerTwo.getId());
 
@@ -215,8 +200,8 @@ public class MultiplayerService {
 
     @Transactional
     public boolean isRoundFinished(Multiplayer game){
-        User playerOne = game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getUser();
-        User playerTwo = game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().orElse(null).getUser();
+        User playerOne = getPlayer1(game);
+        User playerTwo = getPlayer2(game);
         var cardsPlacedOnRoundByUserOne = getCardsByUserIdAndRound(game, playerOne.getId());
         var cardsPlacedOnRoundByUserTwo = getCardsByUserIdAndRound(game, playerTwo.getId());
         return cardsPlacedOnRoundByUserOne.size() > 0 && cardsPlacedOnRoundByUserTwo.size() > 0;
@@ -375,8 +360,8 @@ public class MultiplayerService {
                 .collect(Collectors.toList()));
         }
 
-        User playerOne = game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getUser();
-        User playerTwo = game.getUsers().stream().filter(ug -> ug.getPlayer()==2).findFirst().orElse(null).getUser();
+        User playerOne = getPlayer1(game);
+        User playerTwo = getPlayer2(game);
         game.gameCards.add(gameCardRepository.save(new GameCard(
             cardService.getInitialCard(),
             playerOne,
@@ -450,6 +435,6 @@ public class MultiplayerService {
 
     public boolean isUserHostOfPrivateGame(User user, Multiplayer game) {
         // Game is private and Player 1 is the user
-        return !game.getIsPublic() && game.getUsers().stream().filter(ug -> ug.getPlayer()==1).findFirst().orElse(null).getUser().equals(user);
+        return !game.getIsPublic() && getPlayer1(game).equals(user);
     }
 }
