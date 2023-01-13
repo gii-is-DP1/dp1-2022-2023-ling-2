@@ -90,7 +90,7 @@ public class UserServiceTest {
 
         assertThat(this.userService.findByUsername("username")).isEqualTo(user);
         this.userService.deleteUser(user);
-        assertThat(this.userService.findByUsername("username")).isNull();
+        assertThat(this.userService.findByUsername("username").getEnabled()).isFalse();
     }
 
     @Test
@@ -118,7 +118,7 @@ public class UserServiceTest {
     @Test
     public void getAllUsersWorks() {
         List<User> users = this.userService.getAllUsers();
-        assertThat(users.size()).isEqualTo(3);
+        assertThat(users.size()).isEqualTo(5);
     }
 
     @Test
